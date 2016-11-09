@@ -42,6 +42,15 @@
 		64F0532E1DCB1660002BC965 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F0532C1DCB1660002BC965 /* LoginViewController.m */; };
 		64F0532F1DCB1660002BC965 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64F0532D1DCB1660002BC965 /* LoginViewController.xib */; };
 		64F053331DCB16C7002BC965 /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F053321DCB16C7002BC965 /* MyViewController.m */; };
+		64F148C51DD310C7001DB9D9 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F148BB1DD310C7001DB9D9 /* FMDatabase.m */; };
+		64F148C61DD310C7001DB9D9 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F148BD1DD310C7001DB9D9 /* FMDatabaseAdditions.m */; };
+		64F148C71DD310C7001DB9D9 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F148BF1DD310C7001DB9D9 /* FMDatabasePool.m */; };
+		64F148C81DD310C7001DB9D9 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F148C11DD310C7001DB9D9 /* FMDatabaseQueue.m */; };
+		64F148C91DD310C7001DB9D9 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F148C41DD310C7001DB9D9 /* FMResultSet.m */; };
+		64F148CC1DD310F2001DB9D9 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F148CB1DD310F2001DB9D9 /* libsqlite3.0.tbd */; };
+		64F148D01DD31161001DB9D9 /* FLFmdbTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F148CF1DD31161001DB9D9 /* FLFmdbTool.m */; };
+		64F148D41DD31265001DB9D9 /* FLPhoneLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F148D31DD31265001DB9D9 /* FLPhoneLoginModel.m */; };
+		64F148D71DD31410001DB9D9 /* PhoneLoginUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F148D61DD31410001DB9D9 /* PhoneLoginUtils.m */; };
 		64F22E451DD0109C006947E6 /* ForgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F22E431DD0109C006947E6 /* ForgetViewController.m */; };
 		64F22E461DD0109C006947E6 /* ForgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64F22E441DD0109C006947E6 /* ForgetViewController.xib */; };
 		64F668EB1DC9834E0091E026 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F668EA1DC9834E0091E026 /* main.m */; };
@@ -149,6 +158,24 @@
 		64F0532D1DCB1660002BC965 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		64F053311DCB16C7002BC965 /* MyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyViewController.h; sourceTree = "<group>"; };
 		64F053321DCB16C7002BC965 /* MyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyViewController.m; sourceTree = "<group>"; };
+		64F148BA1DD310C7001DB9D9 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		64F148BB1DD310C7001DB9D9 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		64F148BC1DD310C7001DB9D9 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		64F148BD1DD310C7001DB9D9 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		64F148BE1DD310C7001DB9D9 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		64F148BF1DD310C7001DB9D9 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		64F148C01DD310C7001DB9D9 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		64F148C11DD310C7001DB9D9 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		64F148C21DD310C7001DB9D9 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		64F148C31DD310C7001DB9D9 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		64F148C41DD310C7001DB9D9 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		64F148CB1DD310F2001DB9D9 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		64F148CE1DD31161001DB9D9 /* FLFmdbTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLFmdbTool.h; sourceTree = "<group>"; };
+		64F148CF1DD31161001DB9D9 /* FLFmdbTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLFmdbTool.m; sourceTree = "<group>"; };
+		64F148D21DD31265001DB9D9 /* FLPhoneLoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLPhoneLoginModel.h; sourceTree = "<group>"; };
+		64F148D31DD31265001DB9D9 /* FLPhoneLoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLPhoneLoginModel.m; sourceTree = "<group>"; };
+		64F148D51DD31410001DB9D9 /* PhoneLoginUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneLoginUtils.h; sourceTree = "<group>"; };
+		64F148D61DD31410001DB9D9 /* PhoneLoginUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneLoginUtils.m; sourceTree = "<group>"; };
 		64F22E421DD0109B006947E6 /* ForgetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetViewController.h; sourceTree = "<group>"; };
 		64F22E431DD0109C006947E6 /* ForgetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetViewController.m; sourceTree = "<group>"; };
 		64F22E441DD0109C006947E6 /* ForgetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgetViewController.xib; sourceTree = "<group>"; };
@@ -197,6 +224,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64F148CC1DD310F2001DB9D9 /* libsqlite3.0.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +356,52 @@
 			path = Me;
 			sourceTree = "<group>";
 		};
+		64F148B91DD310C7001DB9D9 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				64F148BA1DD310C7001DB9D9 /* FMDatabase.h */,
+				64F148BB1DD310C7001DB9D9 /* FMDatabase.m */,
+				64F148BC1DD310C7001DB9D9 /* FMDatabaseAdditions.h */,
+				64F148BD1DD310C7001DB9D9 /* FMDatabaseAdditions.m */,
+				64F148BE1DD310C7001DB9D9 /* FMDatabasePool.h */,
+				64F148BF1DD310C7001DB9D9 /* FMDatabasePool.m */,
+				64F148C01DD310C7001DB9D9 /* FMDatabaseQueue.h */,
+				64F148C11DD310C7001DB9D9 /* FMDatabaseQueue.m */,
+				64F148C21DD310C7001DB9D9 /* FMDB.h */,
+				64F148C31DD310C7001DB9D9 /* FMResultSet.h */,
+				64F148C41DD310C7001DB9D9 /* FMResultSet.m */,
+			);
+			path = fmdb;
+			sourceTree = "<group>";
+		};
+		64F148CA1DD310F2001DB9D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				64F148CB1DD310F2001DB9D9 /* libsqlite3.0.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		64F148CD1DD31136001DB9D9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				64F148CE1DD31161001DB9D9 /* FLFmdbTool.h */,
+				64F148CF1DD31161001DB9D9 /* FLFmdbTool.m */,
+				64F148D51DD31410001DB9D9 /* PhoneLoginUtils.h */,
+				64F148D61DD31410001DB9D9 /* PhoneLoginUtils.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		64F148D11DD311E5001DB9D9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				64F148D21DD31265001DB9D9 /* FLPhoneLoginModel.h */,
+				64F148D31DD31265001DB9D9 /* FLPhoneLoginModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		64F668DD1DC9834E0091E026 = {
 			isa = PBXGroup;
 			children = (
@@ -335,6 +409,7 @@
 				64F669021DC9834E0091E026 /* e-HealthyTests */,
 				64F6690D1DC9834E0091E026 /* e-HealthyUITests */,
 				64F668E71DC9834E0091E026 /* Products */,
+				64F148CA1DD310F2001DB9D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -351,6 +426,8 @@
 		64F668E81DC9834E0091E026 /* e-Healthy */ = {
 			isa = PBXGroup;
 			children = (
+				64F148D11DD311E5001DB9D9 /* Model */,
+				64F148CD1DD31136001DB9D9 /* Utils */,
 				64F754641DCC578900B901D8 /* Library */,
 				64F7545D1DCC3AA500B901D8 /* Catogory */,
 				64D682E11DC9916B009C0B27 /* BaseController */,
@@ -462,6 +539,7 @@
 		64F754641DCC578900B901D8 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				64F148B91DD310C7001DB9D9 /* fmdb */,
 				6411C7921DCC6F9F00159F47 /* SDWebImage */,
 				64F754831DCC57FC00B901D8 /* SDCycleScrollView */,
 			);
@@ -659,17 +737,22 @@
 				6411C78B1DCC680300159F47 /* MainThirdTableViewCell.m in Sources */,
 				6411C7C21DCC6F9F00159F47 /* UIView+WebCacheOperation.m in Sources */,
 				6411C7BD1DCC6F9F00159F47 /* UIButton+WebCache.m in Sources */,
+				64F148C71DD310C7001DB9D9 /* FMDatabasePool.m in Sources */,
 				6411C7BB1DCC6F9F00159F47 /* SDWebImageManager.m in Sources */,
 				6411C7C51DCC73A500159F47 /* UIButton+EdgesInsets.m in Sources */,
+				64F148D01DD31161001DB9D9 /* FLFmdbTool.m in Sources */,
+				64F148C91DD310C7001DB9D9 /* FMResultSet.m in Sources */,
 				64F668F11DC9834E0091E026 /* ViewController.m in Sources */,
 				6411C7811DCC5DDF00159F47 /* MainFirstTableViewCell.m in Sources */,
 				6411C7861DCC614700159F47 /* MainSecondTableViewCell.m in Sources */,
 				6411C7B91DCC6F9F00159F47 /* SDWebImageDownloader.m in Sources */,
 				64F754561DCC1D1B00B901D8 /* VerificationLoginViewController.m in Sources */,
+				64F148C81DD310C7001DB9D9 /* FMDatabaseQueue.m in Sources */,
 				6411C7B71DCC6F9F00159F47 /* SDWebImageCompat.m in Sources */,
 				64D682E41DC99181009C0B27 /* BaseViewController.m in Sources */,
 				6411C7C11DCC6F9F00159F47 /* UIImageView+WebCache.m in Sources */,
 				64F7549B1DCC57FC00B901D8 /* UIView+SDExtension.m in Sources */,
+				64F148C61DD310C7001DB9D9 /* FMDatabaseAdditions.m in Sources */,
 				64F754951DCC57FC00B901D8 /* TAAbstractDotView.m in Sources */,
 				64F668EE1DC9834E0091E026 /* AppDelegate.m in Sources */,
 				6411C7C01DCC6F9F00159F47 /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -679,6 +762,7 @@
 				6411C7BF1DCC6F9F00159F47 /* UIImage+MultiFormat.m in Sources */,
 				6411C7CC1DCC8A3B00159F47 /* UIView+Category.m in Sources */,
 				6411C7BA1DCC6F9F00159F47 /* SDWebImageDownloaderOperation.m in Sources */,
+				64F148D41DD31265001DB9D9 /* FLPhoneLoginModel.m in Sources */,
 				64F7549A1DCC57FC00B901D8 /* SDCycleScrollView.m in Sources */,
 				6411C7CF1DCC8B0500159F47 /* SearchView.m in Sources */,
 				6411C7B41DCC6F9F00159F47 /* README.md in Sources */,
@@ -687,6 +771,7 @@
 				64F0532E1DCB1660002BC965 /* LoginViewController.m in Sources */,
 				64F754961DCC57FC00B901D8 /* TAAnimatedDotView.m in Sources */,
 				6411C7B51DCC6F9F00159F47 /* NSData+ImageContentType.m in Sources */,
+				64F148C51DD310C7001DB9D9 /* FMDatabase.m in Sources */,
 				64F7545B1DCC312B00B901D8 /* RegisterViewController.m in Sources */,
 				64D682ED1DC9B68D009C0B27 /* MainViewController.m in Sources */,
 				64F754981DCC57FC00B901D8 /* TAPageControl.m in Sources */,
@@ -698,6 +783,7 @@
 				6411C7BC1DCC6F9F00159F47 /* SDWebImagePrefetcher.m in Sources */,
 				64D682EA1DC997CB009C0B27 /* BaseNavViewController.m in Sources */,
 				6411C7BE1DCC6F9F00159F47 /* UIImage+GIF.m in Sources */,
+				64F148D71DD31410001DB9D9 /* PhoneLoginUtils.m in Sources */,
 				64F754991DCC57FC00B901D8 /* SDCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
