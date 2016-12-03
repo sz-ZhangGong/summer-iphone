@@ -20,12 +20,11 @@
 #import "AFNetworkManager.h"
 #import "DisplayUtils.h"
 #import "SDWebImageManager.h"
+#import "UIImageView+WebCache.h"
 
 #define URLPATH_IMAGE [NSString stringWithFormat:@"http://ehealth.lucland.com/MobileConfig?device=phone&deviceId=%@",[DisplayUtils uuid]]
 
 @interface AppDelegate ()<JPUSHRegisterDelegate>
-
-@property (strong, nonatomic) UIView *lunchView;
 
 @end
 
@@ -34,6 +33,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //沉睡2秒
+    [NSThread sleepForTimeInterval:1.0f];
+    
     //状态栏颜色
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
@@ -44,14 +46,19 @@
     self.window.rootViewController = mainNav;
     [self.window makeKeyAndVisible];
     
+    //接收通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ShowBannerNotification:) name:ShowBanner object:nil];
+    
+    //启动页
+//    [self setStartImageView];
     //判断网络
     [self monitorNetworkState];
     
     [self getImageData];
     /*
-     * #pragma 启动页
+     * #pragma 欢迎页
      */
-    [LaunchIntroductionView sharedWithImages:@[@"引导页1.jpg",@"引导页2.jpg",@"引导页3.jpg",@"引导页4.jpg"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width/2 - 551/4, screen_height - 150, 551/2, 45)];
+    [LaunchIntroductionView sharedWithImages:@[@"引导页1.jpg",@"引导页2.jpg",@"引导页3.jpg",@"引导页4.jpg"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width/2 - 551/4, screen_height - 150, 551/2, 45) withisBanner:NO];
     
     [UserDefaultsUtils saveValue:@"1.0" forKey:@"scale"];
     
@@ -94,22 +101,32 @@
     return YES;
 }
 
+-(void)ShowBannerNotification:(NSNotification *)notfi
+{
+    [LaunchIntroductionView sharedWithImages:@[@"Initpage"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width/2 - 551/4, screen_height - 150, 551/2, 45) withisBanner:YES];
+}
+
 //启动页
 -(void)setStartImageView
 {
-    _lunchView = [[NSBundle mainBundle ]loadNibNamed:@"LaunchScreen" owner:nil options:nil][0];
-    _lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
-    [self.window addSubview:_lunchView];
-    UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 50, 320, 300)];
-//    [imageV sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"default1.jpg"]];
-    [_lunchView addSubview:imageV];
-    [self.window bringSubviewToFront:_lunchView];
-    [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
-}
-
--(void)removeLun
-{
-    [_lunchView removeFromSuperview];
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil] instantiateViewControllerWithIdentifier:@"LaunchScreen"];
+    
+    
+    UIView *launchView = viewController.view;
+    UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
+    launchView.frame = [UIApplication sharedApplication].keyWindow.frame;
+    
+    UIImageView *startImageView = [[UIImageView alloc] initWithFrame:launchView.frame];
+    startImageView.image = [UIImage imageNamed:@"启动页"];
+    [launchView addSubview:startImageView];
+    [mainWindow addSubview:launchView];
+    
+    [UIView animateWithDuration:2.0f delay:2.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        launchView.alpha = 0.0f;
+        launchView.layer.transform = CATransform3DScale(CATransform3DIdentity, 1.5f, 1.5f, 1.0f);
+    } completion:^(BOOL finished) {
+        [launchView removeFromSuperview];
+    }];
 }
 
 //获取启动页，欢迎页等数据
