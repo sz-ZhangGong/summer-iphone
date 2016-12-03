@@ -9,7 +9,7 @@
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
-                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LaunchScreen" id="01J-lp-oVM" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
@@ -17,12 +17,24 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="启动页" translatesAutoresizingMaskIntoConstraints="NO" id="b0Z-pm-QWL"/>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="b0Z-pm-QWL" secondAttribute="bottom" id="2n6-h0-vUF"/>
+                            <constraint firstAttribute="trailing" secondItem="b0Z-pm-QWL" secondAttribute="trailing" id="M8C-az-6vp"/>
+                            <constraint firstItem="b0Z-pm-QWL" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="P4D-eA-vYE"/>
+                            <constraint firstItem="b0Z-pm-QWL" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Usa-0H-gVe"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+            <point key="canvasLocation" x="-317.60000000000002" y="398.05097451274366"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="启动页" width="750" height="1334"/>
+    </resources>
 </document>

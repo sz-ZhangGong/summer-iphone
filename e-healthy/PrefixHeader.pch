@@ -48,4 +48,6 @@
 
 #define CacheData @"CacheData"
 
+#define ShowBanner @"ShowBanner"
+
 #endif /* PrefixHeader_pch */

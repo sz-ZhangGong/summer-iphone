@@ -888,6 +888,11 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = L5888F4Z42;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 					64EEAB831DD4A04E005729FE = {
 						CreatedOnToolsVersion = 8.0;
@@ -1085,6 +1090,7 @@
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 /* End PBXVariantGroup section */
 

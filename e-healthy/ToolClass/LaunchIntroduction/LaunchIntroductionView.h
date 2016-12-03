@@ -37,6 +37,6 @@
  *
  *  @return LaunchIntroductionView对象
  */
-+(instancetype)sharedWithImages:(NSArray *) imageNames buttonImage:(NSString *) buttonImageName buttonFrame:(CGRect ) frame;
++(instancetype)sharedWithImages:(NSArray *) imageNames buttonImage:(NSString *) buttonImageName buttonFrame:(CGRect ) frame withisBanner:(BOOL)isBanner;
 
 @end
