@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-static NSString *appKey = @"";
+static NSString *appKey = @"16c4218fdc2f5f85e9276721";
 static NSString *channel = @"Publish channel";
 static BOOL isProduction = FALSE;
 

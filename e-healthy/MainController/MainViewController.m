@@ -131,14 +131,11 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     //加载
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
     //出错页面
-    //[self.webView addSubview:self.errorImageView];
+    [self.webView addSubview:self.errorImageView];
     _isMain = YES;
-    //设置导航栏的按钮
-    self.navigationItem.rightBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_classify"] andTarget:self andinfoStr:@"third"];
+    
     //右边按钮下拉菜单
     [self settingMenu];
-    //下拉刷新
-    //[self addRefreshView];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -169,8 +166,8 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 #pragma mark - 下拉刷新
 -(void)addRefreshView
 {
-    if (![changeStr containsString:self.webView.URL.absoluteString]) {
-         self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
+    if (![changeStr containsString:self.webView.URL.absoluteString] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
+        self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
     }
 }
 
@@ -302,10 +299,8 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 {
     //加载完成结束刷新
     [self endRefresh];
-    
-    if (![changeStr containsString:self.webView.URL.absoluteString] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
-        self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
-    }
+    //设置下拉刷新
+    [self addRefreshView];
     
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     NSHTTPCookie *cookie;
@@ -334,14 +329,16 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     if ([changeStr containsString:webView.URL.absoluteString]) {
         NSString *js_fit_code = [NSString stringWithFormat:@"var meta = document.createElement('meta');"
                                  "meta.name = 'viewport';"
-                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=0.9, user-scalable=yes';"
+                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=1.0, user-scalable=yes';"
                                  "document.getElementsByTagName('head')[0].appendChild(meta);"
                                  ];
         [webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
             
         }];
+        self.navigationItem.rightBarButtonItem = nil;
     }else{
-        
+        //设置导航栏的按钮
+        self.navigationItem.rightBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_classify"] andTarget:self andinfoStr:@"third"];
     }
 }
 
@@ -349,7 +346,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 {
     //加载出错时，title
     [self setNavTitle:@"出错了"];
-    //self.errorImageView.hidden = NO;
+    self.errorImageView.hidden = NO;
 }
 
 #pragma mark --------wkwebview缩放的问题-------------

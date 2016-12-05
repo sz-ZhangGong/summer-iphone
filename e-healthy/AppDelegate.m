@@ -24,7 +24,9 @@
 
 #define URLPATH_IMAGE [NSString stringWithFormat:@"http://ehealth.lucland.com/MobileConfig?device=phone&deviceId=%@",[DisplayUtils uuid]]
 
-@interface AppDelegate ()<JPUSHRegisterDelegate>
+static NSString *const kAppVersion = @"appVersion";
+
+@interface AppDelegate ()<JPUSHRegisterDelegate,SDWebImageManagerDelegate>
 
 @end
 
@@ -33,11 +35,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //清除角标
+    application.applicationIconBadgeNumber = 0;
+    [JPUSHService resetBadge];
+    
     //沉睡2秒
     [NSThread sleepForTimeInterval:1.0f];
-    
-    //状态栏颜色
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -45,9 +48,6 @@
     BaseNavViewController *mainNav = [[BaseNavViewController alloc] initWithRootViewController:mainVC];
     self.window.rootViewController = mainNav;
     [self.window makeKeyAndVisible];
-    
-    //接收通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ShowBannerNotification:) name:ShowBanner object:nil];
     
     //启动页
 //    [self setStartImageView];
@@ -58,10 +58,145 @@
     /*
      * #pragma 欢迎页
      */
-    [LaunchIntroductionView sharedWithImages:@[@"引导页1.jpg",@"引导页2.jpg",@"引导页3.jpg",@"引导页4.jpg"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width/2 - 551/4, screen_height - 150, 551/2, 45) withisBanner:NO];
+    if ([self isFirstLauch]) {
+        [LaunchIntroductionView sharedWithImages:@[@"引导页1.jpg",@"引导页2.jpg",@"引导页3.jpg",@"引导页4.jpg"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:NO];
+    }else{
+        [LaunchIntroductionView sharedWithImages:@[@"Initpage"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:YES];
+    }
+    
+    //接收通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarHiddenNotfi:) name:ShowBanner object:nil];
     
     [UserDefaultsUtils saveValue:@"1.0" forKey:@"scale"];
     
+    //推送通知
+    [self registerPushNotfication:launchOptions];
+
+    return YES;
+}
+
+-(void)statusBarHiddenNotfi:(NSNotification *)notfi
+{
+    //状态栏颜色
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [UIApplication sharedApplication].statusBarHidden = NO;
+}
+
+//判断是否是第一次
+-(BOOL )isFirstLauch{
+    //获取当前版本号
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    NSString *currentAppVersion = infoDic[@"CFBundleShortVersionString"];
+    //获取上次启动应用保存的appVersion
+    NSString *version = [[NSUserDefaults standardUserDefaults] objectForKey:kAppVersion];
+    //版本升级或首次登录
+    if (version == nil || ![version isEqualToString:currentAppVersion]) {
+        [[NSUserDefaults standardUserDefaults] setObject:currentAppVersion forKey:kAppVersion];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+//启动页
+-(void)setStartImageView
+{
+    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil] instantiateViewControllerWithIdentifier:@"LaunchScreen"];
+    
+    
+    UIView *launchView = viewController.view;
+    UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
+    launchView.frame = [UIApplication sharedApplication].keyWindow.frame;
+    
+    UIImageView *startImageView = [[UIImageView alloc] initWithFrame:launchView.frame];
+    startImageView.image = [UIImage imageNamed:@"启动页"];
+    [launchView addSubview:startImageView];
+    [mainWindow addSubview:launchView];
+    
+    [UIView animateWithDuration:2.0f delay:2.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+        launchView.alpha = 0.0f;
+        launchView.layer.transform = CATransform3DScale(CATransform3DIdentity, 1.5f, 1.5f, 1.0f);
+    } completion:^(BOOL finished) {
+        [launchView removeFromSuperview];
+    }];
+}
+
+//获取启动页，欢迎页等数据
+-(void)getImageData
+{
+    [AFNetworkManager GET:URLPATH_IMAGE parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        if (responseObject) {
+            NSLog(@"responseObject = %@",responseObject);
+            [UserDefaultsUtils saveValue:responseObject[@"rootSite"] forKey:@"rootSite"];
+            [UserDefaultsUtils saveValue:responseObject[@"msgManage"] forKey:@"msgManage"];
+            [self uploadImage:responseObject[@"welcomeImages"] withtype:1];
+            [self uploadImage:responseObject[@"adImages"] withtype:2];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"error = %@",error);
+    }];
+}
+
+//下载图片 type:0启动页 1欢迎页 2广告页
+-(void)uploadImage:(NSArray *)imageArr withtype:(NSInteger)type;
+{
+    for (NSInteger i = 0; i < imageArr.count; i++) {
+        NSString *imageUrl = imageArr[i];
+        // 缓存图片
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        manager.delegate = self;
+        [manager.imageDownloader downloadImageWithURL:[NSURL URLWithString:imageUrl] options:SDWebImageDownloaderContinueInBackground progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            
+        } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+            NSLog(@"---save image is %@",image);
+            if (type == 0) {
+                
+            }else if (type == 1){
+                [manager.imageCache storeImage:image forKey:[NSString stringWithFormat:@"welcomeImage%ld",i] toDisk:YES];
+            }else if (type == 2){
+                [manager.imageCache storeImage:image forKey:[NSString stringWithFormat:@"adImage%ld",i] toDisk:YES];
+            }
+        }];
+    }
+    
+    // 从缓存取图片并显示
+    //SDWebImageManager *manager = [[SDWebImageManager alloc] init];
+    //UIImage *image = [manager.imageCache imageFromMemoryCacheForKey:@"one"];
+}
+
+//判断网络
+- (void)monitorNetworkState{
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    [manager startMonitoring];
+    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+            case AFNetworkReachabilityStatusNotReachable:
+                NSLog(@"没有网络");
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:KLoadDataBase object:nil userInfo:@{@"netType":@"NotReachable"}]];
+                break;
+            case AFNetworkReachabilityStatusUnknown:
+                NSLog(@"未知");
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:KLoadDataBase object:nil userInfo:@{@"netType":@"Unknown"}]];
+                break;
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                NSLog(@"WiFi");
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:KLoadDataBase object:nil userInfo:@{@"netType":@"WiFi"}]];
+                
+                break;
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                NSLog(@"3G|4G");
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:KLoadDataBase object:nil userInfo:@{@"netType":@"WWAN"}]];
+                break;
+            default:
+                break;
+        }
+    }];
+    
+}
+
+-(void)registerPushNotfication:(NSDictionary *)launchOptions
+{
     //推送
     //Required
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
@@ -96,79 +231,6 @@
                           channel:nil
                  apsForProduction:isProduction
             advertisingIdentifier:advertisingId];
-
-    
-    return YES;
-}
-
--(void)ShowBannerNotification:(NSNotification *)notfi
-{
-    [LaunchIntroductionView sharedWithImages:@[@"Initpage"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width/2 - 551/4, screen_height - 150, 551/2, 45) withisBanner:YES];
-}
-
-//启动页
--(void)setStartImageView
-{
-    UIViewController *viewController = [[UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil] instantiateViewControllerWithIdentifier:@"LaunchScreen"];
-    
-    
-    UIView *launchView = viewController.view;
-    UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
-    launchView.frame = [UIApplication sharedApplication].keyWindow.frame;
-    
-    UIImageView *startImageView = [[UIImageView alloc] initWithFrame:launchView.frame];
-    startImageView.image = [UIImage imageNamed:@"启动页"];
-    [launchView addSubview:startImageView];
-    [mainWindow addSubview:launchView];
-    
-    [UIView animateWithDuration:2.0f delay:2.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-        launchView.alpha = 0.0f;
-        launchView.layer.transform = CATransform3DScale(CATransform3DIdentity, 1.5f, 1.5f, 1.0f);
-    } completion:^(BOOL finished) {
-        [launchView removeFromSuperview];
-    }];
-}
-
-//获取启动页，欢迎页等数据
--(void)getImageData
-{
-    [AFNetworkManager GET:URLPATH_IMAGE parameters:nil success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        if (responseObject) {
-            NSLog(@"responseObject = %@",responseObject);
-            
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"error = %@",error);
-    }];
-}
-
-- (void)monitorNetworkState{
-    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
-    [manager startMonitoring];
-    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        switch (status) {
-            case AFNetworkReachabilityStatusNotReachable:
-                NSLog(@"没有网络");
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:KLoadDataBase object:nil userInfo:@{@"netType":@"NotReachable"}]];
-                break;
-            case AFNetworkReachabilityStatusUnknown:
-                NSLog(@"未知");
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:KLoadDataBase object:nil userInfo:@{@"netType":@"Unknown"}]];
-                break;
-            case AFNetworkReachabilityStatusReachableViaWiFi:
-                NSLog(@"WiFi");
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:KLoadDataBase object:nil userInfo:@{@"netType":@"WiFi"}]];
-                
-                break;
-            case AFNetworkReachabilityStatusReachableViaWWAN:
-                NSLog(@"3G|4G");
-                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:KLoadDataBase object:nil userInfo:@{@"netType":@"WWAN"}]];
-                break;
-            default:
-                break;
-        }
-    }];
-    
 }
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -195,7 +257,7 @@
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [JPUSHService handleRemoteNotification:userInfo];
     }
-    completionHandler();  // 系统要求执行这个方法
+    completionHandler(UNNotificationPresentationOptionBadge);  // 系统要求执行这个方法
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
@@ -225,6 +287,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    application.applicationIconBadgeNumber = 0;
+    [JPUSHService resetBadge];
 }
 
 
