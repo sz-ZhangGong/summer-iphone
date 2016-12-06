@@ -20,22 +20,27 @@
 #import "UserDefaultsUtils.h"
 #import "MJRefresh.h"
 #import "YMWebCacheProtocol.h"
+#import "MessageViewController.h"
+#import "WXApi.h"
 
-static NSString *const changeStr = @"http://ehealth.lucland.com/forms/Login?device=phone,http://ehealth.lucland.com/forms/FrmPhoneRegistered,http://ehealth.lucland.com/forms/VerificationLogin,http://ehealth.lucland.com/forms/Login";
+static NSString * const APIBaseURLString = @"";
 
-static NSString *const exitUrlStr = @"http://ehealth.lucland.com/forms/Login?device=phone,http://ehealth.lucland.com/forms/FrmPhoneRegistered,http://ehealth.lucland.com/forms/VerificationLogin,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/FrmIndex";
+static NSString *const changeStr = @"http://ehealth.lucland.com/forms/Login?device=iphone,http://ehealth.lucland.com/forms/FrmPhoneRegistered,http://ehealth.lucland.com/forms/VerificationLogin,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/FrmLossPassword";
+
+static NSString *const exitUrlStr = @"http://ehealth.lucland.com/forms/Login?device=iphone,http://ehealth.lucland.com/forms/FrmPhoneRegistered,http://ehealth.lucland.com/forms/VerificationLogin,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/FrmIndex";
 
 //http://ehealth.lucland.com/forms/Login?device=phone,
 static NSString *const mainUrlStr = @"http://ehealth.lucland.com/forms/FrmIndex";
 
+//192.168.1.111:8080
 //192.168.1.152
 //http://ehealth.lucland.com
 //static NSString *const URL = @"http://ehealth.lucland.com/forms/Login?device=phone";//登录
 static NSString *const URL = @"http://ehealth.lucland.com";//首页
 
-#define ALL_URLPATH [NSString stringWithFormat:@"%@?device=phone&deviceid=%@",URL,[DisplayUtils uuid]]
+#define ALL_URLPATH [NSString stringWithFormat:@"%@?device=iphone&deviceid=%@",URL,[DisplayUtils uuid]]
 
-@interface MainViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate,CustemBBI,SettingViewController>
+@interface MainViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate,WKScriptMessageHandler,CustemBBI,SettingViewController>
 
 @property (nonatomic,strong)WKWebView *webView;
 
@@ -95,7 +100,9 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 -(WKWebView *)webView
 {
     if (!_webView) {
-        _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 64, screen_width, screen_height-64)];
+        WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+        [config.userContentController addScriptMessageHandler:self name:@"webViewApp"];
+        _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 64, screen_width, screen_height-64) configuration:config];
         _webView.navigationDelegate = self;
         _webView.UIDelegate = self;
         _webView.scrollView.delegate = self;
@@ -131,14 +138,11 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     //加载
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
     //出错页面
-    //[self.webView addSubview:self.errorImageView];
+    [self.webView addSubview:self.errorImageView];
     _isMain = YES;
-    //设置导航栏的按钮
-    self.navigationItem.rightBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_classify"] andTarget:self andinfoStr:@"third"];
+    
     //右边按钮下拉菜单
     [self settingMenu];
-    //下拉刷新
-    //[self addRefreshView];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -169,8 +173,8 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 #pragma mark - 下拉刷新
 -(void)addRefreshView
 {
-    if (![changeStr containsString:self.webView.URL.absoluteString]) {
-         self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
+    if (![changeStr containsString:self.webView.URL.absoluteString] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
+        self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
     }
 }
 
@@ -244,19 +248,19 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     NSDictionary *dict1 = @{@"imageName" : @"iconfont-978weiduxinxi",
                             @"itemName" : @"未读消息"
                             };
-    NSDictionary *dict2 = @{@"imageName" : @"icon-suoyouxiaoxi",
-                            @"itemName" : @"所有消息"
-                            };
-    NSDictionary *dict3 = @{@"imageName" : @"iconfont-xiaoxiguanli",
+//    NSDictionary *dict2 = @{@"imageName" : @"icon-suoyouxiaoxi",
+//                            @"itemName" : @"所有消息"
+//                            };
+    NSDictionary *dict2 = @{@"imageName" : @"iconfont-xiaoxiguanli",
                             @"itemName" : @"消息管理"
                             };
-    NSDictionary *dict4 = @{@"imageName" : @"iconfont-shezhi-3",
+    NSDictionary *dict3 = @{@"imageName" : @"iconfont-shezhi-3",
                             @"itemName" : @"设置"
                             };
-    NSDictionary *dict5 = @{@"imageName" :@"iconfont-zhuye-2",
+    NSDictionary *dict4 = @{@"imageName" :@"iconfont-zhuye-2",
                             @"itemName" :@"返回首页"
                             };
-    NSArray *dataArray = @[dict1,dict2,dict3,dict4,dict5];
+    NSArray *dataArray = @[dict1,dict2,dict3,dict4];
     // 计算菜单frame
     CGFloat x = screen_width / 3 * 2-30;
     CGFloat y = 64;
@@ -278,15 +282,22 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 }
 
 - (void)doSomething:(NSString *)str tag:(NSInteger)tag{
+    NSString *msgUrl = [NSString stringWithFormat:@"%@/%@",[UserDefaultsUtils valueWithKey:@"rootSite"],[UserDefaultsUtils valueWithKey:@"msgManage"]];
     NSLog(@"点击了第%ld个菜单项",tag);
     if (tag == 1) {
-        
-    }else if (tag == 5){
-        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
+        MessageViewController *messageVC = [[MessageViewController alloc] init];
+        messageVC.url = [NSString stringWithFormat:@"%@.unread",msgUrl];
+        [self.navigationController pushViewController:messageVC animated:YES];
     }else if (tag == 4){
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
+    }else if (tag == 3){
         SettingViewController *settingVC = [[SettingViewController alloc] init];
         settingVC.delegate = self;
         [self.navigationController pushViewController:settingVC animated:YES];
+    }else if (tag == 2){
+        MessageViewController *messageVC = [[MessageViewController alloc] init];
+        messageVC.url = msgUrl;
+        [self.navigationController pushViewController:messageVC animated:YES];
     }
     [MenuView hidden];  // 隐藏菜单
     self.flag = YES;
@@ -302,10 +313,8 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 {
     //加载完成结束刷新
     [self endRefresh];
-    
-    if (![changeStr containsString:self.webView.URL.absoluteString] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
-        self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
-    }
+    //设置下拉刷新
+    [self addRefreshView];
     
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     NSHTTPCookie *cookie;
@@ -334,14 +343,16 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     if ([changeStr containsString:webView.URL.absoluteString]) {
         NSString *js_fit_code = [NSString stringWithFormat:@"var meta = document.createElement('meta');"
                                  "meta.name = 'viewport';"
-                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=0.9, user-scalable=yes';"
+                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=1.0, user-scalable=yes';"
                                  "document.getElementsByTagName('head')[0].appendChild(meta);"
                                  ];
         [webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
             
         }];
+        self.navigationItem.rightBarButtonItem = nil;
     }else{
-        
+        //设置导航栏的按钮
+        self.navigationItem.rightBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_classify"] andTarget:self andinfoStr:@"third"];
     }
 }
 
@@ -349,7 +360,32 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 {
     //加载出错时，title
     [self setNavTitle:@"出错了"];
-    //self.errorImageView.hidden = NO;
+    self.errorImageView.hidden = NO;
+}
+
+#pragma mark - WKScriptMessageHandler代理方法
+-(void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
+{
+    //向微信注册
+    [WXApi registerApp:@"wx880d8fc48ac1e88e"];
+    
+    NSString *time_stamp, *nonce_str;
+    //设置支付参数
+    time_t now;
+    time(&now);
+    time_stamp  = [NSString stringWithFormat:@"%ld", now];
+    nonce_str	= [DisplayUtils md5:time_stamp];
+    NSLog(@"message = %@",message.body);
+    PayReq *request   = [[PayReq alloc] init];
+    request.nonceStr  = message.body[@"nonce_str"];
+    request.package   = @"Sign=WXPay";
+    request.partnerId = message.body[@"mch_id"];
+    request.prepayId  = message.body[@"prepay_id"];
+    request.timeStamp = [message.body[@"timestamp"] intValue];
+    request.sign      = message.body[@"sign"];
+    NSLog(@"--------partnerid=%@,prepayId=%@,sign=%@,%@,%d",request.partnerId,request.prepayId,request.sign,request.nonceStr,request.timeStamp);
+    
+    [WXApi sendReq:request];
 }
 
 #pragma mark --------wkwebview缩放的问题-------------

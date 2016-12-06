@@ -52,21 +52,29 @@ static LaunchIntroductionView *launch = nil;
     if (self) {
         [self addObserver:self forKeyPath:@"currentColor" options:NSKeyValueObservingOptionNew context:nil];
         [self addObserver:self forKeyPath:@"nomalColor" options:NSKeyValueObservingOptionNew context:nil];
-        if (isbanner == NO) {
-            if ([self isFirstLauch]) {
+        [UIApplication sharedApplication].statusBarHidden = YES;
+        UIWindow *window = [[UIApplication sharedApplication] windows].lastObject;
+        [window addSubview:self];
+        [self addImages];
+#if 0
+        if ([self isFirstLauch]) {
+            if (isbanner == NO) {
                 UIWindow *window = [[UIApplication sharedApplication] windows].lastObject;
                 [window addSubview:self];
                 [self addImages];
-            }else{
+            }else if(isbanner == YES){
                 [self removeFromSuperview];
-                [[NSNotificationCenter defaultCenter] postNotificationName:ShowBanner object:nil userInfo:nil];
             }
-            
         }else{
-            UIWindow *window = [[UIApplication sharedApplication] windows].lastObject;
-            [window addSubview:self];
-            [self addImages];
+            if (isbanner == NO) {
+                [self removeFromSuperview];
+            }else if(isbanner == YES){
+                UIWindow *window = [[UIApplication sharedApplication] windows].lastObject;
+                [window addSubview:self];
+                [self addImages];
+            }
         }
+#endif
     }
     return self;
 }
@@ -109,11 +117,12 @@ static LaunchIntroductionView *launch = nil;
                 UIButton *enterButton = [[UIButton alloc] initWithFrame:CGRectMake(enterBtnFrame.origin.x, enterBtnFrame.origin.y, enterBtnFrame.size.width, enterBtnFrame.size.height)];
                 [enterButton setImage:[UIImage imageNamed:enterBtnImage] forState:UIControlStateNormal];
                 [enterButton addTarget:self action:@selector(enterBtnClick) forControlEvents:UIControlEventTouchUpInside];
-                [enterButton setTitle:@"点击进入" forState:UIControlStateNormal];
+                [enterButton setTitle:@"进入系统" forState:UIControlStateNormal];
                 [enterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                enterButton.titleLabel.font = [UIFont systemFontOfSize:12];
                 enterButton.layer.borderWidth = 1.0f;
                 enterButton.layer.borderColor = [UIColor whiteColor].CGColor;
-                enterButton.layer.cornerRadius = 4.0f;
+                enterButton.layer.cornerRadius = 10.0f;
                 enterButton.layer.masksToBounds = YES;
 
                 [imageView addSubview:enterButton];
@@ -151,14 +160,12 @@ static LaunchIntroductionView *launch = nil;
 }
 #pragma mark - 隐藏引导页
 -(void)hideGuidView{
+    [[NSNotificationCenter defaultCenter] postNotificationName:ShowBanner object:nil userInfo:nil];
     [UIView animateWithDuration:0.5 animations:^{
         self.alpha = 0;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self removeFromSuperview];
         });
-        if (isbanner == NO) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ShowBanner object:nil userInfo:nil];
-        }
     }];
 }
 #pragma mark - scrollView Delegate
