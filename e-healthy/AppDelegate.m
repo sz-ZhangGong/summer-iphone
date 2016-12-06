@@ -21,12 +21,16 @@
 #import "DisplayUtils.h"
 #import "SDWebImageManager.h"
 #import "UIImageView+WebCache.h"
+#import "MessageViewController.h"
+#import "WXApi.h"
 
-#define URLPATH_IMAGE [NSString stringWithFormat:@"http://ehealth.lucland.com/MobileConfig?device=phone&deviceId=%@",[DisplayUtils uuid]]
+#define URLPATH_IMAGE [NSString stringWithFormat:@"http://ehealth.lucland.com/MobileConfig?device=iphone&deviceId=%@",[DisplayUtils uuid]]
 
 static NSString *const kAppVersion = @"appVersion";
 
 @interface AppDelegate ()<JPUSHRegisterDelegate,SDWebImageManagerDelegate>
+
+@property (nonatomic,assign)NSInteger count;
 
 @end
 
@@ -39,7 +43,9 @@ static NSString *const kAppVersion = @"appVersion";
     application.applicationIconBadgeNumber = 0;
     [JPUSHService resetBadge];
     
-    //沉睡2秒
+    //启动页
+//    [self setStartImageView];
+    //沉睡1秒
     [NSThread sleepForTimeInterval:1.0f];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -49,8 +55,6 @@ static NSString *const kAppVersion = @"appVersion";
     self.window.rootViewController = mainNav;
     [self.window makeKeyAndVisible];
     
-    //启动页
-//    [self setStartImageView];
     //判断网络
     [self monitorNetworkState];
     
@@ -61,7 +65,14 @@ static NSString *const kAppVersion = @"appVersion";
     if ([self isFirstLauch]) {
         [LaunchIntroductionView sharedWithImages:@[@"引导页1.jpg",@"引导页2.jpg",@"引导页3.jpg",@"引导页4.jpg"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:NO];
     }else{
-        [LaunchIntroductionView sharedWithImages:@[@"Initpage"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:YES];
+        // 从缓存取图片并显示
+        for (NSInteger i = 0; i<_count; i++) {
+            SDWebImageManager *manager = [[SDWebImageManager alloc] init];
+            UIImage *image1 = [manager.imageCache imageFromDiskCacheForKey:[NSString stringWithFormat:@"welcomeImage%ld",i]];
+            //NSLog(@"-------------%@",image1);
+        }
+        
+        [LaunchIntroductionView sharedWithImages:@[@"引导页1.jpg",@"引导页2.jpg",@"引导页3.jpg",@"引导页4.jpg"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:YES];
     }
     
     //接收通知
@@ -71,7 +82,7 @@ static NSString *const kAppVersion = @"appVersion";
     
     //推送通知
     [self registerPushNotfication:launchOptions];
-
+    
     return YES;
 }
 
@@ -110,11 +121,11 @@ static NSString *const kAppVersion = @"appVersion";
     launchView.frame = [UIApplication sharedApplication].keyWindow.frame;
     
     UIImageView *startImageView = [[UIImageView alloc] initWithFrame:launchView.frame];
-    startImageView.image = [UIImage imageNamed:@"启动页"];
+    startImageView.image = [UIImage imageNamed:@"startImage.jpg"];
     [launchView addSubview:startImageView];
     [mainWindow addSubview:launchView];
     
-    [UIView animateWithDuration:2.0f delay:2.0f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    [UIView animateWithDuration:2.0f delay:0.5f options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         launchView.alpha = 0.0f;
         launchView.layer.transform = CATransform3DScale(CATransform3DIdentity, 1.5f, 1.5f, 1.0f);
     } completion:^(BOOL finished) {
@@ -130,39 +141,55 @@ static NSString *const kAppVersion = @"appVersion";
             NSLog(@"responseObject = %@",responseObject);
             [UserDefaultsUtils saveValue:responseObject[@"rootSite"] forKey:@"rootSite"];
             [UserDefaultsUtils saveValue:responseObject[@"msgManage"] forKey:@"msgManage"];
-            [self uploadImage:responseObject[@"welcomeImages"] withtype:1];
-            [self uploadImage:responseObject[@"adImages"] withtype:2];
+            [self uploadWelComeImage:responseObject[@"welcomeImages"]];
+            [self uploadAddImage:responseObject[@"adImages"]];
+            NSLog(@"%@",NSHomeDirectory());
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"error = %@",error);
     }];
 }
 
-//下载图片 type:0启动页 1欢迎页 2广告页
--(void)uploadImage:(NSArray *)imageArr withtype:(NSInteger)type;
+//下载图片 
+-(void)uploadWelComeImage:(NSArray *)imageArr;
 {
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    [manager.imageCache removeImageForKey:@"welcomeImage" fromDisk:YES];
     for (NSInteger i = 0; i < imageArr.count; i++) {
         NSString *imageUrl = imageArr[i];
         // 缓存图片
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
         manager.delegate = self;
         [manager.imageDownloader downloadImageWithURL:[NSURL URLWithString:imageUrl] options:SDWebImageDownloaderContinueInBackground progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
         } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
             NSLog(@"---save image is %@",image);
-            if (type == 0) {
-                
-            }else if (type == 1){
-                [manager.imageCache storeImage:image forKey:[NSString stringWithFormat:@"welcomeImage%ld",i] toDisk:YES];
-            }else if (type == 2){
-                [manager.imageCache storeImage:image forKey:[NSString stringWithFormat:@"adImage%ld",i] toDisk:YES];
-            }
+            [manager.imageCache storeImage:image forKey:[NSString stringWithFormat:@"welcomeImage%ld",i] toDisk:YES];
         }];
     }
-    
     // 从缓存取图片并显示
-    //SDWebImageManager *manager = [[SDWebImageManager alloc] init];
-    //UIImage *image = [manager.imageCache imageFromMemoryCacheForKey:@"one"];
+//    SDWebImageManager *manager = [[SDWebImageManager alloc] init];
+    UIImage *image1 = [manager.imageCache imageFromDiskCacheForKey:@"welcomeImage1"];
+    NSLog(@"-------------%@",image1);
+    
+}
+
+-(void)uploadAddImage:(NSArray *)imageArr
+{
+    _count = imageArr.count;
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    [manager.imageCache removeImageForKey:@"adImage" fromDisk:YES];
+    for (NSInteger i = 0; i < imageArr.count; i++) {
+        
+        NSString *imageUrl = imageArr[i];
+        // 缓存图片
+        manager.delegate = self;
+        [manager.imageDownloader downloadImageWithURL:[NSURL URLWithString:imageUrl] options:SDWebImageDownloaderContinueInBackground progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            
+        } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+            NSLog(@"---save image is %@",image);
+            [manager.imageCache storeImage:image forKey:[NSString stringWithFormat:@"adImage%ld",i] toDisk:YES];
+        }];
+    }
 }
 
 //判断网络
@@ -254,10 +281,15 @@ static NSString *const kAppVersion = @"appVersion";
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
     // Required
     NSDictionary * userInfo = response.notification.request.content.userInfo;
+    NSLog(@"userInfo = %@",userInfo);
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [JPUSHService handleRemoteNotification:userInfo];
     }
     completionHandler(UNNotificationPresentationOptionBadge);  // 系统要求执行这个方法
+    //消息点击
+    NSString *url = [NSString stringWithFormat:@"%@/%@.show?device=iphone&deviceid=%@&msgId=%ld",[UserDefaultsUtils valueWithKey:@"rootSite"],[UserDefaultsUtils valueWithKey:@"msgManage"],[DisplayUtils uuid],[userInfo[@"_j_msgid"] integerValue]];
+    NSLog(@"url = %@",url);
+    [self goToMssageViewControllerWith:userInfo];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
@@ -271,7 +303,44 @@ static NSString *const kAppVersion = @"appVersion";
     
     // Required,For systems with less than or equal to iOS6
     [JPUSHService handleRemoteNotification:userInfo];
+    NSDictionary *aps = [userInfo valueForKey:@"aps"];
+    NSString *content = [aps valueForKey:@"alert"]; //推送显示的内容
+    NSInteger badge = [[aps valueForKey:@"badge"] integerValue];
+    NSString *sound = [aps valueForKey:@"sound"]; //播放的声音
+    // 取得自定义字段内容，userInfo就是后台返回的JSON数据，是一个字典
+    application.applicationIconBadgeNumber = 0;
+    [JPUSHService resetBadge];
+    
+    [self goToMssageViewControllerWith:userInfo];
+
 }
+
+- (void)goToMssageViewControllerWith:(NSDictionary*)msgDic{
+    //将字段存入本地，因为要在你要跳转的页面用它来判断,这里我只介绍跳转一个页面，
+    [UserDefaultsUtils saveValue:@"push" forKey:@"push"];
+    NSString * targetStr = [msgDic objectForKey:@"target"];
+    if ([targetStr isEqualToString:@"notice"]) {
+        MessageViewController *messageVC = [[MessageViewController alloc] init];
+        UINavigationController * Nav = [[UINavigationController alloc]initWithRootViewController:messageVC];//这里加导航栏是因为我跳转的页面带导航栏，如果跳转的页面不带导航，那这句话请省去。
+        [self.window.rootViewController presentViewController:Nav animated:YES completion:nil];
+    }
+}
+
+-(void)onResp:(BaseResp*)resp{
+    if ([resp isKindOfClass:[PayResp class]]){
+        PayResp *response=(PayResp *)resp;
+        switch(response.errCode){
+            case WXSuccess:
+                //服务器端查询支付通知或查询API返回的结果再提示成功
+                NSLog(@"支付成功");
+                break;
+            default:
+                NSLog(@"支付失败，retcode=%d",resp.errCode);
+                break;
+        }
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

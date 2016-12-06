@@ -10,6 +10,8 @@
 
 @interface DisplayUtils : NSObject
 
++(NSString *) md5:(NSString *)str;
+
 +(NSString *)uuid;
 
 +(UIImage*)createImageWithColor:(UIColor*) color andX:(NSInteger)x andY:(NSInteger)y;

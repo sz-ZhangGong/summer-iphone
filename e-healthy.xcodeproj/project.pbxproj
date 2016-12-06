@@ -110,6 +110,12 @@
 		64F59EAA1DF119B9004EA082 /* YYMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F59EA51DF119B9004EA082 /* YYMemoryCache.m */; };
 		64F59EAC1DF119F9004EA082 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F59EAB1DF119F9004EA082 /* QuartzCore.framework */; };
 		64F59EAE1DF11A04004EA082 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F59EAD1DF11A04004EA082 /* libsqlite3.tbd */; };
+		64F5FB301DF6552600ACF42C /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F5FB2F1DF6552600ACF42C /* MessageViewController.m */; };
+		64F5FB321DF6C37600ACF42C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64F5FB311DF6C37600ACF42C /* Images.xcassets */; };
+		64F5FB391DF6CB5F00ACF42C /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F5FB341DF6CB5F00ACF42C /* libWeChatSDK.a */; };
+		64F5FB3A1DF6CB5F00ACF42C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 64F5FB351DF6CB5F00ACF42C /* README.txt */; };
+		64F5FB3C1DF6E08900ACF42C /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F5FB3B1DF6E08900ACF42C /* libc++.tbd */; };
+		64F5FB3E1DF6E09D00ACF42C /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F5FB3D1DF6E09D00ACF42C /* libsqlite3.0.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -323,6 +329,16 @@
 		64F59EA51DF119B9004EA082 /* YYMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMemoryCache.m; sourceTree = "<group>"; };
 		64F59EAB1DF119F9004EA082 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		64F59EAD1DF11A04004EA082 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		64F5FB2E1DF6552600ACF42C /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		64F5FB2F1DF6552600ACF42C /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
+		64F5FB311DF6C37600ACF42C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		64F5FB341DF6CB5F00ACF42C /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		64F5FB351DF6CB5F00ACF42C /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		64F5FB361DF6CB5F00ACF42C /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		64F5FB371DF6CB5F00ACF42C /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		64F5FB381DF6CB5F00ACF42C /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		64F5FB3B1DF6E08900ACF42C /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		64F5FB3D1DF6E09D00ACF42C /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,7 +346,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64F5FB3E1DF6E09D00ACF42C /* libsqlite3.0.tbd in Frameworks */,
+				64F5FB3C1DF6E08900ACF42C /* libc++.tbd in Frameworks */,
 				64F59EAE1DF11A04004EA082 /* libsqlite3.tbd in Frameworks */,
+				64F5FB391DF6CB5F00ACF42C /* libWeChatSDK.a in Frameworks */,
 				64F59EAC1DF119F9004EA082 /* QuartzCore.framework in Frameworks */,
 				64E7F9491DE2DA230017D512 /* libresolv.tbd in Frameworks */,
 				64E7F9471DE2DA150017D512 /* UserNotifications.framework in Frameworks */,
@@ -584,6 +603,7 @@
 				64EA02381DD5BB1E00392B3C /* Utils */,
 				64EA020F1DD554ED00392B3C /* ToolClass */,
 				64EEABA31DD4A19B005729FE /* BaseController */,
+				64F5FB2D1DF654F000ACF42C /* MessageController */,
 				64E7F94E1DE2E3950017D512 /* SettingController */,
 				64EEABA41DD4A19B005729FE /* MainController */,
 				64EEABA21DD4A13A005729FE /* View */,
@@ -595,6 +615,7 @@
 				64EEAB7A1DD4A04E005729FE /* Assets.xcassets */,
 				64EEAB7C1DD4A04E005729FE /* LaunchScreen.storyboard */,
 				64EEAB7F1DD4A04E005729FE /* Info.plist */,
+				64F5FB311DF6C37600ACF42C /* Images.xcassets */,
 				64EEAB6E1DD4A04E005729FE /* Supporting Files */,
 			);
 			path = "e-healthy";
@@ -657,6 +678,8 @@
 		64EEABAF1DD4A5DB005729FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				64F5FB3D1DF6E09D00ACF42C /* libsqlite3.0.tbd */,
+				64F5FB3B1DF6E08900ACF42C /* libc++.tbd */,
 				64F59EAD1DF11A04004EA082 /* libsqlite3.tbd */,
 				64F59EAB1DF119F9004EA082 /* QuartzCore.framework */,
 				64E7F9481DE2DA230017D512 /* libresolv.tbd */,
@@ -734,6 +757,7 @@
 		64F562F61DD7153700966862 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				64F5FB331DF6CB5F00ACF42C /* WXpay */,
 				64F325921DF292F80068999E /* SDWebImage */,
 				643F73201DEEDDFD002CED46 /* MJRefresh */,
 				64E7F94A1DE2DABE0017D512 /* Lib */,
@@ -819,6 +843,27 @@
 				64F59EA51DF119B9004EA082 /* YYMemoryCache.m */,
 			);
 			path = WebCache;
+			sourceTree = "<group>";
+		};
+		64F5FB2D1DF654F000ACF42C /* MessageController */ = {
+			isa = PBXGroup;
+			children = (
+				64F5FB2E1DF6552600ACF42C /* MessageViewController.h */,
+				64F5FB2F1DF6552600ACF42C /* MessageViewController.m */,
+			);
+			path = MessageController;
+			sourceTree = "<group>";
+		};
+		64F5FB331DF6CB5F00ACF42C /* WXpay */ = {
+			isa = PBXGroup;
+			children = (
+				64F5FB341DF6CB5F00ACF42C /* libWeChatSDK.a */,
+				64F5FB351DF6CB5F00ACF42C /* README.txt */,
+				64F5FB361DF6CB5F00ACF42C /* WechatAuthSDK.h */,
+				64F5FB371DF6CB5F00ACF42C /* WXApi.h */,
+				64F5FB381DF6CB5F00ACF42C /* WXApiObject.h */,
+			);
+			path = WXpay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -938,9 +983,11 @@
 			files = (
 				64EEAB7E1DD4A04E005729FE /* LaunchScreen.storyboard in Resources */,
 				64EEAB7B1DD4A04E005729FE /* Assets.xcassets in Resources */,
+				64F5FB321DF6C37600ACF42C /* Images.xcassets in Resources */,
 				643F735D1DEEDDFD002CED46 /* MJRefresh.bundle in Resources */,
 				64F325B31DF292F80068999E /* LICENSE in Resources */,
 				64F5632A1DD7155200966862 /* LICENSE in Resources */,
+				64F5FB3A1DF6CB5F00ACF42C /* README.txt in Resources */,
 				64EEAB791DD4A04E005729FE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -972,6 +1019,7 @@
 				643F735B1DEEDDFD002CED46 /* MJRefreshNormalHeader.m in Sources */,
 				64F59EAA1DF119B9004EA082 /* YYMemoryCache.m in Sources */,
 				64F59EA61DF119B9004EA082 /* YMWebCacheProtocol.m in Sources */,
+				64F5FB301DF6552600ACF42C /* MessageViewController.m in Sources */,
 				64EA023B1DD5BB3600392B3C /* DisplayUtils.m in Sources */,
 				64EA02361DD5B4C000392B3C /* WebViewJavascriptBridgeBase.m in Sources */,
 				64E7F9511DE2E3CC0017D512 /* SettingViewController.m in Sources */,
@@ -1192,10 +1240,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "e-healthy/e-healthy.entitlements";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 25838AAA7D;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/e-Healthy/PrefixHeader.pch";
 				INFOPLIST_FILE = "e-healthy/Info.plist";
@@ -1204,6 +1254,11 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/e-healthy/Library/Lib",
+					"$(PROJECT_DIR)/e-healthy/Library/WXpay",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FL.e-healthy.app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1214,10 +1269,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "e-healthy/e-healthy.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Resvent Medical Technology Co.,Ltd. (25838AAA7D)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 25838AAA7D;
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/e-Healthy/PrefixHeader.pch";
 				INFOPLIST_FILE = "e-healthy/Info.plist";
@@ -1226,6 +1283,11 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/e-healthy/Library/Lib",
+					"$(PROJECT_DIR)/e-healthy/Library/WXpay",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FL.e-healthy.app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
