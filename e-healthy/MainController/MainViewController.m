@@ -217,6 +217,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
         }else{
             if (self.webView.canGoBack) {
                 [self.webView goBack];
+                [self.webView reloadFromOrigin];
             }
         }
     }else if ([infoStr isEqualToString:@"second"]){
@@ -343,7 +344,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     if ([changeStr containsString:webView.URL.absoluteString]) {
         NSString *js_fit_code = [NSString stringWithFormat:@"var meta = document.createElement('meta');"
                                  "meta.name = 'viewport';"
-                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=1.0, user-scalable=yes';"
+                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=0.9, user-scalable=yes';"
                                  "document.getElementsByTagName('head')[0].appendChild(meta);"
                                  ];
         [webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
@@ -375,7 +376,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     time(&now);
     time_stamp  = [NSString stringWithFormat:@"%ld", now];
     nonce_str	= [DisplayUtils md5:time_stamp];
-    NSLog(@"message = %@",message.body);
+    
     PayReq *request   = [[PayReq alloc] init];
     request.nonceStr  = message.body[@"nonce_str"];
     request.package   = @"Sign=WXPay";
@@ -383,12 +384,10 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     request.prepayId  = message.body[@"prepay_id"];
     request.timeStamp = [message.body[@"timestamp"] intValue];
     request.sign      = message.body[@"sign"];
-    NSLog(@"--------partnerid=%@,prepayId=%@,sign=%@,%@,%d",request.partnerId,request.prepayId,request.sign,request.nonceStr,request.timeStamp);
-    
     [WXApi sendReq:request];
 }
 
-#pragma mark --------wkwebview缩放的问题-------------
+#pragma mark --------wkwebview缩放的问题------------
 -(void)perverseInfo:(float)scale
 {
     NSString *js_fit_code = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.zoom= '%.2f'",scale
