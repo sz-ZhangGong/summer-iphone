@@ -109,7 +109,8 @@ static LaunchIntroductionView *launch = nil;
     [self addSubview:launchScrollView];
     for (int i = 0; i < images.count; i ++) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i * kScreen_width, 0, kScreen_width, kScreen_height)];
-        imageView.image = [UIImage imageNamed:images[i]];
+//        imageView.image = [UIImage imageNamed:images[i]];
+        imageView.image = images[i];
         [launchScrollView addSubview:imageView];
         if (i == images.count - 1) {
             //判断要不要添加button
@@ -151,7 +152,7 @@ static LaunchIntroductionView *launch = nil;
 }
 -(void)delayMethod
 {
-    [self hideGuidView];
+    //[self hideGuidView];
 }
 
 #pragma mark - 进入按钮

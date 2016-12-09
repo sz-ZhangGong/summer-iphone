@@ -30,12 +30,31 @@ static NSString *const kAppVersion = @"appVersion";
 
 @interface AppDelegate ()<JPUSHRegisterDelegate,SDWebImageManagerDelegate>
 
-@property (nonatomic,assign)NSInteger count;
+@property (nonatomic,assign)NSInteger addCount;
+@property (nonatomic,assign)NSInteger welcomeCount;
+
+@property (nonatomic,strong)NSMutableArray *addArr;
+@property (nonatomic,strong)NSMutableArray *welcomeArr;
 
 @end
 
 @implementation AppDelegate
 
+-(NSMutableArray *)addArr
+{
+    if (!_addArr) {
+        _addArr = [[NSMutableArray alloc] init];
+    }
+    return _addArr;
+}
+
+-(NSMutableArray *)welcomeArr
+{
+    if (!_welcomeArr) {
+        _welcomeArr = [[NSMutableArray alloc] init];
+    }
+    return _welcomeArr;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -62,17 +81,41 @@ static NSString *const kAppVersion = @"appVersion";
     /*
      * #pragma 欢迎页
      */
+    for (NSInteger i = 0; i<[[UserDefaultsUtils valueWithKey:@"welcomeCount"] integerValue]; i++) {
+        SDWebImageManager *manager = [[SDWebImageManager alloc] init];
+        UIImage *image = [manager.imageCache imageFromDiskCacheForKey:[NSString stringWithFormat:@"welcomeImage%ld",i]];
+        NSLog(@"image2 = %@",image);
+        [self.welcomeArr addObject:image];
+    }
+    
+    for (NSInteger i = 0; i<[[UserDefaultsUtils valueWithKey:@"addCount"] integerValue]; i++) {
+        SDWebImageManager *manager = [[SDWebImageManager alloc] init];
+        UIImage *image1 = [manager.imageCache imageFromDiskCacheForKey:[NSString stringWithFormat:@"adImage%ld",i]];
+        NSLog(@"image1=%@",image1);
+        [self.addArr addObject:image1];
+    }
     if ([self isFirstLauch]) {
-        [LaunchIntroductionView sharedWithImages:@[@"引导页1.jpg",@"引导页2.jpg",@"引导页3.jpg",@"引导页4.jpg"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:NO];
-    }else{
-        // 从缓存取图片并显示
-        for (NSInteger i = 0; i<_count; i++) {
-            SDWebImageManager *manager = [[SDWebImageManager alloc] init];
-            UIImage *image1 = [manager.imageCache imageFromDiskCacheForKey:[NSString stringWithFormat:@"welcomeImage%ld",i]];
-            //NSLog(@"-------------%@",image1);
+        if (!self.welcomeArr.count) {
+            NSMutableArray *array = [[NSMutableArray alloc] init];
+            for (NSInteger i = 0; i<4; i++) {
+                UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"引导页%ld.jpg",i+1]];
+                [array addObject:image];
+            }
+            [LaunchIntroductionView sharedWithImages:array buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:NO];
+        }else{
+            [LaunchIntroductionView sharedWithImages:self.welcomeArr buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:NO];
         }
-        
-        [LaunchIntroductionView sharedWithImages:@[@"引导页1.jpg",@"引导页2.jpg",@"引导页3.jpg",@"引导页4.jpg"] buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:YES];
+    }else{
+        if (!self.addArr.count) {
+            NSMutableArray *array = [[NSMutableArray alloc] init];
+            for (NSInteger i = 0; i<4; i++) {
+                UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"引导页%ld.jpg",i+1]];
+                [array addObject:image];
+            }
+            [LaunchIntroductionView sharedWithImages:array buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:YES];
+        }else{
+            [LaunchIntroductionView sharedWithImages:self.addArr buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:YES];
+        }
     }
     
     //接收通知
@@ -150,9 +193,10 @@ static NSString *const kAppVersion = @"appVersion";
     }];
 }
 
-//下载图片 
+//下载图片
 -(void)uploadWelComeImage:(NSArray *)imageArr;
 {
+    [UserDefaultsUtils saveValue:@(imageArr.count) forKey:@"welcomeCount"];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     [manager.imageCache removeImageForKey:@"welcomeImage" fromDisk:YES];
     for (NSInteger i = 0; i < imageArr.count; i++) {
@@ -175,7 +219,7 @@ static NSString *const kAppVersion = @"appVersion";
 
 -(void)uploadAddImage:(NSArray *)imageArr
 {
-    _count = imageArr.count;
+    [UserDefaultsUtils saveValue:@(imageArr.count) forKey:@"addCount"];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     [manager.imageCache removeImageForKey:@"adImage" fromDisk:YES];
     for (NSInteger i = 0; i < imageArr.count; i++) {
