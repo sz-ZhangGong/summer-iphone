@@ -44,4 +44,12 @@ typedef void(^AFFormDataBlock) (id<AFMultipartFormData> formData);
  *
  */
 +(void)GET:(NSString *)url parameters:(id)param success:(AFSucBlock1)successBlock failure:(AFErrBlock1)errorBlock;
+
++(void)downloadFileWithURL:(NSString*)requestURLString
+                 parameters:(NSDictionary *)parameters
+                  savedPath:(NSString*)savedPath
+            downloadSuccess:(void (^)(NSURLResponse *response, NSURL *filePath))success
+            downloadFailure:(void (^)(NSError *error))failure
+           downloadProgress:(void (^)(NSProgress *downloadProgress))progress;
+
 @end

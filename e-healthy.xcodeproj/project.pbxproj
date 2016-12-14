@@ -66,6 +66,10 @@
 		64EEABAA1DD4A1B6005729FE /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEABA81DD4A1B6005729FE /* BaseViewController.m */; };
 		64EEABAD1DD4A1ED005729FE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEABAC1DD4A1ED005729FE /* MainViewController.m */; };
 		64EEABB11DD4A5DB005729FE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EEABB01DD4A5DB005729FE /* WebKit.framework */; };
+		64F06F101DFFE1B60099C7AE /* TYDownLoadDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F06F081DFFE1B60099C7AE /* TYDownLoadDataManager.m */; };
+		64F06F111DFFE1B60099C7AE /* TYDownLoadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F06F0B1DFFE1B60099C7AE /* TYDownLoadModel.m */; };
+		64F06F121DFFE1B60099C7AE /* TYDownloadSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F06F0D1DFFE1B60099C7AE /* TYDownloadSessionManager.m */; };
+		64F06F131DFFE1B60099C7AE /* TYDownloadUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F06F0F1DFFE1B60099C7AE /* TYDownloadUtility.m */; };
 		64F2D0101DED1AD10068CE69 /* LaunchIntroductionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F2D00F1DED1AD10068CE69 /* LaunchIntroductionView.m */; };
 		64F325B31DF292F80068999E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 64F325931DF292F80068999E /* LICENSE */; };
 		64F325B41DF292F80068999E /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 64F325941DF292F80068999E /* README.md */; };
@@ -243,6 +247,15 @@
 		64EEABAC1DD4A1ED005729FE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		64EEABAE1DD4A307005729FE /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		64EEABB01DD4A5DB005729FE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		64F06F071DFFE1B60099C7AE /* TYDownLoadDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownLoadDataManager.h; sourceTree = "<group>"; };
+		64F06F081DFFE1B60099C7AE /* TYDownLoadDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYDownLoadDataManager.m; sourceTree = "<group>"; };
+		64F06F091DFFE1B60099C7AE /* TYDownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownloadDelegate.h; sourceTree = "<group>"; };
+		64F06F0A1DFFE1B60099C7AE /* TYDownLoadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownLoadModel.h; sourceTree = "<group>"; };
+		64F06F0B1DFFE1B60099C7AE /* TYDownLoadModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYDownLoadModel.m; sourceTree = "<group>"; };
+		64F06F0C1DFFE1B60099C7AE /* TYDownloadSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownloadSessionManager.h; sourceTree = "<group>"; };
+		64F06F0D1DFFE1B60099C7AE /* TYDownloadSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYDownloadSessionManager.m; sourceTree = "<group>"; };
+		64F06F0E1DFFE1B60099C7AE /* TYDownloadUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownloadUtility.h; sourceTree = "<group>"; };
+		64F06F0F1DFFE1B60099C7AE /* TYDownloadUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYDownloadUtility.m; sourceTree = "<group>"; };
 		64F2D00E1DED1AD10068CE69 /* LaunchIntroductionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchIntroductionView.h; sourceTree = "<group>"; };
 		64F2D00F1DED1AD10068CE69 /* LaunchIntroductionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchIntroductionView.m; sourceTree = "<group>"; };
 		64F325931DF292F80068999E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -510,6 +523,7 @@
 		64EA020F1DD554ED00392B3C /* ToolClass */ = {
 			isa = PBXGroup;
 			children = (
+				64F06F061DFFE1B60099C7AE /* TYDownloadManager */,
 				64F325C31DF293B40068999E /* AFNetworkManager.h */,
 				64F325C41DF293B40068999E /* AFNetworkManager.m */,
 				64F59E9B1DF119B9004EA082 /* WebCache */,
@@ -697,6 +711,22 @@
 				64EEABB01DD4A5DB005729FE /* WebKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		64F06F061DFFE1B60099C7AE /* TYDownloadManager */ = {
+			isa = PBXGroup;
+			children = (
+				64F06F071DFFE1B60099C7AE /* TYDownLoadDataManager.h */,
+				64F06F081DFFE1B60099C7AE /* TYDownLoadDataManager.m */,
+				64F06F091DFFE1B60099C7AE /* TYDownloadDelegate.h */,
+				64F06F0A1DFFE1B60099C7AE /* TYDownLoadModel.h */,
+				64F06F0B1DFFE1B60099C7AE /* TYDownLoadModel.m */,
+				64F06F0C1DFFE1B60099C7AE /* TYDownloadSessionManager.h */,
+				64F06F0D1DFFE1B60099C7AE /* TYDownloadSessionManager.m */,
+				64F06F0E1DFFE1B60099C7AE /* TYDownloadUtility.h */,
+				64F06F0F1DFFE1B60099C7AE /* TYDownloadUtility.m */,
+			);
+			path = TYDownloadManager;
 			sourceTree = "<group>";
 		};
 		64F2D00D1DED1AD10068CE69 /* LaunchIntroduction */ = {
@@ -1038,6 +1068,7 @@
 				64F325C11DF292F80068999E /* UIImageView+WebCache.m in Sources */,
 				64EA02121DD5551D00392B3C /* CustemNavItem.m in Sources */,
 				64F5632F1DD7155200966862 /* UIButton+AFNetworking.m in Sources */,
+				64F06F121DFFE1B60099C7AE /* TYDownloadSessionManager.m in Sources */,
 				64F59EA91DF119B9004EA082 /* YYKVStorage.m in Sources */,
 				64F5632D1DD7155200966862 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				64F325B71DF292F80068999E /* SDWebImageCompat.m in Sources */,
@@ -1072,7 +1103,10 @@
 				643F73511DEEDDFD002CED46 /* MJRefreshComponent.m in Sources */,
 				64F325B51DF292F80068999E /* NSData+ImageContentType.m in Sources */,
 				64F325BE1DF292F80068999E /* UIImage+GIF.m in Sources */,
+				64F06F101DFFE1B60099C7AE /* TYDownLoadDataManager.m in Sources */,
+				64F06F111DFFE1B60099C7AE /* TYDownLoadModel.m in Sources */,
 				64EA02291DD58E1300392B3C /* NJKWebViewProgressView.m in Sources */,
+				64F06F131DFFE1B60099C7AE /* TYDownloadUtility.m in Sources */,
 				643F73541DEEDDFD002CED46 /* MJRefreshAutoGifFooter.m in Sources */,
 				64F563321DD7155200966862 /* UIRefreshControl+AFNetworking.m in Sources */,
 				64F563261DD7155200966862 /* AFURLConnectionOperation.m in Sources */,
