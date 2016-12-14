@@ -23,12 +23,14 @@
 #import "UIImageView+WebCache.h"
 #import "MessageViewController.h"
 #import "WXApi.h"
+#import "TYDownLoadDataManager.h"
+#import "TYDownLoadUtility.h"
 
 #define URLPATH_IMAGE [NSString stringWithFormat:@"http://ehealth.lucland.com/MobileConfig?device=iphone&deviceId=%@",[DisplayUtils uuid]]
 
 static NSString *const kAppVersion = @"appVersion";
 
-@interface AppDelegate ()<JPUSHRegisterDelegate,SDWebImageManagerDelegate>
+@interface AppDelegate ()<JPUSHRegisterDelegate,SDWebImageManagerDelegate,TYDownloadDelegate>
 
 @property (nonatomic,assign)NSInteger addCount;
 @property (nonatomic,assign)NSInteger welcomeCount;
@@ -36,6 +38,7 @@ static NSString *const kAppVersion = @"appVersion";
 @property (nonatomic,strong)NSMutableArray *addArr;
 @property (nonatomic,strong)NSMutableArray *welcomeArr;
 
+@property (nonatomic,strong) TYDownloadModel *downloadModel;
 @end
 
 @implementation AppDelegate
@@ -62,6 +65,7 @@ static NSString *const kAppVersion = @"appVersion";
     application.applicationIconBadgeNumber = 0;
     [JPUSHService resetBadge];
     
+    [TYDownLoadDataManager manager].delegate = self;
     //启动页
 //    [self setStartImageView];
     //沉睡1秒
@@ -84,15 +88,19 @@ static NSString *const kAppVersion = @"appVersion";
     for (NSInteger i = 0; i<[[UserDefaultsUtils valueWithKey:@"welcomeCount"] integerValue]; i++) {
         SDWebImageManager *manager = [[SDWebImageManager alloc] init];
         UIImage *image = [manager.imageCache imageFromDiskCacheForKey:[NSString stringWithFormat:@"welcomeImage%ld",i]];
-        NSLog(@"image2 = %@",image);
-        [self.welcomeArr addObject:image];
+        NSLog(@"image = %@",image);
+        if (image) {
+            [self.welcomeArr addObject:image];
+        }
     }
     
     for (NSInteger i = 0; i<[[UserDefaultsUtils valueWithKey:@"addCount"] integerValue]; i++) {
         SDWebImageManager *manager = [[SDWebImageManager alloc] init];
         UIImage *image1 = [manager.imageCache imageFromDiskCacheForKey:[NSString stringWithFormat:@"adImage%ld",i]];
         NSLog(@"image1=%@",image1);
-        [self.addArr addObject:image1];
+        if (image1) {
+            [self.addArr addObject:image1];
+        }
     }
     if ([self isFirstLauch]) {
         if (!self.welcomeArr.count) {
@@ -186,6 +194,7 @@ static NSString *const kAppVersion = @"appVersion";
             [UserDefaultsUtils saveValue:responseObject[@"msgManage"] forKey:@"msgManage"];
             [self uploadWelComeImage:responseObject[@"welcomeImages"]];
             [self uploadAddImage:responseObject[@"adImages"]];
+            //[self downLoad:responseObject[@"cacheFiles"]];
             NSLog(@"%@",NSHomeDirectory());
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -193,7 +202,50 @@ static NSString *const kAppVersion = @"appVersion";
     }];
 }
 
-//下载图片
+#pragma mark - 下载文件
+-(void)downLoad:(NSArray *)array
+{
+    for (NSInteger i = 0; i<array.count; i++) {
+//        NSRange range = [array[i] rangeOfString:@"/" options:NSBackwardsSearch];
+//        NSString *str = [array[i] substringFromIndex:range.location+1];
+//        NSString *savedPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Documents/%@",str]];
+        // manager里面是否有这个model是正在下载
+        _downloadModel = [[TYDownLoadDataManager manager] downLoadingModelForURLString:[NSString stringWithFormat:@"%@/%@",[UserDefaultsUtils valueWithKey:@"rootSite"],array[i]]];
+        if (_downloadModel) {
+            [self startDownlaod];
+            return;
+        }
+    
+        // 没有正在下载的model 重新创建
+        TYDownloadModel *model = [[TYDownloadModel alloc]initWithURLString:[NSString stringWithFormat:@"%@/%@",[UserDefaultsUtils valueWithKey:@"rootSite"],array[i]]];
+        _downloadModel = model;
+        [self startDownlaod];
+    }
+}
+#pragma mark - TYDownloadDelegate
+- (void)downloadModel:(TYDownloadModel *)downloadModel didUpdateProgress:(TYDownloadProgress *)progress
+{
+    NSLog(@"delegate progress %.3f",progress.progress);
+}
+
+- (void)downloadModel:(TYDownloadModel *)downloadModel didChangeState:(TYDownloadState)state filePath:(NSString *)filePath error:(NSError *)error
+{
+    NSLog(@"delegate state %ld error%@ filePath%@",state,error,filePath);
+}
+
+- (void)startDownlaod
+{
+    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
+    [manager startWithDownloadModel:_downloadModel progress:^(TYDownloadProgress *progress) {
+
+    } state:^(TYDownloadState state, NSString *filePath, NSError *error) {
+        if (state == TYDownloadStateCompleted) {
+            
+        }
+    }];
+}
+
+#pragma mark - 下载图片
 -(void)uploadWelComeImage:(NSArray *)imageArr;
 {
     [UserDefaultsUtils saveValue:@(imageArr.count) forKey:@"welcomeCount"];
@@ -236,7 +288,7 @@ static NSString *const kAppVersion = @"appVersion";
     }
 }
 
-//判断网络
+#pragma mark - 判断网络
 - (void)monitorNetworkState{
     AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
     [manager startMonitoring];
@@ -306,7 +358,7 @@ static NSString *const kAppVersion = @"appVersion";
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    /// Required - 注册 DeviceToken
+    // Required - 注册 DeviceToken
     [JPUSHService registerDeviceToken:deviceToken];
 }
 

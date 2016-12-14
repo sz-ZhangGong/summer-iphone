@@ -29,6 +29,8 @@ static NSString *const changeStr = @"http://ehealth.lucland.com/forms/Login?devi
 
 static NSString *const exitUrlStr = @"http://ehealth.lucland.com/forms/Login?device=iphone,http://ehealth.lucland.com/forms/FrmPhoneRegistered,http://ehealth.lucland.com/forms/VerificationLogin,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/FrmIndex";
 
+static NSString *const tabbarUrlStr = @"http://ehealth.lucland.com/forms/FrmMessages,http://ehealth.lucland.com/forms/FrmCardPage";
+
 //http://ehealth.lucland.com/forms/Login?device=phone,
 static NSString *const mainUrlStr = @"http://ehealth.lucland.com/forms/FrmIndex";
 
@@ -103,10 +105,14 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         [config.userContentController addScriptMessageHandler:self name:@"webViewApp"];
         _webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 64, screen_width, screen_height-64) configuration:config];
+        [_webView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         _webView.navigationDelegate = self;
         _webView.UIDelegate = self;
         _webView.scrollView.delegate = self;
+//        [_webView setAllowsBackForwardNavigationGestures:YES];
         [_webView addObserver:self forKeyPath:ObserveKeyPath options:NSKeyValueObservingOptionNew context:nil];
+        //加载
+        [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
     }
     return _webView;
 }
@@ -135,8 +141,6 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    //加载
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
     //出错页面
     [self.webView addSubview:self.errorImageView];
     _isMain = YES;
@@ -148,7 +152,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [YMWebCacheProtocol start];
+//    [YMWebCacheProtocol start];
     //网络监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLoadDataBase:) name:KLoadDataBase object:nil];
     
@@ -162,6 +166,10 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 -(void)getLoadDataBase:(NSNotification *)text
 {
     NSDictionary *dict = text.userInfo;
+    if ([dict[@"netType"] isEqualToString:@"NotReachable"] || [dict[@"netType"] isEqualToString:@"Unknown"]) {
+        [self setNavTitle:@"出错了"];
+        self.errorImageView.hidden = NO;
+    }
     /*
      * #pragma 重新加载页面
      * reloadFromOrigin: //该方法加载时会比较网络数据是否有变化，没有变化则使用缓存数据
@@ -215,9 +223,12 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 //                abort();//退出
 //            }];
         }else{
-            if (self.webView.canGoBack) {
-                [self.webView goBack];
-                [self.webView reloadFromOrigin];
+            if ([tabbarUrlStr containsString:_urlPath]) {
+                [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
+            }else{
+                if (self.webView.canGoBack) {
+                    [self.webView goBack];
+                }
             }
         }
     }else if ([infoStr isEqualToString:@"second"]){
@@ -307,6 +318,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 - (void)dealloc{
     [MenuView clearMenu];   // 移除菜单
     [[NSNotificationCenter defaultCenter] removeObserver:self];//移除通知
+    [[self.webView configuration].userContentController removeScriptMessageHandlerForName:@"webViewApp"];
 }
 
 #pragma mark - UIWebViewDelegate代理方法
@@ -359,9 +371,11 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 
 -(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
+    NSLog(@"error = %@",error);
     //加载出错时，title
-    [self setNavTitle:@"出错了"];
-    self.errorImageView.hidden = NO;
+//    [self setNavTitle:@"出错了"];
+//    self.errorImageView.hidden = NO;
+//    [self.webView reload];
 }
 
 #pragma mark - WKScriptMessageHandler代理方法
