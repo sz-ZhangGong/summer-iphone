@@ -49,4 +49,6 @@
 
 #define ShowBanner @"ShowBanner"
 
+#define OutLogin @"http://ehealth.lucland.com/forms/Login.exit"
+
 #endif /* PrefixHeader_pch */
