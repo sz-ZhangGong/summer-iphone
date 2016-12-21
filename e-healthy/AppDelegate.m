@@ -28,6 +28,8 @@
 
 #define URLPATH_IMAGE [NSString stringWithFormat:@"http://ehealth.lucland.com/MobileConfig?device=iphone&deviceId=%@",[DisplayUtils uuid]]
 
+#define AUTOLOGIN_URLPATH [NSString stringWithFormat:@"http://192.168.1.161:8080/MobileConfig?device=iphone&deviceId=%@",[DisplayUtils uuid]]
+
 static NSString *const kAppVersion = @"appVersion";
 
 @interface AppDelegate ()<JPUSHRegisterDelegate,SDWebImageManagerDelegate,TYDownloadDelegate>
@@ -222,7 +224,7 @@ static NSString *const kAppVersion = @"appVersion";
         [self startDownlaod];
     }
 }
-#pragma mark - TYDownloadDelegate
+#pragma mark - 1
 - (void)downloadModel:(TYDownloadModel *)downloadModel didUpdateProgress:(TYDownloadProgress *)progress
 {
     NSLog(@"delegate progress %.3f",progress.progress);

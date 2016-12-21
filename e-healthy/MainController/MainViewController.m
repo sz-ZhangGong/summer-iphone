@@ -29,16 +29,16 @@ static NSString *const changeStr = @"http://ehealth.lucland.com/forms/Login?devi
 
 static NSString *const exitUrlStr = @"http://ehealth.lucland.com/forms/Login?device=iphone,http://ehealth.lucland.com/forms/FrmPhoneRegistered,http://ehealth.lucland.com/forms/VerificationLogin,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/FrmIndex";
 
-static NSString *const tabbarUrlStr = @"http://ehealth.lucland.com/forms/FrmMessages,http://ehealth.lucland.com/forms/FrmCardPage";
+static NSString *const tabbarUrlStr = @"http://ehealth.lucland.com/forms/FrmMessages,http://ehealth.lucland.com/forms/FrmCardPage,http://ehealth.lucland.com/forms/FrmBandCardCheck.wode";
 
-//http://ehealth.lucland.com/forms/Login?device=phone,
+//http://ehealth.lucland.com/forms/Login?device=iphone,
 static NSString *const mainUrlStr = @"http://ehealth.lucland.com/forms/FrmIndex";
 
 //192.168.1.111:8080
 //192.168.1.152
 //http://ehealth.lucland.com
-//static NSString *const URL = @"http://ehealth.lucland.com/forms/Login?device=phone";//登录
-static NSString *const URL = @"http://ehealth.lucland.com";//首页
+//static NSString *const URL = @"http://ehealth.lucland.com/forms/Login?device=iphone";//登录
+static NSString *const URL = @"http://192.168.1.161:8080";//首页
 
 #define ALL_URLPATH [NSString stringWithFormat:@"%@?device=iphone&deviceid=%@",URL,[DisplayUtils uuid]]
 
@@ -147,6 +147,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     
     //右边按钮下拉菜单
     [self settingMenu];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -272,7 +273,10 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     NSDictionary *dict4 = @{@"imageName" :@"iconfont-zhuye-2",
                             @"itemName" :@"返回首页"
                             };
-    NSArray *dataArray = @[dict1,dict2,dict3,dict4];
+    NSDictionary *dict5 = @{@"imageName" :@"退出",
+                            @"itemName" :@"退出登录"
+                            };
+    NSArray *dataArray = @[dict1,dict2,dict3,dict4,dict5];
     // 计算菜单frame
     CGFloat x = screen_width / 3 * 2-30;
     CGFloat y = 64;
@@ -310,6 +314,8 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
         MessageViewController *messageVC = [[MessageViewController alloc] init];
         messageVC.url = msgUrl;
         [self.navigationController pushViewController:messageVC animated:YES];
+    }else if (tag == 5){
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:OutLogin]]];
     }
     [MenuView hidden];  // 隐藏菜单
     self.flag = YES;
@@ -322,6 +328,13 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 }
 
 #pragma mark - UIWebViewDelegate代理方法
+-(void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
+{
+    NSString *userName = [UserDefaultsUtils valueWithKey:@"userName"];
+    NSString *pwd = [UserDefaultsUtils valueWithKey:@"pwd"];
+    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"autoLogin(%@,%@)",userName,pwd] completionHandler:nil];
+}
+
 -(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     //加载完成结束刷新
@@ -329,14 +342,16 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     //设置下拉刷新
     [self addRefreshView];
     
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-    NSHTTPCookie *cookie;
-    for (id cook in cookies) {
-        if ([cook isKindOfClass:[NSHTTPCookie class]]) {
-            cookie = (NSHTTPCookie *)cook;
-            NSLog(@"cookie ==== %@",cookie);
+    //保存cookies
+    if ([webView.URL.absoluteString isEqualToString:@"http://ehealth.lucland.com/forms/Login"]) {
+        NSHTTPCookieStorage *myCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+        for (NSHTTPCookie *cookie in [myCookie cookies]) {
+            NSLog(@"%@", cookie);
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie]; // 保存
         }
+
     }
+    //隐藏错误视图
     self.errorImageView.hidden = YES;
     //获取每个页面的url
     NSLog(@"URL -- %@",webView.URL.absoluteString);
@@ -381,24 +396,34 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 #pragma mark - WKScriptMessageHandler代理方法
 -(void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
 {
-    //向微信注册
-    [WXApi registerApp:@"wx880d8fc48ac1e88e"];
+    //获取type
+    NSString *type = message.body[@"type"];
     
-    NSString *time_stamp, *nonce_str;
-    //设置支付参数
-    time_t now;
-    time(&now);
-    time_stamp  = [NSString stringWithFormat:@"%ld", now];
-    nonce_str	= [DisplayUtils md5:time_stamp];
-    
-    PayReq *request   = [[PayReq alloc] init];
-    request.nonceStr  = message.body[@"nonce_str"];
-    request.package   = @"Sign=WXPay";
-    request.partnerId = message.body[@"mch_id"];
-    request.prepayId  = message.body[@"prepay_id"];
-    request.timeStamp = [message.body[@"timestamp"] intValue];
-    request.sign      = message.body[@"sign"];
-    [WXApi sendReq:request];
+    if ([type isEqualToString:@"login"]) {
+        NSString *u = message.body[@"u"];
+        NSString *p = message.body[@"p"];
+        [UserDefaultsUtils saveValue:u forKey:@"userName"];
+        [UserDefaultsUtils saveValue:p forKey:@"pwd"];
+    }else{
+        //向微信注册
+        [WXApi registerApp:@"wx880d8fc48ac1e88e"];
+        
+        NSString *time_stamp, *nonce_str;
+        //设置支付参数
+        time_t now;
+        time(&now);
+        time_stamp  = [NSString stringWithFormat:@"%ld", now];
+        nonce_str	= [DisplayUtils md5:time_stamp];
+        
+        PayReq *request   = [[PayReq alloc] init];
+        request.nonceStr  = message.body[@"nonce_str"];
+        request.package   = @"Sign=WXPay";
+        request.partnerId = message.body[@"mch_id"];
+        request.prepayId  = message.body[@"prepay_id"];
+        request.timeStamp = [message.body[@"timestamp"] intValue];
+        request.sign      = message.body[@"sign"];
+        [WXApi sendReq:request];
+    }
 }
 
 #pragma mark --------wkwebview缩放的问题------------
