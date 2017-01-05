@@ -113,7 +113,14 @@
 #pragma mark - UIWebViewDelegate代理方法
 -(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
-    
+    //设置标题
+    [self setNavTitle:webView.title];
+}
+
+-(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error
+{
+    NSLog(@"error = %@",error);
+    [self setNavTitle:@"出错了"];
 }
 
 #pragma mark - 导航栏

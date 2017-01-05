@@ -22,28 +22,30 @@
 #import "YMWebCacheProtocol.h"
 #import "MessageViewController.h"
 #import "WXApi.h"
+#import "lhScanQCodeViewController.h"
+#import "ScanViewController.h"
 
 static NSString * const APIBaseURLString = @"";
 
 static NSString *const changeStr = @"http://ehealth.lucland.com/forms/Login?device=iphone,http://ehealth.lucland.com/forms/FrmPhoneRegistered,http://ehealth.lucland.com/forms/VerificationLogin,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/FrmLossPassword";
 
-static NSString *const exitUrlStr = @"http://ehealth.lucland.com/forms/Login?device=iphone,http://ehealth.lucland.com/forms/FrmPhoneRegistered,http://ehealth.lucland.com/forms/VerificationLogin,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/FrmIndex";
-
 static NSString *const tabbarUrlStr = @"http://ehealth.lucland.com/forms/FrmMessages,http://ehealth.lucland.com/forms/FrmCardPage,http://ehealth.lucland.com/forms/FrmBandCardCheck.wode";
 
 //http://ehealth.lucland.com/forms/Login?device=iphone,
-static NSString *const mainUrlStr = @"http://ehealth.lucland.com/forms/FrmIndex";
+static NSString *const mainUrlStr = @"http://ehealth.lucland.com/forms/FrmIndex,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/VerificationLogin";
 
 //192.168.1.111:8080
 //192.168.1.152
 //http://ehealth.lucland.com
 //static NSString *const URL = @"http://ehealth.lucland.com/forms/Login?device=iphone";//登录
-static NSString *const URL = @"http://192.168.1.161:8080";//首页
+static NSString *const URL = @"http://ehealth.lucland.com";//首页
 
 #define ALL_URLPATH [NSString stringWithFormat:@"%@?device=iphone&deviceid=%@",URL,[DisplayUtils uuid]]
 
-@interface MainViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate,WKScriptMessageHandler,CustemBBI,SettingViewController>
-
+@interface MainViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate,WKScriptMessageHandler,CustemBBI,SettingViewController,lhScanQCodeViewController,ScanViewController>
+{
+    float _scale;
+}
 @property (nonatomic,strong)WKWebView *webView;
 
 @property (nonatomic,assign)BOOL flag;
@@ -109,6 +111,8 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
         _webView.navigationDelegate = self;
         _webView.UIDelegate = self;
         _webView.scrollView.delegate = self;
+        _webView.scrollView.showsHorizontalScrollIndicator = NO;
+        _webView.scrollView.showsVerticalScrollIndicator = NO;
 //        [_webView setAllowsBackForwardNavigationGestures:YES];
         [_webView addObserver:self forKeyPath:ObserveKeyPath options:NSKeyValueObservingOptionNew context:nil];
         //加载
@@ -143,7 +147,6 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
     self.view.backgroundColor = [UIColor whiteColor];
     //出错页面
     [self.webView addSubview:self.errorImageView];
-    _isMain = YES;
     
     //右边按钮下拉菜单
     [self settingMenu];
@@ -156,20 +159,23 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
 //    [YMWebCacheProtocol start];
     //网络监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLoadDataBase:) name:KLoadDataBase object:nil];
+    //监听支付成功
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySucceed:) name:PAY_SUCCEED object:nil];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationController.navigationBar.barTintColor = RGBColor(0, 0, 0, 1.0);
 
     [self.view addSubview:self.webView];
     [self addProgressView];
+    
 }
-
 -(void)getLoadDataBase:(NSNotification *)text
 {
     NSDictionary *dict = text.userInfo;
     if ([dict[@"netType"] isEqualToString:@"NotReachable"] || [dict[@"netType"] isEqualToString:@"Unknown"]) {
-        [self setNavTitle:@"出错了"];
-        self.errorImageView.hidden = NO;
+//        [self setNavTitle:@"出错了"];
+//        self.errorImageView.hidden = NO;
+        [self.webView reload];
     }
     /*
      * #pragma 重新加载页面
@@ -212,24 +218,11 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
 -(void)BBIdidClickWithName:(NSString *)infoStr
 {
     if ([infoStr isEqualToString:@"first"]) {
-        if (_isMain == YES) {
-            //退出app动画
-//            UIApplication *app = (UIApplication *)[UIApplication sharedApplication].delegate;
-//            UIWindow *window = app.keyWindow;
-//            [UIView animateWithDuration:1.0f animations:^{
-//                window.alpha = 0;
-//                window.frame = CGRectMake(0, window.bounds.size.width, 0, 0);
-//            } completion:^(BOOL finished) {
-//                //exit(0);
-//                abort();//退出
-//            }];
+        if ([tabbarUrlStr containsString:_urlPath]) {
+            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
         }else{
-            if ([tabbarUrlStr containsString:_urlPath]) {
-                [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
-            }else{
-                if (self.webView.canGoBack) {
-                    [self.webView goBack];
-                }
+            if (self.webView.canGoBack) {
+                [self.webView goBack];
             }
         }
     }else if ([infoStr isEqualToString:@"second"]){
@@ -261,9 +254,6 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
     NSDictionary *dict1 = @{@"imageName" : @"iconfont-978weiduxinxi",
                             @"itemName" : @"未读消息"
                             };
-//    NSDictionary *dict2 = @{@"imageName" : @"icon-suoyouxiaoxi",
-//                            @"itemName" : @"所有消息"
-//                            };
     NSDictionary *dict2 = @{@"imageName" : @"iconfont-xiaoxiguanli",
                             @"itemName" : @"消息管理"
                             };
@@ -276,6 +266,7 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
     NSDictionary *dict5 = @{@"imageName" :@"退出",
                             @"itemName" :@"退出登录"
                             };
+   
     NSArray *dataArray = @[dict1,dict2,dict3,dict4,dict5];
     // 计算菜单frame
     CGFloat x = screen_width / 3 * 2-30;
@@ -315,6 +306,8 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
         messageVC.url = msgUrl;
         [self.navigationController pushViewController:messageVC animated:YES];
     }else if (tag == 5){
+        [UserDefaultsUtils saveValue:nil forKey:@"userName"];
+        [UserDefaultsUtils saveValue:nil forKey:@"pwd"];
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:OutLogin]]];
     }
     [MenuView hidden];  // 隐藏菜单
@@ -324,19 +317,20 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
 - (void)dealloc{
     [MenuView clearMenu];   // 移除菜单
     [[NSNotificationCenter defaultCenter] removeObserver:self];//移除通知
-    [[self.webView configuration].userContentController removeScriptMessageHandlerForName:@"webViewApp"];
+    [[self.webView configuration].userContentController removeScriptMessageHandlerForName:@"webViewApp"];//移除js交互
 }
 
 #pragma mark - UIWebViewDelegate代理方法
--(void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     NSString *userName = [UserDefaultsUtils valueWithKey:@"userName"];
     NSString *pwd = [UserDefaultsUtils valueWithKey:@"pwd"];
-    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"autoLogin(%@,%@)",userName,pwd] completionHandler:nil];
-}
-
--(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
-{
+    if (userName != nil && pwd != nil) {
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"iosLogin(%@,%@)",userName,pwd] completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+//            NSLog(@"+++++++++++item = %@",item);
+        }];
+    }
+    
     //加载完成结束刷新
     [self endRefresh];
     //设置下拉刷新
@@ -359,10 +353,8 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
     //每次加载判断是否是首页
     if ([mainUrlStr containsString:webView.URL.absoluteString]) {
         self.navigationItem.leftBarButtonItem = nil;
-        _isMain = YES;
     }else{
         self.navigationItem.leftBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_back"] andTarget:self andinfoStr:@"first"];
-        _isMain = NO;
     }
     //设置标题
     [self setNavTitle:webView.title];
@@ -371,7 +363,7 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
     if ([changeStr containsString:webView.URL.absoluteString]) {
         NSString *js_fit_code = [NSString stringWithFormat:@"var meta = document.createElement('meta');"
                                  "meta.name = 'viewport';"
-                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=0.9, user-scalable=yes';"
+                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=1.0, user-scalable=yes';"
                                  "document.getElementsByTagName('head')[0].appendChild(meta);"
                                  ];
         [webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
@@ -381,9 +373,15 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
     }else{
         //设置导航栏的按钮
         self.navigationItem.rightBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_classify"] andTarget:self andinfoStr:@"third"];
+        
+        NSString *js_fit_code = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.zoom= '%.2f'",_scale];
+        [webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+            
+        }];
     }
 }
 
+//加载出错
 -(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
     NSLog(@"error = %@",error);
@@ -393,20 +391,47 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
 //    [self.webView reload];
 }
 
-#pragma mark - WKScriptMessageHandler代理方法
+#pragma mark - WKScriptMessageHandler代理方法（js交互）
 -(void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
 {
     //获取type
     NSString *type = message.body[@"type"];
     
-    if ([type isEqualToString:@"login"]) {
+    if ([type isEqualToString:@"login"]) {//自动登录
         NSString *u = message.body[@"u"];
         NSString *p = message.body[@"p"];
         [UserDefaultsUtils saveValue:u forKey:@"userName"];
         [UserDefaultsUtils saveValue:p forKey:@"pwd"];
-    }else{
+    }else if ([type isEqualToString:@"clearLogin"]){
+        [UserDefaultsUtils saveValue:nil forKey:@"userName"];
+        [UserDefaultsUtils saveValue:nil forKey:@"pwd"];
+    }else if ([type isEqualToString:@"scanPay"]){//二维码扫描
+        lhScanQCodeViewController * sqVC = [[lhScanQCodeViewController alloc]init];
+        sqVC.delegate = self;
+        UINavigationController * nVC = [[UINavigationController alloc]initWithRootViewController:sqVC];
+        [self presentViewController:nVC animated:YES completion:^{
+            
+        }];
+    }else if ([type isEqualToString:@"call"]){//拨打电话
+        NSLog(@"%@",message.body);
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:message.body[@"t"] message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *alertAction1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction *alertAction2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [DisplayUtils dialphoneNumber:message.body[@"t"]];
+        }];
+        [alertController addAction:alertAction1];
+        [alertController addAction:alertAction2];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else if ([type isEqualToString:@"scan"]){//扫描卡号
+        ScanViewController *scanVC = [[ScanViewController alloc] init];
+        scanVC.delegate = self;
+        [self.navigationController pushViewController:scanVC animated:YES];
+    }else{//微信支付
+        NSLog(@"message.body = %@",message.body);
         //向微信注册
-        [WXApi registerApp:@"wx880d8fc48ac1e88e"];
+        [WXApi registerApp:message.body[@"appid"]];
         
         NSString *time_stamp, *nonce_str;
         //设置支付参数
@@ -426,47 +451,52 @@ static NSString *const URL = @"http://192.168.1.161:8080";//首页
     }
 }
 
+#pragma mark - 支付成功监听回调
+-(void)paySucceed:(NSNotification *)notfi
+{
+    [self.webView evaluateJavaScript:@"ReturnBtnClick()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+
+    }];
+}
+
+#pragma mark - lhScanQCodeViewController代理方法
+-(void)scanCodeReturn:(NSString *)urlStr
+{
+    NSString *js_fit_code = [NSString stringWithFormat:@"appRichScan(%@)",urlStr];
+    [self.webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+        
+    }];
+}
+
+#pragma mark - ScanViewController代理方法
+-(void)scanCardReturn:(NSString *)urlStr
+{
+    NSLog(@"urlStr = %@",urlStr);
+    NSString *strUrl = [urlStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    NSString *js_fit_code = [NSString stringWithFormat:@"scanCall(%@)",strUrl];
+    [self.webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+        
+    }];
+}
+
+-(void)backBar
+{
+    [self.webView reloadFromOrigin];
+}
+
+
 #pragma mark --------wkwebview缩放的问题------------
 -(void)perverseInfo:(float)scale
 {
+    _scale = scale;
+    
     NSString *js_fit_code = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.zoom= '%.2f'",scale
                              ];
     [self.webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
         
     }];
-    
-#if 0
-    [self.webView evaluateJavaScript:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '50%'" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
-        
-    }];
-    
-    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"document.images.length"] completionHandler:^(id _Nullable response, NSError * _Nullable error) {
-        
-        if (response != 0) {
-            
-            for (int i=0; i<[response intValue]; i++) {
-                [self.webView evaluateJavaScript:[NSString stringWithFormat:@"document.images[%d].style.maxWidth='100%%'",i] completionHandler:^(id _Nullable response, NSError * _Nullable error) {
-                    //                    NSLog(@"response1: %@ error: %@", response, error);
-                }];
-                [self.webView evaluateJavaScript:[NSString stringWithFormat:@"document.images[%d].style.height='100%%'",i] completionHandler:^(id _Nullable response, NSError * _Nullable error) {
-                    //                    NSLog(@"response2: %@ error: %@", response, error);
-                }];
-            }
-            
-        }
-        //        NSLog(@"response0: %@ error: %@", response, error);
-    }];
-
-    NSString *js_fit_code = [NSString stringWithFormat:@"var meta = document.createElement('meta');"
-                "meta.name = 'viewport';"
-                "meta.content = 'width=device-width,height=device-height, initial-scale=1.0,minimum-scale=0.1, maximum-scale=1.0, user-scalable=yes';"
-                "document.getElementsByTagName('head')[0].appendChild(meta);"
-                ];
-    [self.webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
-    
-            }];
-#endif
-    
 }
+
+
 
 @end

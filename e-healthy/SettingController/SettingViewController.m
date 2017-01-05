@@ -101,7 +101,7 @@
     [self.slider setMaximumTrackImage:imageMax forState:UIControlStateNormal];
     //添加一个事件，改变self.view的背景颜色
     self.slider.minimumValue = 0;
-    self.slider.maximumValue = 10.0;
+    self.slider.maximumValue = 1.2;
     self.slider.value = [[UserDefaultsUtils valueWithKey:@"scale"] floatValue];
     [self.slider addTarget:self action:@selector(sliderValueChange:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.slider];

@@ -53,5 +53,12 @@
     return theImage;
 }
 
+//拨打电话
++(void)dialphoneNumber:(NSString *)number
+{
+    NSString *allString = [NSString stringWithFormat:@"tel:%@",number];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:allString]];
+}
+
 
 @end

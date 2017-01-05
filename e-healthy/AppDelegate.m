@@ -25,14 +25,13 @@
 #import "WXApi.h"
 #import "TYDownLoadDataManager.h"
 #import "TYDownLoadUtility.h"
+#import <UMSocialCore/UMSocialCore.h>
 
 #define URLPATH_IMAGE [NSString stringWithFormat:@"http://ehealth.lucland.com/MobileConfig?device=iphone&deviceId=%@",[DisplayUtils uuid]]
 
-#define AUTOLOGIN_URLPATH [NSString stringWithFormat:@"http://192.168.1.161:8080/MobileConfig?device=iphone&deviceId=%@",[DisplayUtils uuid]]
-
 static NSString *const kAppVersion = @"appVersion";
 
-@interface AppDelegate ()<JPUSHRegisterDelegate,SDWebImageManagerDelegate,TYDownloadDelegate>
+@interface AppDelegate ()<WXApiDelegate,JPUSHRegisterDelegate,SDWebImageManagerDelegate,TYDownloadDelegate>
 
 @property (nonatomic,assign)NSInteger addCount;
 @property (nonatomic,assign)NSInteger welcomeCount;
@@ -196,7 +195,7 @@ static NSString *const kAppVersion = @"appVersion";
             [UserDefaultsUtils saveValue:responseObject[@"msgManage"] forKey:@"msgManage"];
             [self uploadWelComeImage:responseObject[@"welcomeImages"]];
             [self uploadAddImage:responseObject[@"adImages"]];
-            //[self downLoad:responseObject[@"cacheFiles"]];
+//            [self downLoad:responseObject[@"cacheFiles"]];
             NSLog(@"%@",NSHomeDirectory());
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -424,6 +423,8 @@ static NSString *const kAppVersion = @"appVersion";
     }
 }
 
+
+#pragma mark - 支付方法
 -(void)onResp:(BaseResp*)resp{
     if ([resp isKindOfClass:[PayResp class]]){
         PayResp *response=(PayResp *)resp;
@@ -431,12 +432,93 @@ static NSString *const kAppVersion = @"appVersion";
             case WXSuccess:
                 //服务器端查询支付通知或查询API返回的结果再提示成功
                 NSLog(@"支付成功");
+                [[NSNotificationCenter defaultCenter] postNotificationName:PAY_SUCCEED object:nil userInfo:nil];
                 break;
             default:
                 NSLog(@"支付失败，retcode=%d",resp.errCode);
                 break;
         }
     }
+}
+
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
+    if (!result) {
+        // 其他如支付等SDK的回调
+        if ([url.host isEqualToString:@"safepay"]) {
+            // 支付跳转支付宝钱包进行支付，处理支付结果
+            
+            return YES;
+        }
+        else
+            return  [WXApi handleOpenURL:url delegate:self];
+    }
+    else
+    {
+        
+        if ([url.host isEqualToString:@"pay"])
+        {
+            return [WXApi handleOpenURL:url delegate:self];
+        }
+        else
+            return result;
+    }
+    
+}
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
+    if (!result) {
+        // 其他如支付等SDK的回调
+        if ([url.host isEqualToString:@"safepay"]) {
+            // 支付跳转支付宝钱包进行支付，处理支付结果
+            
+            return YES;
+        }
+        else
+            return [WXApi handleOpenURL:url delegate:self];
+    }
+    else
+    {
+        
+        if ([url.host isEqualToString:@"pay"])
+        {
+            return [WXApi handleOpenURL:url delegate:self];
+        }
+        else
+            return result;
+    }
+}
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
+    if (!result) {
+        // 其他如支付等SDK的回调
+        if ([url.host isEqualToString:@"safepay"]) {
+            // 支付跳转支付宝钱包进行支付，处理支付结果
+            
+            return YES;
+        }
+        else
+            return [WXApi handleOpenURL:url delegate:self];
+        
+    }
+    else
+    {
+        
+        if ([url.host isEqualToString:@"pay"])
+        {
+            return [WXApi handleOpenURL:url delegate:self];
+        }
+        else
+            return result;
+    }
+    
+}
+
+-(void)onReq:(BaseReq*)req
+{
+    NSLog(@"onReq");
 }
 
 

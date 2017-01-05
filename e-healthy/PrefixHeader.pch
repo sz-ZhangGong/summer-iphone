@@ -43,12 +43,14 @@
 #define progressBarHeight  2.f
 #define ObserveKeyPath @"estimatedProgress"
 
-#define KLoadDataBase @"KLoadDataBase"
+#define KLoadDataBase @"KLoadDataBase"//网络监听
 
 #define CacheData @"CacheData"
 
 #define ShowBanner @"ShowBanner"
 
 #define OutLogin @"http://ehealth.lucland.com/forms/Login.exit"
+
+#define PAY_SUCCEED @"pay_succeed"//支付成功
 
 #endif /* PrefixHeader_pch */
