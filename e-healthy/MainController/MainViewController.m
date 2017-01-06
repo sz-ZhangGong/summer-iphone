@@ -175,7 +175,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     if ([dict[@"netType"] isEqualToString:@"NotReachable"] || [dict[@"netType"] isEqualToString:@"Unknown"]) {
 //        [self setNavTitle:@"出错了"];
 //        self.errorImageView.hidden = NO;
-        [self.webView reload];
+//        [self.webView reload];
     }
     /*
      * #pragma 重新加载页面
@@ -218,13 +218,20 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 -(void)BBIdidClickWithName:(NSString *)infoStr
 {
     if ([infoStr isEqualToString:@"first"]) {
-        if ([tabbarUrlStr containsString:_urlPath]) {
-            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
-        }else{
-            if (self.webView.canGoBack) {
-                [self.webView goBack];
-            }
-        }
+//        if ([tabbarUrlStr containsString:_urlPath]) {
+//            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
+//        }else{
+//            if (self.webView.canGoBack) {
+//                //[self.webView goBack];
+//                
+//            }
+//            [self.webView evaluateJavaScript:@"ReturnBtnClick()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+//                
+//            }];
+//        }
+        [self.webView evaluateJavaScript:@"ReturnBtnClick()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+            
+        }];
     }else if ([infoStr isEqualToString:@"second"]){
         
     }else{
@@ -471,9 +478,9 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 #pragma mark - ScanViewController代理方法
 -(void)scanCardReturn:(NSString *)urlStr
 {
-    NSLog(@"urlStr = %@",urlStr);
     NSString *strUrl = [urlStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     NSString *js_fit_code = [NSString stringWithFormat:@"scanCall(%@)",strUrl];
+    NSLog(@"js_fit_code = %@",js_fit_code);
     [self.webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
         
     }];
@@ -481,7 +488,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 
 -(void)backBar
 {
-    [self.webView reloadFromOrigin];
+    [self.webView reload];
 }
 
 

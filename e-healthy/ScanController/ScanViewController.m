@@ -166,6 +166,7 @@
                 AudioServicesPlaySystemSound(soundID);
             }else{
                 NSLog(@"识别失败");
+                [readview start];
             }
         }];
     }
