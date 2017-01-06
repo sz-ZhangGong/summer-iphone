@@ -25,24 +25,16 @@
 #import "lhScanQCodeViewController.h"
 #import "ScanViewController.h"
 
+
 static NSString * const APIBaseURLString = @"";
 
-static NSString *const changeStr = @"http://ehealth.lucland.com/forms/Login?device=iphone,http://ehealth.lucland.com/forms/FrmPhoneRegistered,http://ehealth.lucland.com/forms/VerificationLogin,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/FrmLossPassword";
+static NSString *const changeStr = @"/forms/Login?device=iphone,/forms/FrmPhoneRegistered,/forms/VerificationLogin,/forms/Login,/forms/FrmLossPassword";
 
-static NSString *const tabbarUrlStr = @"http://ehealth.lucland.com/forms/FrmMessages,http://ehealth.lucland.com/forms/FrmCardPage,http://ehealth.lucland.com/forms/FrmBandCardCheck.wode";
+static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/VerificationLogin";
 
-//http://ehealth.lucland.com/forms/Login?device=iphone,
-static NSString *const mainUrlStr = @"http://ehealth.lucland.com/forms/FrmIndex,http://ehealth.lucland.com/forms/Login,http://ehealth.lucland.com/forms/VerificationLogin";
+#define ALL_URLPATH [NSString stringWithFormat:@"%@?device=iphone&deviceid=%@",URL_APP_ROOT,[DisplayUtils uuid]]
 
-//192.168.1.111:8080
-//192.168.1.152
-//http://ehealth.lucland.com
-//static NSString *const URL = @"http://ehealth.lucland.com/forms/Login?device=iphone";//登录
-static NSString *const URL = @"http://ehealth.lucland.com";//首页
-
-#define ChangeStr [NSString stringWithFormat:@"%@/forms/Login?device=iphone,",URL]
-
-#define ALL_URLPATH [NSString stringWithFormat:@"%@?device=iphone&deviceid=%@",URL,[DisplayUtils uuid]]
+#define OutLogin [NSString stringWithFormat:@"%@/forms/Login.exit",URL_APP_ROOT,[DisplayUtils uuid]]
 
 @interface MainViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate,WKScriptMessageHandler,CustemBBI,SettingViewController,lhScanQCodeViewController,ScanViewController>
 {
@@ -190,7 +182,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 #pragma mark - 下拉刷新
 -(void)addRefreshView
 {
-    if (![changeStr containsString:self.webView.URL.absoluteString] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
+    if (![changeStr containsString:self.webView.URL.relativePath] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
         self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
     }
 }
@@ -220,17 +212,6 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
 -(void)BBIdidClickWithName:(NSString *)infoStr
 {
     if ([infoStr isEqualToString:@"first"]) {
-//        if ([tabbarUrlStr containsString:_urlPath]) {
-//            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
-//        }else{
-//            if (self.webView.canGoBack) {
-//                //[self.webView goBack];
-//                
-//            }
-//            [self.webView evaluateJavaScript:@"ReturnBtnClick()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
-//                
-//            }];
-//        }
         [self.webView evaluateJavaScript:@"ReturnBtnClick()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
             
         }];
@@ -336,7 +317,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     NSString *pwd = [UserDefaultsUtils valueWithKey:@"pwd"];
     if (userName != nil && pwd != nil) {
         [self.webView evaluateJavaScript:[NSString stringWithFormat:@"iosLogin(%@,%@)",userName,pwd] completionHandler:^(id _Nullable item, NSError * _Nullable error) {
-//            NSLog(@"+++++++++++item = %@",item);
+            
         }];
     }
     
@@ -344,23 +325,14 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     [self endRefresh];
     //设置下拉刷新
     [self addRefreshView];
-    
-    //保存cookies
-    if ([webView.URL.absoluteString isEqualToString:@"http://ehealth.lucland.com/forms/Login"]) {
-        NSHTTPCookieStorage *myCookie = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-        for (NSHTTPCookie *cookie in [myCookie cookies]) {
-            NSLog(@"%@", cookie);
-            [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie]; // 保存
-        }
 
-    }
     //隐藏错误视图
     self.errorImageView.hidden = YES;
     //获取每个页面的url
     NSLog(@"URL -- %@ ----%@ ----%@",webView.URL.absoluteString,webView.URL.relativeString,webView.URL.relativePath);
     _urlPath = webView.URL.absoluteString;
     //每次加载判断是否是首页
-    if ([mainUrlStr containsString:webView.URL.absoluteString]) {
+    if ([mainUrlStr containsString:webView.URL.relativePath]) {
         self.navigationItem.leftBarButtonItem = nil;
     }else{
         self.navigationItem.leftBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_back"] andTarget:self andinfoStr:@"first"];
@@ -369,7 +341,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     [self setNavTitle:webView.title];
 
     //高度自适应
-    if ([changeStr containsString:webView.URL.absoluteString]) {
+    if ([changeStr containsString:webView.URL.relativePath]) {
         NSString *js_fit_code = [NSString stringWithFormat:@"var meta = document.createElement('meta');"
                                  "meta.name = 'viewport';"
                                  "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=1.0, user-scalable=yes';"

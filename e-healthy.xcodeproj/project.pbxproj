@@ -103,6 +103,7 @@
 		64F1B0331E1C022C000D5248 /* RecogizeCardManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64F1B0321E1C022C000D5248 /* RecogizeCardManager.mm */; };
 		64F1B2B51E1F7BA5009FE8E4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F1B2B31E1F7BA5009FE8E4 /* opencv2.framework */; };
 		64F1B2B61E1F7BA5009FE8E4 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F1B2B41E1F7BA5009FE8E4 /* TesseractOCR.framework */; };
+		64F1B2B81E1F8A31009FE8E4 /* opencv2.zip in Resources */ = {isa = PBXBuildFile; fileRef = 64F1B2B71E1F8A31009FE8E4 /* opencv2.zip */; };
 		64F2D0101DED1AD10068CE69 /* LaunchIntroductionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F2D00F1DED1AD10068CE69 /* LaunchIntroductionView.m */; };
 		64F325B31DF292F80068999E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 64F325931DF292F80068999E /* LICENSE */; };
 		64F325B41DF292F80068999E /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 64F325941DF292F80068999E /* README.md */; };
@@ -349,6 +350,8 @@
 		64F1B0321E1C022C000D5248 /* RecogizeCardManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RecogizeCardManager.mm; sourceTree = "<group>"; };
 		64F1B2B31E1F7BA5009FE8E4 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		64F1B2B41E1F7BA5009FE8E4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = "<group>"; };
+		64F1B2B71E1F8A31009FE8E4 /* opencv2.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = opencv2.zip; sourceTree = "<group>"; };
+		64F1B2B91E1F8CA6009FE8E4 /* MyConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyConfig.h; sourceTree = "<group>"; };
 		64F2D00E1DED1AD10068CE69 /* LaunchIntroductionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchIntroductionView.h; sourceTree = "<group>"; };
 		64F2D00F1DED1AD10068CE69 /* LaunchIntroductionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchIntroductionView.m; sourceTree = "<group>"; };
 		64F325931DF292F80068999E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -859,6 +862,7 @@
 			isa = PBXGroup;
 			children = (
 				64EEABAE1DD4A307005729FE /* PrefixHeader.pch */,
+				64F1B2B91E1F8CA6009FE8E4 /* MyConfig.h */,
 				64EEAB6F1DD4A04E005729FE /* main.m */,
 			);
 			name = "Supporting Files";
@@ -959,6 +963,7 @@
 		64F1AFEF1E1BE54F000D5248 /* RecognizeCardManager */ = {
 			isa = PBXGroup;
 			children = (
+				64F1B2B71E1F8A31009FE8E4 /* opencv2.zip */,
 				64F1B2B31E1F7BA5009FE8E4 /* opencv2.framework */,
 				64F1B2B41E1F7BA5009FE8E4 /* TesseractOCR.framework */,
 				64F1B0311E1C022C000D5248 /* RecogizeCardManager.h */,
@@ -1279,6 +1284,7 @@
 				64EEAB791DD4A04E005729FE /* Main.storyboard in Resources */,
 				64F1B0301E1BFDF5000D5248 /* ScanTwoViewController.xib in Resources */,
 				644822C71E165CBB00A9A532 /* noticeMusic.wav in Resources */,
+				64F1B2B81E1F8A31009FE8E4 /* opencv2.zip in Resources */,
 				644822C61E165CBB00A9A532 /* lightSelect.png in Resources */,
 				64F1B0231E1BE570000D5248 /* tessdata in Resources */,
 				644822C91E165CBB00A9A532 /* scanLine@2x.png in Resources */,
