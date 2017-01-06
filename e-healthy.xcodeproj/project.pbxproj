@@ -101,6 +101,8 @@
 		64F1B02F1E1BFDF5000D5248 /* ScanTwoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F1B02D1E1BFDF5000D5248 /* ScanTwoViewController.m */; };
 		64F1B0301E1BFDF5000D5248 /* ScanTwoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64F1B02E1E1BFDF5000D5248 /* ScanTwoViewController.xib */; };
 		64F1B0331E1C022C000D5248 /* RecogizeCardManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64F1B0321E1C022C000D5248 /* RecogizeCardManager.mm */; };
+		64F1B2B51E1F7BA5009FE8E4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F1B2B31E1F7BA5009FE8E4 /* opencv2.framework */; };
+		64F1B2B61E1F7BA5009FE8E4 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F1B2B41E1F7BA5009FE8E4 /* TesseractOCR.framework */; };
 		64F2D0101DED1AD10068CE69 /* LaunchIntroductionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F2D00F1DED1AD10068CE69 /* LaunchIntroductionView.m */; };
 		64F325B31DF292F80068999E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 64F325931DF292F80068999E /* LICENSE */; };
 		64F325B41DF292F80068999E /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 64F325941DF292F80068999E /* README.md */; };
@@ -345,6 +347,8 @@
 		64F1B02E1E1BFDF5000D5248 /* ScanTwoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScanTwoViewController.xib; sourceTree = "<group>"; };
 		64F1B0311E1C022C000D5248 /* RecogizeCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecogizeCardManager.h; sourceTree = "<group>"; };
 		64F1B0321E1C022C000D5248 /* RecogizeCardManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RecogizeCardManager.mm; sourceTree = "<group>"; };
+		64F1B2B31E1F7BA5009FE8E4 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		64F1B2B41E1F7BA5009FE8E4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = "<group>"; };
 		64F2D00E1DED1AD10068CE69 /* LaunchIntroductionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchIntroductionView.h; sourceTree = "<group>"; };
 		64F2D00F1DED1AD10068CE69 /* LaunchIntroductionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchIntroductionView.m; sourceTree = "<group>"; };
 		64F325931DF292F80068999E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -453,6 +457,7 @@
 				64F5FB3C1DF6E08900ACF42C /* libc++.tbd in Frameworks */,
 				64F59EAE1DF11A04004EA082 /* libsqlite3.tbd in Frameworks */,
 				644822AE1E16386400A9A532 /* libWeiboSDK.a in Frameworks */,
+				64F1B2B61E1F7BA5009FE8E4 /* TesseractOCR.framework in Frameworks */,
 				64F5FB391DF6CB5F00ACF42C /* libWeChatSDK.a in Frameworks */,
 				64F59EAC1DF119F9004EA082 /* QuartzCore.framework in Frameworks */,
 				64E7F9491DE2DA230017D512 /* libresolv.tbd in Frameworks */,
@@ -470,6 +475,7 @@
 				64E7F9371DE2D9B90017D512 /* CoreTelephony.framework in Frameworks */,
 				644822B11E16386500A9A532 /* libWeChatSDK.a in Frameworks */,
 				64E7F9351DE2D9B00017D512 /* CoreFoundation.framework in Frameworks */,
+				64F1B2B51E1F7BA5009FE8E4 /* opencv2.framework in Frameworks */,
 				64E7F9331DE2D9A80017D512 /* CFNetwork.framework in Frameworks */,
 				644822B41E16386500A9A532 /* UMSocialCore.framework in Frameworks */,
 				644822AB1E16386400A9A532 /* TencentOpenAPI.framework in Frameworks */,
@@ -953,6 +959,8 @@
 		64F1AFEF1E1BE54F000D5248 /* RecognizeCardManager */ = {
 			isa = PBXGroup;
 			children = (
+				64F1B2B31E1F7BA5009FE8E4 /* opencv2.framework */,
+				64F1B2B41E1F7BA5009FE8E4 /* TesseractOCR.framework */,
 				64F1B0311E1C022C000D5248 /* RecogizeCardManager.h */,
 				64F1B0321E1C022C000D5248 /* RecogizeCardManager.mm */,
 				64F1B0221E1BE570000D5248 /* tessdata */,
