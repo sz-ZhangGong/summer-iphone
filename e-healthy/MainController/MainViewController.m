@@ -40,6 +40,8 @@ static NSString *const mainUrlStr = @"http://ehealth.lucland.com/forms/FrmIndex,
 //static NSString *const URL = @"http://ehealth.lucland.com/forms/Login?device=iphone";//登录
 static NSString *const URL = @"http://ehealth.lucland.com";//首页
 
+#define ChangeStr [NSString stringWithFormat:@"%@/forms/Login?device=iphone,",URL]
+
 #define ALL_URLPATH [NSString stringWithFormat:@"%@?device=iphone&deviceid=%@",URL,[DisplayUtils uuid]]
 
 @interface MainViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate,WKScriptMessageHandler,CustemBBI,SettingViewController,lhScanQCodeViewController,ScanViewController>
@@ -355,7 +357,7 @@ static NSString *const URL = @"http://ehealth.lucland.com";//首页
     //隐藏错误视图
     self.errorImageView.hidden = YES;
     //获取每个页面的url
-    NSLog(@"URL -- %@",webView.URL.absoluteString);
+    NSLog(@"URL -- %@ ----%@ ----%@",webView.URL.absoluteString,webView.URL.relativeString,webView.URL.relativePath);
     _urlPath = webView.URL.absoluteString;
     //每次加载判断是否是首页
     if ([mainUrlStr containsString:webView.URL.absoluteString]) {
