@@ -20,6 +20,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "UIView+Category.h"
+
 #endif
 
 
@@ -49,8 +50,12 @@
 
 #define ShowBanner @"ShowBanner"
 
-#define OutLogin @"http://ehealth.lucland.com/forms/Login.exit"
-
 #define PAY_SUCCEED @"pay_succeed"//支付成功
+
+#define URL_APP_ROOT @"http://ehealth.zhongyinginfo.com"
+
+#define ChangeStr [NSString stringWithFormat:@"%@/forms/Login?device=iphone,%@/forms/FrmPhoneRegistered,%@/forms/VerificationLogin,%@/forms/Login,%@/forms/FrmLossPassword",URL_APP_ROOT,,URL_APP_ROOT,URL_APP_ROOT,URL_APP_ROOT,URL_APP_ROOT]
+
+#define MainUrlStr [NSString stringWithFormat:@"%@/forms/FrmIndex,%@/forms/Login,%@/forms/VerificationLogin",URL_APP_ROOT,,URL_APP_ROOT,URL_APP_ROOT]
 
 #endif /* PrefixHeader_pch */
