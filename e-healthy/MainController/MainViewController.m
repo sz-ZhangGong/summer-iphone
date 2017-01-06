@@ -453,8 +453,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 -(void)scanCardReturn:(NSString *)urlStr
 {
     NSString *strUrl = [urlStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    NSString *js_fit_code = [NSString stringWithFormat:@"scanCall(%@)",strUrl];
-    NSLog(@"js_fit_code = %@",js_fit_code);
+    NSString *js_fit_code = [NSString stringWithFormat:@"scanCall('%@')",strUrl];
     [self.webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
         
     }];
