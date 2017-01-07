@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "64EEAB6A1DD4A04E005729FE"
-               BuildableName = "e-healthy.app"
-               BlueprintName = "e-healthy"
-               ReferencedContainer = "container:e-healthy.xcodeproj">
+               BuildableName = "summer.app"
+               BlueprintName = "summer"
+               ReferencedContainer = "container:summer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "64EEAB831DD4A04E005729FE"
-               BuildableName = "e-healthyTests.xctest"
-               BlueprintName = "e-healthyTests"
-               ReferencedContainer = "container:e-healthy.xcodeproj">
+               BuildableName = "summerTests.xctest"
+               BlueprintName = "summerTests"
+               ReferencedContainer = "container:summer.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "64EEAB8E1DD4A04E005729FE"
-               BuildableName = "e-healthyUITests.xctest"
-               BlueprintName = "e-healthyUITests"
-               ReferencedContainer = "container:e-healthy.xcodeproj">
+               BuildableName = "summerUITests.xctest"
+               BlueprintName = "summerUITests"
+               ReferencedContainer = "container:summer.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "64EEAB6A1DD4A04E005729FE"
-            BuildableName = "e-healthy.app"
-            BlueprintName = "e-healthy"
-            ReferencedContainer = "container:e-healthy.xcodeproj">
+            BuildableName = "summer.app"
+            BlueprintName = "summer"
+            ReferencedContainer = "container:summer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "64EEAB6A1DD4A04E005729FE"
-            BuildableName = "e-healthy.app"
-            BlueprintName = "e-healthy"
-            ReferencedContainer = "container:e-healthy.xcodeproj">
+            BuildableName = "summer.app"
+            BlueprintName = "summer"
+            ReferencedContainer = "container:summer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -95,9 +95,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "64EEAB6A1DD4A04E005729FE"
-            BuildableName = "e-healthy.app"
-            BlueprintName = "e-healthy"
-            ReferencedContainer = "container:e-healthy.xcodeproj">
+            BuildableName = "summer.app"
+            BlueprintName = "summer"
+            ReferencedContainer = "container:summer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

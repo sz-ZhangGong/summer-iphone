@@ -85,8 +85,8 @@
 		64EEAB791DD4A04E005729FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64EEAB771DD4A04E005729FE /* Main.storyboard */; };
 		64EEAB7B1DD4A04E005729FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64EEAB7A1DD4A04E005729FE /* Assets.xcassets */; };
 		64EEAB7E1DD4A04E005729FE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64EEAB7C1DD4A04E005729FE /* LaunchScreen.storyboard */; };
-		64EEAB891DD4A04E005729FE /* e_healthyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEAB881DD4A04E005729FE /* e_healthyTests.m */; };
-		64EEAB941DD4A04E005729FE /* e_healthyUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEAB931DD4A04E005729FE /* e_healthyUITests.m */; };
+		64EEAB891DD4A04E005729FE /* summerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEAB881DD4A04E005729FE /* summerTests.m */; };
+		64EEAB941DD4A04E005729FE /* summerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEAB931DD4A04E005729FE /* summerUITests.m */; };
 		64EEABA91DD4A1B6005729FE /* BaseNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEABA61DD4A1B6005729FE /* BaseNavViewController.m */; };
 		64EEABAA1DD4A1B6005729FE /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEABA81DD4A1B6005729FE /* BaseViewController.m */; };
 		64EEABAD1DD4A1ED005729FE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEABAC1DD4A1ED005729FE /* MainViewController.m */; };
@@ -103,7 +103,6 @@
 		64F1B0331E1C022C000D5248 /* RecogizeCardManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 64F1B0321E1C022C000D5248 /* RecogizeCardManager.mm */; };
 		64F1B2B51E1F7BA5009FE8E4 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F1B2B31E1F7BA5009FE8E4 /* opencv2.framework */; };
 		64F1B2B61E1F7BA5009FE8E4 /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F1B2B41E1F7BA5009FE8E4 /* TesseractOCR.framework */; };
-		64F1B2B81E1F8A31009FE8E4 /* opencv2.zip in Resources */ = {isa = PBXBuildFile; fileRef = 64F1B2B71E1F8A31009FE8E4 /* opencv2.zip */; };
 		64F2D0101DED1AD10068CE69 /* LaunchIntroductionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F2D00F1DED1AD10068CE69 /* LaunchIntroductionView.m */; };
 		64F325B31DF292F80068999E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 64F325931DF292F80068999E /* LICENSE */; };
 		64F325B41DF292F80068999E /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 64F325941DF292F80068999E /* README.md */; };
@@ -262,7 +261,7 @@
 		644822C41E165CBB00A9A532 /* scanscanBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scanscanBg.png; sourceTree = "<group>"; };
 		644822CC1E165CCF00A9A532 /* lhScanQCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lhScanQCodeViewController.h; sourceTree = "<group>"; };
 		644822CD1E165CCF00A9A532 /* lhScanQCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = lhScanQCodeViewController.m; sourceTree = "<group>"; };
-		647C7F671DF5140C00D1DA4B /* e-healthy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "e-healthy.entitlements"; sourceTree = "<group>"; };
+		647C7F671DF5140C00D1DA4B /* summer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = summer.entitlements; sourceTree = "<group>"; };
 		64E7F9321DE2D9A80017D512 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		64E7F9341DE2D9B00017D512 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		64E7F9361DE2D9B90017D512 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -305,7 +304,7 @@
 		64EA02331DD5B4C000392B3C /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		64EA02391DD5BB3600392B3C /* DisplayUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayUtils.h; sourceTree = "<group>"; };
 		64EA023A1DD5BB3600392B3C /* DisplayUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayUtils.m; sourceTree = "<group>"; };
-		64EEAB6B1DD4A04E005729FE /* e-healthy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "e-healthy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		64EEAB6B1DD4A04E005729FE /* summer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = summer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64EEAB6F1DD4A04E005729FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		64EEAB711DD4A04E005729FE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		64EEAB721DD4A04E005729FE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -315,11 +314,11 @@
 		64EEAB7A1DD4A04E005729FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64EEAB7D1DD4A04E005729FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		64EEAB7F1DD4A04E005729FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		64EEAB841DD4A04E005729FE /* e-healthyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "e-healthyTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		64EEAB881DD4A04E005729FE /* e_healthyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = e_healthyTests.m; sourceTree = "<group>"; };
+		64EEAB841DD4A04E005729FE /* summerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = summerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		64EEAB881DD4A04E005729FE /* summerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = summerTests.m; sourceTree = "<group>"; };
 		64EEAB8A1DD4A04E005729FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		64EEAB8F1DD4A04E005729FE /* e-healthyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "e-healthyUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		64EEAB931DD4A04E005729FE /* e_healthyUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = e_healthyUITests.m; sourceTree = "<group>"; };
+		64EEAB8F1DD4A04E005729FE /* summerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = summerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		64EEAB931DD4A04E005729FE /* summerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = summerUITests.m; sourceTree = "<group>"; };
 		64EEAB951DD4A04E005729FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		64EEABA51DD4A1B6005729FE /* BaseNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavViewController.h; sourceTree = "<group>"; };
 		64EEABA61DD4A1B6005729FE /* BaseNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavViewController.m; sourceTree = "<group>"; };
@@ -350,7 +349,6 @@
 		64F1B0321E1C022C000D5248 /* RecogizeCardManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RecogizeCardManager.mm; sourceTree = "<group>"; };
 		64F1B2B31E1F7BA5009FE8E4 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		64F1B2B41E1F7BA5009FE8E4 /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TesseractOCR.framework; sourceTree = "<group>"; };
-		64F1B2B71E1F8A31009FE8E4 /* opencv2.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = opencv2.zip; sourceTree = "<group>"; };
 		64F1B2B91E1F8CA6009FE8E4 /* MyConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyConfig.h; sourceTree = "<group>"; };
 		64F2D00E1DED1AD10068CE69 /* LaunchIntroductionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchIntroductionView.h; sourceTree = "<group>"; };
 		64F2D00F1DED1AD10068CE69 /* LaunchIntroductionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchIntroductionView.m; sourceTree = "<group>"; };
@@ -812,9 +810,9 @@
 		64EEAB621DD4A04E005729FE = {
 			isa = PBXGroup;
 			children = (
-				64EEAB6D1DD4A04E005729FE /* e-healthy */,
-				64EEAB871DD4A04E005729FE /* e-healthyTests */,
-				64EEAB921DD4A04E005729FE /* e-healthyUITests */,
+				64EEAB6D1DD4A04E005729FE /* summer */,
+				64EEAB871DD4A04E005729FE /* summerTests */,
+				64EEAB921DD4A04E005729FE /* summerUITests */,
 				64EEAB6C1DD4A04E005729FE /* Products */,
 				64EEABAF1DD4A5DB005729FE /* Frameworks */,
 			);
@@ -823,17 +821,17 @@
 		64EEAB6C1DD4A04E005729FE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				64EEAB6B1DD4A04E005729FE /* e-healthy.app */,
-				64EEAB841DD4A04E005729FE /* e-healthyTests.xctest */,
-				64EEAB8F1DD4A04E005729FE /* e-healthyUITests.xctest */,
+				64EEAB6B1DD4A04E005729FE /* summer.app */,
+				64EEAB841DD4A04E005729FE /* summerTests.xctest */,
+				64EEAB8F1DD4A04E005729FE /* summerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		64EEAB6D1DD4A04E005729FE /* e-healthy */ = {
+		64EEAB6D1DD4A04E005729FE /* summer */ = {
 			isa = PBXGroup;
 			children = (
-				647C7F671DF5140C00D1DA4B /* e-healthy.entitlements */,
+				647C7F671DF5140C00D1DA4B /* summer.entitlements */,
 				64E7F9521DE2F2980017D512 /* Category */,
 				64F562F61DD7153700966862 /* Library */,
 				64EA02381DD5BB1E00392B3C /* Utils */,
@@ -855,7 +853,7 @@
 				64F5FB311DF6C37600ACF42C /* Images.xcassets */,
 				64EEAB6E1DD4A04E005729FE /* Supporting Files */,
 			);
-			path = "e-healthy";
+			path = summer;
 			sourceTree = "<group>";
 		};
 		64EEAB6E1DD4A04E005729FE /* Supporting Files */ = {
@@ -868,22 +866,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		64EEAB871DD4A04E005729FE /* e-healthyTests */ = {
+		64EEAB871DD4A04E005729FE /* summerTests */ = {
 			isa = PBXGroup;
 			children = (
-				64EEAB881DD4A04E005729FE /* e_healthyTests.m */,
+				64EEAB881DD4A04E005729FE /* summerTests.m */,
 				64EEAB8A1DD4A04E005729FE /* Info.plist */,
 			);
-			path = "e-healthyTests";
+			path = summerTests;
 			sourceTree = "<group>";
 		};
-		64EEAB921DD4A04E005729FE /* e-healthyUITests */ = {
+		64EEAB921DD4A04E005729FE /* summerUITests */ = {
 			isa = PBXGroup;
 			children = (
-				64EEAB931DD4A04E005729FE /* e_healthyUITests.m */,
+				64EEAB931DD4A04E005729FE /* summerUITests.m */,
 				64EEAB951DD4A04E005729FE /* Info.plist */,
 			);
-			path = "e-healthyUITests";
+			path = summerUITests;
 			sourceTree = "<group>";
 		};
 		64EEABA31DD4A19B005729FE /* BaseController */ = {
@@ -963,7 +961,6 @@
 		64F1AFEF1E1BE54F000D5248 /* RecognizeCardManager */ = {
 			isa = PBXGroup;
 			children = (
-				64F1B2B71E1F8A31009FE8E4 /* opencv2.zip */,
 				64F1B2B31E1F7BA5009FE8E4 /* opencv2.framework */,
 				64F1B2B41E1F7BA5009FE8E4 /* TesseractOCR.framework */,
 				64F1B0311E1C022C000D5248 /* RecogizeCardManager.h */,
@@ -1155,9 +1152,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		64EEAB6A1DD4A04E005729FE /* e-healthy */ = {
+		64EEAB6A1DD4A04E005729FE /* summer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 64EEAB981DD4A04E005729FE /* Build configuration list for PBXNativeTarget "e-healthy" */;
+			buildConfigurationList = 64EEAB981DD4A04E005729FE /* Build configuration list for PBXNativeTarget "summer" */;
 			buildPhases = (
 				64EEAB671DD4A04E005729FE /* Sources */,
 				64EEAB681DD4A04E005729FE /* Frameworks */,
@@ -1167,14 +1164,14 @@
 			);
 			dependencies = (
 			);
-			name = "e-healthy";
+			name = summer;
 			productName = "e-healthy";
-			productReference = 64EEAB6B1DD4A04E005729FE /* e-healthy.app */;
+			productReference = 64EEAB6B1DD4A04E005729FE /* summer.app */;
 			productType = "com.apple.product-type.application";
 		};
-		64EEAB831DD4A04E005729FE /* e-healthyTests */ = {
+		64EEAB831DD4A04E005729FE /* summerTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 64EEAB9B1DD4A04E005729FE /* Build configuration list for PBXNativeTarget "e-healthyTests" */;
+			buildConfigurationList = 64EEAB9B1DD4A04E005729FE /* Build configuration list for PBXNativeTarget "summerTests" */;
 			buildPhases = (
 				64EEAB801DD4A04E005729FE /* Sources */,
 				64EEAB811DD4A04E005729FE /* Frameworks */,
@@ -1185,14 +1182,14 @@
 			dependencies = (
 				64EEAB861DD4A04E005729FE /* PBXTargetDependency */,
 			);
-			name = "e-healthyTests";
+			name = summerTests;
 			productName = "e-healthyTests";
-			productReference = 64EEAB841DD4A04E005729FE /* e-healthyTests.xctest */;
+			productReference = 64EEAB841DD4A04E005729FE /* summerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		64EEAB8E1DD4A04E005729FE /* e-healthyUITests */ = {
+		64EEAB8E1DD4A04E005729FE /* summerUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 64EEAB9E1DD4A04E005729FE /* Build configuration list for PBXNativeTarget "e-healthyUITests" */;
+			buildConfigurationList = 64EEAB9E1DD4A04E005729FE /* Build configuration list for PBXNativeTarget "summerUITests" */;
 			buildPhases = (
 				64EEAB8B1DD4A04E005729FE /* Sources */,
 				64EEAB8C1DD4A04E005729FE /* Frameworks */,
@@ -1203,9 +1200,9 @@
 			dependencies = (
 				64EEAB911DD4A04E005729FE /* PBXTargetDependency */,
 			);
-			name = "e-healthyUITests";
+			name = summerUITests;
 			productName = "e-healthyUITests";
-			productReference = 64EEAB8F1DD4A04E005729FE /* e-healthyUITests.xctest */;
+			productReference = 64EEAB8F1DD4A04E005729FE /* summerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -1242,7 +1239,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 64EEAB661DD4A04E005729FE /* Build configuration list for PBXProject "e-healthy" */;
+			buildConfigurationList = 64EEAB661DD4A04E005729FE /* Build configuration list for PBXProject "summer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1255,9 +1252,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				64EEAB6A1DD4A04E005729FE /* e-healthy */,
-				64EEAB831DD4A04E005729FE /* e-healthyTests */,
-				64EEAB8E1DD4A04E005729FE /* e-healthyUITests */,
+				64EEAB6A1DD4A04E005729FE /* summer */,
+				64EEAB831DD4A04E005729FE /* summerTests */,
+				64EEAB8E1DD4A04E005729FE /* summerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -1284,7 +1281,6 @@
 				64EEAB791DD4A04E005729FE /* Main.storyboard in Resources */,
 				64F1B0301E1BFDF5000D5248 /* ScanTwoViewController.xib in Resources */,
 				644822C71E165CBB00A9A532 /* noticeMusic.wav in Resources */,
-				64F1B2B81E1F8A31009FE8E4 /* opencv2.zip in Resources */,
 				644822C61E165CBB00A9A532 /* lightSelect.png in Resources */,
 				64F1B0231E1BE570000D5248 /* tessdata in Resources */,
 				644822C91E165CBB00A9A532 /* scanLine@2x.png in Resources */,
@@ -1414,7 +1410,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64EEAB891DD4A04E005729FE /* e_healthyTests.m in Sources */,
+				64EEAB891DD4A04E005729FE /* summerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1422,7 +1418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64EEAB941DD4A04E005729FE /* e_healthyUITests.m in Sources */,
+				64EEAB941DD4A04E005729FE /* summerUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1431,12 +1427,12 @@
 /* Begin PBXTargetDependency section */
 		64EEAB861DD4A04E005729FE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 64EEAB6A1DD4A04E005729FE /* e-healthy */;
+			target = 64EEAB6A1DD4A04E005729FE /* summer */;
 			targetProxy = 64EEAB851DD4A04E005729FE /* PBXContainerItemProxy */;
 		};
 		64EEAB911DD4A04E005729FE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 64EEAB6A1DD4A04E005729FE /* e-healthy */;
+			target = 64EEAB6A1DD4A04E005729FE /* summer */;
 			targetProxy = 64EEAB901DD4A04E005729FE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1556,29 +1552,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = "e-healthy/e-healthy.entitlements";
+				CODE_SIGN_ENTITLEMENTS = summer/summer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TX8X4G99PU;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/SocialLibraries/QQ",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/UMSocialSDK",
-					"$(PROJECT_DIR)/e-healthy/Library/RecognizeCardManager",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/QQ",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/UMSocialSDK",
+					"$(PROJECT_DIR)/summer/Library/RecognizeCardManager",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/e-Healthy/PrefixHeader.pch";
-				INFOPLIST_FILE = "e-healthy/Info.plist";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/summer/PrefixHeader.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/summer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/e-healthy/Library/Lib",
-					"$(PROJECT_DIR)/e-healthy/Library/WXpay",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/SocialLibraries/QQ",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/SocialLibraries/Sina",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/SocialLibraries/WeChat",
+					"$(PROJECT_DIR)/summer/Library/Lib",
+					"$(PROJECT_DIR)/summer/Library/WXpay",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/QQ",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/Sina",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/WeChat",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
@@ -1593,29 +1589,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = "e-healthy/e-healthy.entitlements";
+				CODE_SIGN_ENTITLEMENTS = summer/summer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shenzhen HuaGu Network Technology Co.,Ltd (TX8X4G99PU)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TX8X4G99PU;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/SocialLibraries/QQ",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/UMSocialSDK",
-					"$(PROJECT_DIR)/e-healthy/Library/RecognizeCardManager",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/QQ",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/UMSocialSDK",
+					"$(PROJECT_DIR)/summer/Library/RecognizeCardManager",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SRCROOT)/e-Healthy/PrefixHeader.pch";
-				INFOPLIST_FILE = "e-healthy/Info.plist";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/summer/PrefixHeader.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/summer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/e-healthy/Library/Lib",
-					"$(PROJECT_DIR)/e-healthy/Library/WXpay",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/SocialLibraries/QQ",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/SocialLibraries/Sina",
-					"$(PROJECT_DIR)/e-healthy/Library/UMSocial/SocialLibraries/WeChat",
+					"$(PROJECT_DIR)/summer/Library/Lib",
+					"$(PROJECT_DIR)/summer/Library/WXpay",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/QQ",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/Sina",
+					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/WeChat",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
@@ -1629,11 +1625,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = "e-healthyTests/Info.plist";
+				INFOPLIST_FILE = summerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.FL.e-healthyTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.FL.summerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/e-healthy.app/e-healthy";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/summer.app/summer";
 			};
 			name = Debug;
 		};
@@ -1641,40 +1637,40 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = "e-healthyTests/Info.plist";
+				INFOPLIST_FILE = summerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.FL.e-healthyTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.FL.summerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/e-healthy.app/e-healthy";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/summer.app/summer";
 			};
 			name = Release;
 		};
 		64EEAB9F1DD4A04E005729FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "e-healthyUITests/Info.plist";
+				INFOPLIST_FILE = summerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.FL.e-healthyUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.FL.summerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = "e-healthy";
+				TEST_TARGET_NAME = summer;
 			};
 			name = Debug;
 		};
 		64EEABA01DD4A04E005729FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = "e-healthyUITests/Info.plist";
+				INFOPLIST_FILE = summerUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.FL.e-healthyUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.FL.summerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = "e-healthy";
+				TEST_TARGET_NAME = summer;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		64EEAB661DD4A04E005729FE /* Build configuration list for PBXProject "e-healthy" */ = {
+		64EEAB661DD4A04E005729FE /* Build configuration list for PBXProject "summer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				64EEAB961DD4A04E005729FE /* Debug */,
@@ -1683,7 +1679,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		64EEAB981DD4A04E005729FE /* Build configuration list for PBXNativeTarget "e-healthy" */ = {
+		64EEAB981DD4A04E005729FE /* Build configuration list for PBXNativeTarget "summer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				64EEAB991DD4A04E005729FE /* Debug */,
@@ -1692,7 +1688,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		64EEAB9B1DD4A04E005729FE /* Build configuration list for PBXNativeTarget "e-healthyTests" */ = {
+		64EEAB9B1DD4A04E005729FE /* Build configuration list for PBXNativeTarget "summerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				64EEAB9C1DD4A04E005729FE /* Debug */,
@@ -1701,7 +1697,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		64EEAB9E1DD4A04E005729FE /* Build configuration list for PBXNativeTarget "e-healthyUITests" */ = {
+		64EEAB9E1DD4A04E005729FE /* Build configuration list for PBXNativeTarget "summerUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				64EEAB9F1DD4A04E005729FE /* Debug */,
