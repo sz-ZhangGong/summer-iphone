@@ -1,6 +1,6 @@
 //
 //  MyConfig.h
-//  e-healthy
+//  summer
 //
 //  Created by FangLin on 1/6/17.
 //  Copyright © 2017 FangLin. All rights reserved.

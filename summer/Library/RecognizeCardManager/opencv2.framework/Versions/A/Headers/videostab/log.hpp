@@ -7,11 +7,11 @@
 //  copy or use the software.
 //
 //
-//                          License Agreement
+//                           License Agreement
 //                For Open Source Computer Vision Library
 //
 // Copyright (C) 2000-2008, Intel Corporation, all rights reserved.
-// Copyright (C) 2009, Willow Garage Inc., all rights reserved.
+// Copyright (C) 2009-2011, Willow Garage Inc., all rights reserved.
 // Third party copyrights are property of their respective owners.
 //
 // Redistribution and use in source and binary forms, with or without modification,
@@ -40,47 +40,41 @@
 //
 //M*/
 
-#ifndef OPENCV_STITCHING_AUTOCALIB_HPP
-#define OPENCV_STITCHING_AUTOCALIB_HPP
+#ifndef OPENCV_VIDEOSTAB_LOG_HPP
+#define OPENCV_VIDEOSTAB_LOG_HPP
 
 #include "opencv2/core.hpp"
-#include "matchers.hpp"
 
-namespace cv {
-namespace detail {
+namespace cv
+{
+namespace videostab
+{
 
-//! @addtogroup stitching_autocalib
+//! @addtogroup videostab
 //! @{
 
-/** @brief Tries to estimate focal lengths from the given homography under the assumption that the camera
-undergoes rotations around its centre only.
+class CV_EXPORTS ILog
+{
+public:
+    virtual ~ILog() {}
+    virtual void print(const char *format, ...) = 0;
+};
 
-@param H Homography.
-@param f0 Estimated focal length along X axis.
-@param f1 Estimated focal length along Y axis.
-@param f0_ok True, if f0 was estimated successfully, false otherwise.
-@param f1_ok True, if f1 was estimated successfully, false otherwise.
+class CV_EXPORTS NullLog : public ILog
+{
+public:
+    virtual void print(const char * /*format*/, ...) {}
+};
 
-See "Construction of Panoramic Image Mosaics with Global and Local Alignment"
-by Heung-Yeung Shum and Richard Szeliski.
- */
-void CV_EXPORTS focalsFromHomography(const Mat &H, double &f0, double &f1, bool &f0_ok, bool &f1_ok);
+class CV_EXPORTS LogToStdout : public ILog
+{
+public:
+    virtual void print(const char *format, ...);
+};
 
-/** @brief Estimates focal lengths for each given camera.
+//! @}
 
-@param features Features of images.
-@param pairwise_matches Matches between all image pairs.
-@param focals Estimated focal lengths for each camera.
- */
-void CV_EXPORTS estimateFocal(const std::vector<ImageFeatures> &features,
-                              const std::vector<MatchesInfo> &pairwise_matches,
-                              std::vector<double> &focals);
-
-bool CV_EXPORTS calibrateRotatingCamera(const std::vector<Mat> &Hs, Mat &K);
-
-//! @} stitching_autocalib
-
-} // namespace detail
+} // namespace videostab
 } // namespace cv
 
-#endif // OPENCV_STITCHING_AUTOCALIB_HPP
+#endif
