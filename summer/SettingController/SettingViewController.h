@@ -1,6 +1,6 @@
 //
 //  SettingViewController.h
-//  e-healthy
+//  summer
 //
 //  Created by FangLin on 11/21/16.
 //  Copyright © 2016 FangLin. All rights reserved.
