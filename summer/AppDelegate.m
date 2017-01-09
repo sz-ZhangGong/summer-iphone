@@ -41,8 +41,6 @@ static NSString *const kAppVersion = @"appVersion";
 
 @property (nonatomic,strong) TYDownloadModel *downloadModel;
 
-@property (nonatomic,strong)NSArray *welcomeArray;
-
 @end
 
 @implementation AppDelegate
@@ -72,7 +70,7 @@ static NSString *const kAppVersion = @"appVersion";
     [TYDownLoadDataManager manager].delegate = self;
  
     [self getImageData];
-
+    
     //沉睡1秒
     [NSThread sleepForTimeInterval:1.0f];
     
@@ -83,6 +81,37 @@ static NSString *const kAppVersion = @"appVersion";
     self.window.rootViewController = mainNav;
     [self.window makeKeyAndVisible];
     
+    /*
+     * #pragma 欢迎页
+     */
+    for (NSInteger i = 0; i<[[UserDefaultsUtils valueWithKey:@"addCount"] integerValue]; i++) {
+        SDWebImageManager *manager = [[SDWebImageManager alloc] init];
+        UIImage *image1 = [manager.imageCache imageFromDiskCacheForKey:[NSString stringWithFormat:@"adImage%ld",i]];
+        NSLog(@"image1=%@",image1);
+        if (image1) {
+            [self.addArr addObject:image1];
+        }
+    }
+    if ([self isFirstLauch]) {
+        NSMutableArray *array = [[NSMutableArray alloc] init];
+        for (NSInteger i = 0; i<WELCOME_IMAGES_COUNT; i++) {
+            UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"欢迎页%ld.jpg",i+1]];
+            [array addObject:image];
+        }
+        [LaunchIntroductionView sharedWithImages:array buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:NO];
+    }else{
+        if (!self.addArr.count) {
+            //状态栏颜色
+            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+            [UIApplication sharedApplication].statusBarHidden = NO;
+        }else{
+            [LaunchIntroductionView sharedWithImages:self.addArr buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:YES];
+        }
+    }
+    
+    //接收通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarHiddenNotfi:) name:ShowBanner object:nil];
+    
     //判断网络
     [self monitorNetworkState];
     
@@ -91,16 +120,7 @@ static NSString *const kAppVersion = @"appVersion";
     //推送通知
     [self registerPushNotfication:launchOptions];
     
-    //设置广告页和欢迎页
-    [NSTimer scheduledTimerWithTimeInterval:0.4f target:self selector:@selector(addWithWelcomeTimer) userInfo:nil repeats:NO];
-    
-    
     return YES;
-}
-
--(void)addWithWelcomeTimer
-{
-   [self settingAddWithWelcome];
 }
 
 -(void)statusBarHiddenNotfi:(NSNotification *)notfi
@@ -161,10 +181,8 @@ static NSString *const kAppVersion = @"appVersion";
             [UserDefaultsUtils saveValue:responseObject[@"ChangeStr"] forKey:@"ChangeStr"];
             [UserDefaultsUtils saveValue:responseObject[@"MainUrlStr"] forKey:@"MainUrlStr"];
             [UserDefaultsUtils saveValue:responseObject[@"OutLogin"] forKey:@"OutLogin"];
-            [self uploadWelcomeImage:responseObject[@"welcomeImages"]];
             [self uploadAddImage:responseObject[@"adImages"]];
-//            [self downLoad:responseObject[@"cacheFiles"]];
-            _welcomeArray = responseObject[@"welcomeImages"];
+            //            [self downLoad:responseObject[@"cacheFiles"]];
             NSLog(@"%@",NSHomeDirectory());
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -172,65 +190,20 @@ static NSString *const kAppVersion = @"appVersion";
     }];
 }
 
--(void)settingAddWithWelcome
-{
-    /*
-     * #pragma 欢迎页
-     */
-    for (NSInteger i = 0; i<[[UserDefaultsUtils valueWithKey:@"welcomeCount"] integerValue]; i++) {
-        SDWebImageManager *manager = [[SDWebImageManager alloc] init];
-        UIImage *image = [manager.imageCache imageFromDiskCacheForKey:[NSString stringWithFormat:@"welcomeImage%ld",i]];
-        NSLog(@"image = %@",image);
-        if (image) {
-            [self.welcomeArr addObject:image];
-        }
-    }
-    
-    for (NSInteger i = 0; i<[[UserDefaultsUtils valueWithKey:@"addCount"] integerValue]; i++) {
-        SDWebImageManager *manager = [[SDWebImageManager alloc] init];
-        UIImage *image1 = [manager.imageCache imageFromDiskCacheForKey:[NSString stringWithFormat:@"adImage%ld",i]];
-        NSLog(@"image1=%@",image1);
-        if (image1) {
-            [self.addArr addObject:image1];
-        }
-    }
-    if ([self isFirstLauch]) {
-        if (!_welcomeArray.count) {
-//            [LaunchIntroductionView sharedWithImages:_welcomeArray buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:NO];
-            //状态栏颜色
-            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-            [UIApplication sharedApplication].statusBarHidden = NO;
-        }else{
-            [LaunchIntroductionView sharedWithImages:_welcomeArray buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:NO];
-        }
-    }else{
-        if (!self.addArr.count) {
-            //状态栏颜色
-            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-            [UIApplication sharedApplication].statusBarHidden = NO;
-        }else{
-            [LaunchIntroductionView sharedWithImages:self.addArr buttonImage:@"login" buttonFrame:CGRectMake(screen_width-screen_width/4, 20, screen_width/4-10, 20) withisBanner:YES];
-        }
-    }
-    
-    //接收通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarHiddenNotfi:) name:ShowBanner object:nil];
-}
-
 #pragma mark - 下载文件
 -(void)downLoad:(NSArray *)array
 {
     for (NSInteger i = 0; i<array.count; i++) {
-//        NSRange range = [array[i] rangeOfString:@"/" options:NSBackwardsSearch];
-//        NSString *str = [array[i] substringFromIndex:range.location+1];
-//        NSString *savedPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Documents/%@",str]];
+        //        NSRange range = [array[i] rangeOfString:@"/" options:NSBackwardsSearch];
+        //        NSString *str = [array[i] substringFromIndex:range.location+1];
+        //        NSString *savedPath = [NSHomeDirectory() stringByAppendingString:[NSString stringWithFormat:@"/Documents/%@",str]];
         // manager里面是否有这个model是正在下载
         _downloadModel = [[TYDownLoadDataManager manager] downLoadingModelForURLString:[NSString stringWithFormat:@"%@/%@",[UserDefaultsUtils valueWithKey:@"rootSite"],array[i]]];
         if (_downloadModel) {
             [self startDownlaod];
             return;
         }
-    
+        
         // 没有正在下载的model 重新创建
         TYDownloadModel *model = [[TYDownloadModel alloc]initWithURLString:[NSString stringWithFormat:@"%@/%@",[UserDefaultsUtils valueWithKey:@"rootSite"],array[i]]];
         _downloadModel = model;
@@ -252,7 +225,7 @@ static NSString *const kAppVersion = @"appVersion";
 {
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     [manager startWithDownloadModel:_downloadModel progress:^(TYDownloadProgress *progress) {
-
+        
     } state:^(TYDownloadState state, NSString *filePath, NSError *error) {
         if (state == TYDownloadStateCompleted) {
             
@@ -261,28 +234,6 @@ static NSString *const kAppVersion = @"appVersion";
 }
 
 #pragma mark - 下载图片
--(void)uploadWelcomeImage:(NSArray *)imageArr;
-{
-    [UserDefaultsUtils saveValue:@(imageArr.count) forKey:@"welcomeCount"];
-    SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    [manager.imageCache removeImageForKey:@"welcomeImage" fromDisk:YES];
-    for (NSInteger i = 0; i < imageArr.count; i++) {
-        NSString *imageUrl = imageArr[i];
-        // 缓存图片
-        manager.delegate = self;
-        [manager.imageDownloader downloadImageWithURL:[NSURL URLWithString:imageUrl] options:SDWebImageDownloaderContinueInBackground progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            
-        } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-            NSLog(@"---save image is %@",image);
-            [manager.imageCache storeImage:image forKey:[NSString stringWithFormat:@"welcomeImage%ld",i] toDisk:YES];
-        }];
-    }
-    // 从缓存取图片并显示
-//    SDWebImageManager *manager = [[SDWebImageManager alloc] init];
-    UIImage *image1 = [manager.imageCache imageFromDiskCacheForKey:@"welcomeImage1"];
-    NSLog(@"-------------%@",image1);
-}
-
 -(void)uploadAddImage:(NSArray *)imageArr
 {
     [UserDefaultsUtils saveValue:@(imageArr.count) forKey:@"addCount"];
@@ -422,7 +373,7 @@ static NSString *const kAppVersion = @"appVersion";
     [JPUSHService resetBadge];
     
     [self goToMssageViewControllerWith:userInfo];
-
+    
 }
 
 - (void)goToMssageViewControllerWith:(NSDictionary*)msgDic{
