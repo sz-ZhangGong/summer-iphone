@@ -9,7 +9,7 @@
 #ifndef MyConfig_h
 #define MyConfig_h
 
-
-#define URL_APP_ROOT @"http://ehealth.zhongyinginfo.com"//域名地址
+//m.knowall.cn
+#define URL_APP_ROOT @"http://m.knowall.cn"//域名地址
 
 #endif /* MyConfig_h */
