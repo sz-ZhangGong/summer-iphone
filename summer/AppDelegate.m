@@ -193,9 +193,13 @@ static NSString *const kAppVersion = @"appVersion";
             NSLog(@"responseObject = %@",responseObject);
             [UserDefaultsUtils saveValue:responseObject[@"rootSite"] forKey:@"rootSite"];
             [UserDefaultsUtils saveValue:responseObject[@"msgManage"] forKey:@"msgManage"];
+            [UserDefaultsUtils saveValue:responseObject[@"ChangeStr"] forKey:@"ChangeStr"];
+            [UserDefaultsUtils saveValue:responseObject[@"MainUrlStr"] forKey:@"MainUrlStr"];
+            [UserDefaultsUtils saveValue:responseObject[@"OutLogin"] forKey:@"OutLogin"];
             [self uploadWelComeImage:responseObject[@"welcomeImages"]];
             [self uploadAddImage:responseObject[@"adImages"]];
 //            [self downLoad:responseObject[@"cacheFiles"]];
+            
             NSLog(@"%@",NSHomeDirectory());
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

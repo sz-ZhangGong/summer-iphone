@@ -28,13 +28,13 @@
 
 static NSString * const APIBaseURLString = @"";
 
-static NSString *const changeStr = @"/forms/Login?device=iphone,/forms/FrmPhoneRegistered,/forms/VerificationLogin,/forms/Login,/forms/FrmLossPassword";
+static NSString *const changeStr = @"/forms/Defaultr,/,/forms/Login?device=iphone,/forms/FrmPhoneRegistered,/forms/VerificationLogin,/forms/Login,/forms/FrmLossPassword";
 
 static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/VerificationLogin";
 
 #define ALL_URLPATH [NSString stringWithFormat:@"%@?device=iphone&deviceid=%@",URL_APP_ROOT,[DisplayUtils uuid]]
 
-#define OutLogin [NSString stringWithFormat:@"%@/forms/Login.exit",URL_APP_ROOT,[DisplayUtils uuid]]
+#define OutLogin [NSString stringWithFormat:@"%@/forms/Login.exit",URL_APP_ROOT]
 
 @interface MainViewController ()<WKNavigationDelegate,WKUIDelegate,UIScrollViewDelegate,WKScriptMessageHandler,CustemBBI,SettingViewController,lhScanQCodeViewController,ScanViewController>
 {
@@ -182,7 +182,13 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 #pragma mark - 下拉刷新
 -(void)addRefreshView
 {
-    if (![changeStr containsString:self.webView.URL.relativePath] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
+    NSString *isChangStr;
+    if ([UserDefaultsUtils valueWithKey:@"ChangeStr"] == nil) {
+        isChangStr = changeStr;
+    }else{
+        isChangStr = ChangeStr;
+    }
+    if (![isChangStr containsString:self.webView.URL.relativePath] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
         self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
     }
 }
@@ -299,7 +305,13 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     }else if (tag == 5){
         [UserDefaultsUtils saveValue:nil forKey:@"userName"];
         [UserDefaultsUtils saveValue:nil forKey:@"pwd"];
-        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:OutLogin]]];
+        if ([UserDefaultsUtils valueWithKey:@"OutLogin"] == nil) {
+            NSLog(@"outLoginurl = %@",[UserDefaultsUtils valueWithKey:@"OutLogin"]);
+            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:OutLogin]]];
+        }else{
+            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultsUtils valueWithKey:@"OutLogin"]]]];
+        }
+        
     }
     [MenuView hidden];  // 隐藏菜单
     self.flag = YES;
@@ -312,37 +324,17 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 }
 
 #pragma mark - UIWebViewDelegate代理方法
--(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
-    NSString *userName = [UserDefaultsUtils valueWithKey:@"userName"];
-    NSString *pwd = [UserDefaultsUtils valueWithKey:@"pwd"];
-    if (userName != nil && pwd != nil) {
-        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"iosLogin(%@,%@)",userName,pwd] completionHandler:^(id _Nullable item, NSError * _Nullable error) {
-            
-        }];
-    }
-    
-    //加载完成结束刷新
-    [self endRefresh];
-    //设置下拉刷新
-    [self addRefreshView];
-
-    //隐藏错误视图
-    self.errorImageView.hidden = YES;
-    //获取每个页面的url
-    NSLog(@"URL -- %@ ----%@ ----%@",webView.URL.absoluteString,webView.URL.relativeString,webView.URL.relativePath);
-    _urlPath = webView.URL.absoluteString;
-    //每次加载判断是否是首页
-    if ([mainUrlStr containsString:webView.URL.relativePath]) {
-        self.navigationItem.leftBarButtonItem = nil;
+    NSLog(@"navigationAction.request.URL.relativePath = %@",navigationAction.request.URL.relativePath);
+    NSString *isChangStr;
+    if ([UserDefaultsUtils valueWithKey:@"ChangeStr"] == nil) {
+        isChangStr = changeStr;
     }else{
-        self.navigationItem.leftBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_back"] andTarget:self andinfoStr:@"first"];
+        isChangStr = ChangeStr;
     }
-    //设置标题
-    [self setNavTitle:webView.title];
-
     //高度自适应
-    if ([changeStr containsString:webView.URL.relativePath]) {
+    if ([isChangStr containsString:navigationAction.request.URL.relativePath]) {
         NSString *js_fit_code = [NSString stringWithFormat:@"var meta = document.createElement('meta');"
                                  "meta.name = 'viewport';"
                                  "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=1.0, user-scalable=yes';"
@@ -361,6 +353,42 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
             
         }];
     }
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
+-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
+    NSString *userName = [UserDefaultsUtils valueWithKey:@"userName"];
+    NSString *pwd = [UserDefaultsUtils valueWithKey:@"pwd"];
+    if (userName != nil && pwd != nil) {
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"iosLogin(%@,%@)",userName,pwd] completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+            
+        }];
+    }
+    //加载完成结束刷新
+    [self endRefresh];
+    //设置下拉刷新
+    [self addRefreshView];
+
+    //隐藏错误视图
+    self.errorImageView.hidden = YES;
+    //获取每个页面的url
+    NSLog(@"URL -- %@ ----%@ ----%@",webView.URL.absoluteString,webView.URL.relativeString,webView.URL.relativePath);
+    _urlPath = webView.URL.absoluteString;
+    
+    NSString *isMainStr;
+    if ([UserDefaultsUtils valueWithKey:@"MainUrlStr"] == nil) {
+        isMainStr = mainUrlStr;
+    }else{
+        isMainStr = MainUrlStr;
+    }
+    //每次加载判断是否是首页
+    if ([isMainStr containsString:webView.URL.relativePath]) {
+        self.navigationItem.leftBarButtonItem = nil;
+    }else{
+        self.navigationItem.leftBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_back"] andTarget:self andinfoStr:@"first"];
+    }
+    //设置标题
+    [self setNavTitle:webView.title];
 }
 
 //加载出错
