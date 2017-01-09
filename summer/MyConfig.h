@@ -12,7 +12,7 @@
 //m.knowall.cn
 #define URL_APP_ROOT @"http://m.knowall.cn"//域名地址
 
-#define WELCOME_IMAGES_COUNT 4//欢迎页图片数量
+#define WELCOME_IMAGES_COUNT 3//欢迎页图片数量
 
 #endif /* MyConfig_h */
 
