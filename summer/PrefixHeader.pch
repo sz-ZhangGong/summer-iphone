@@ -20,7 +20,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "UIView+Category.h"
-
+    #import "MyConfig.h"
 #endif
 
 
@@ -52,10 +52,8 @@
 
 #define PAY_SUCCEED @"pay_succeed"//支付成功
 
-#define URL_APP_ROOT @"http://ehealth.zhongyinginfo.com"
+#define ChangeStr [UserDefaultsUtils valueWithKey:@"ChangeStr"]
 
-#define ChangeStr [NSString stringWithFormat:@"%@/forms/Login?device=iphone,%@/forms/FrmPhoneRegistered,%@/forms/VerificationLogin,%@/forms/Login,%@/forms/FrmLossPassword",URL_APP_ROOT,,URL_APP_ROOT,URL_APP_ROOT,URL_APP_ROOT,URL_APP_ROOT]
-
-#define MainUrlStr [NSString stringWithFormat:@"%@/forms/FrmIndex,%@/forms/Login,%@/forms/VerificationLogin",URL_APP_ROOT,,URL_APP_ROOT,URL_APP_ROOT]
+#define MainUrlStr [UserDefaultsUtils valueWithKey:@"MainUrlStr"]
 
 #endif /* PrefixHeader_pch */
