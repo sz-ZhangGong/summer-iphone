@@ -7,6 +7,7 @@
 //
 
 #import "LaunchIntroductionView.h"
+#import "UIImageView+WebCache.h"
 
 static NSString *const kAppVersion = @"appVersion";
 
@@ -109,8 +110,11 @@ static LaunchIntroductionView *launch = nil;
     [self addSubview:launchScrollView];
     for (int i = 0; i < images.count; i ++) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i * kScreen_width, 0, kScreen_width, kScreen_height)];
-//        imageView.image = [UIImage imageNamed:images[i]];
-        imageView.image = images[i];
+        if (isbanner == NO) {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:images[i]] placeholderImage:nil];
+        }else if (isbanner == YES){
+            imageView.image = images[i];
+        }
         [launchScrollView addSubview:imageView];
         if (i == images.count - 1) {
             //判断要不要添加button
@@ -119,10 +123,10 @@ static LaunchIntroductionView *launch = nil;
                 [enterButton setImage:[UIImage imageNamed:enterBtnImage] forState:UIControlStateNormal];
                 [enterButton addTarget:self action:@selector(enterBtnClick) forControlEvents:UIControlEventTouchUpInside];
                 [enterButton setTitle:@"进入系统" forState:UIControlStateNormal];
-                [enterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [enterButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 enterButton.titleLabel.font = [UIFont systemFontOfSize:12];
                 enterButton.layer.borderWidth = 1.0f;
-                enterButton.layer.borderColor = [UIColor whiteColor].CGColor;
+                enterButton.layer.borderColor = [UIColor blackColor].CGColor;
                 enterButton.layer.cornerRadius = 10.0f;
                 enterButton.layer.masksToBounds = YES;
 
