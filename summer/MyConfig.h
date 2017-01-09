@@ -10,6 +10,6 @@
 #define MyConfig_h
 
 
-#define URL_APP_ROOT @"http://ehealth.zhongyinginfo.com"//域名地址
+#define URL_APP_ROOT @"http://testehealth.zhongyinginfo.com"//域名地址
 
 #endif /* MyConfig_h */

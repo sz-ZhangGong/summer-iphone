@@ -1578,7 +1578,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app.zhongyingtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -1615,7 +1615,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app.zhongyingtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
