@@ -141,7 +141,8 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     self.view.backgroundColor = [UIColor whiteColor];
     //出错页面
     [self.webView addSubview:self.errorImageView];
-    
+    //webview
+    [self.view addSubview:self.webView];
     //右边按钮下拉菜单
     [self settingMenu];
     
@@ -159,7 +160,6 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.navigationController.navigationBar.barTintColor = RGBColor(0, 0, 0, 1.0);
 
-    [self.view addSubview:self.webView];
     [self addProgressView];
     
 }
@@ -218,10 +218,15 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 -(void)BBIdidClickWithName:(NSString *)infoStr
 {
     if ([infoStr isEqualToString:@"first"]) {
-        
-        [self.webView evaluateJavaScript:@"ReturnBtnClick()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
-            
-        }];
+        if ([self.webView.URL.absoluteString containsString:URL_APP_ROOT]) {
+            if ([self.webView canGoBack]) {
+                [self.webView goBack];
+            }
+        }else{
+            [self.webView evaluateJavaScript:@"ReturnBtnClick()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+                
+            }];
+        }
     }else if ([infoStr isEqualToString:@"second"]){
         
     }else{
@@ -375,13 +380,13 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     NSLog(@"URL -- %@ ----%@ ----%@",webView.URL.absoluteString,webView.URL.relativeString,webView.URL.relativePath);
     _urlPath = webView.URL.absoluteString;
     
+    //每次加载判断是否是首页
     NSString *isMainStr;
     if ([UserDefaultsUtils valueWithKey:@"MainUrlStr"] == nil) {
         isMainStr = mainUrlStr;
     }else{
         isMainStr = MainUrlStr;
     }
-    //每次加载判断是否是首页
     if ([isMainStr containsString:webView.URL.relativePath]) {
         self.navigationItem.leftBarButtonItem = nil;
     }else{
