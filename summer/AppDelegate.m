@@ -70,7 +70,11 @@ static NSString *const kAppVersion = @"appVersion";
     [JPUSHService resetBadge];
     
     [TYDownLoadDataManager manager].delegate = self;
+<<<<<<< HEAD
  
+=======
+    
+>>>>>>> master
     [self getImageData];
 
     //沉睡1秒
