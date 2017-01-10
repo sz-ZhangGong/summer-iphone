@@ -52,6 +52,7 @@
 		644822CA1E165CBB00A9A532 /* scanLine@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 644822C31E165CBB00A9A532 /* scanLine@3x.png */; };
 		644822CB1E165CBB00A9A532 /* scanscanBg.png in Resources */ = {isa = PBXBuildFile; fileRef = 644822C41E165CBB00A9A532 /* scanscanBg.png */; };
 		644822CE1E165CCF00A9A532 /* lhScanQCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 644822CD1E165CCF00A9A532 /* lhScanQCodeViewController.m */; };
+		64C826FB1E24E9D3002D387E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64C826FA1E24E9D3002D387E /* AudioToolbox.framework */; };
 		64E7F9331DE2D9A80017D512 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64E7F9321DE2D9A80017D512 /* CFNetwork.framework */; };
 		64E7F9351DE2D9B00017D512 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64E7F9341DE2D9B00017D512 /* CoreFoundation.framework */; };
 		64E7F9371DE2D9B90017D512 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64E7F9361DE2D9B90017D512 /* CoreTelephony.framework */; };
@@ -262,6 +263,7 @@
 		644822CC1E165CCF00A9A532 /* lhScanQCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lhScanQCodeViewController.h; sourceTree = "<group>"; };
 		644822CD1E165CCF00A9A532 /* lhScanQCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = lhScanQCodeViewController.m; sourceTree = "<group>"; };
 		647C7F671DF5140C00D1DA4B /* summer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = summer.entitlements; sourceTree = "<group>"; };
+		64C826FA1E24E9D3002D387E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		64E7F9321DE2D9A80017D512 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		64E7F9341DE2D9B00017D512 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		64E7F9361DE2D9B90017D512 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -453,6 +455,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64C826FB1E24E9D3002D387E /* AudioToolbox.framework in Frameworks */,
 				644822AA1E16386400A9A532 /* libSocialQQ.a in Frameworks */,
 				64F5FB3E1DF6E09D00ACF42C /* libsqlite3.0.tbd in Frameworks */,
 				64F5FB3C1DF6E08900ACF42C /* libc++.tbd in Frameworks */,
@@ -909,6 +912,7 @@
 		64EEABAF1DD4A5DB005729FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				64C826FA1E24E9D3002D387E /* AudioToolbox.framework */,
 				64F5FB3D1DF6E09D00ACF42C /* libsqlite3.0.tbd */,
 				64F5FB3B1DF6E08900ACF42C /* libc++.tbd */,
 				64F59EAD1DF11A04004EA082 /* libsqlite3.tbd */,
@@ -1577,7 +1581,10 @@
 					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/WeChat",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-force_load",
+					"$(PROJECT_DIR)/summer/Library/WXpay/libWeChatSDK.a",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";
@@ -1614,7 +1621,10 @@
 					"$(PROJECT_DIR)/summer/Library/UMSocial/SocialLibraries/WeChat",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-force_load",
+					"$(PROJECT_DIR)/summer/Library/WXpay/libWeChatSDK.a",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";

@@ -221,7 +221,6 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         if (![self.webView.URL.absoluteString containsString:URL_APP_ROOT]) {
             if ([self.webView canGoBack]) {
                 [self.webView goBack];
-                [self.webView reload];
             }
         }else{
             [self.webView evaluateJavaScript:@"ReturnBtnClick()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
@@ -441,7 +440,6 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         scanVC.delegate = self;
         [self.navigationController pushViewController:scanVC animated:YES];
     }else{//微信支付
-        NSLog(@"message.body = %@",message.body);
         //向微信注册
         [WXApi registerApp:message.body[@"appid"]];
         
@@ -453,6 +451,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         nonce_str	= [DisplayUtils md5:time_stamp];
         
         PayReq *request   = [[PayReq alloc] init];
+        request.openID    = message.body[@"appid"];
         request.nonceStr  = message.body[@"nonce_str"];
         request.package   = @"Sign=WXPay";
         request.partnerId = message.body[@"mch_id"];
