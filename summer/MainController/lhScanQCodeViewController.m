@@ -145,10 +145,10 @@
             CIQRCodeFeature *feature = [features objectAtIndex:0];
             NSString *scannedResult = feature.messageString;
             //播放扫描二维码的声音
-            SystemSoundID soundID;
-            NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-            AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-            AudioServicesPlaySystemSound(soundID);
+//            SystemSoundID soundID;
+//            NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
+//            AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
+//            AudioServicesPlaySystemSound(soundID);
             
             [self accordingQcode:scannedResult];
         }];
@@ -186,10 +186,10 @@
     [readview stop];
     
     //播放扫描二维码的声音
-    SystemSoundID soundID;
-    NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-    AudioServicesPlaySystemSound(soundID);
+//    SystemSoundID soundID;
+//    NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
+//    AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
+//    AudioServicesPlaySystemSound(soundID);
     
     [self accordingQcode:result];
     
