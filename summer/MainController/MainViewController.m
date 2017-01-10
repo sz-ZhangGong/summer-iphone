@@ -435,7 +435,6 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         scanVC.delegate = self;
         [self.navigationController pushViewController:scanVC animated:YES];
     }else{//微信支付
-        NSLog(@"message.body = %@",message.body);
         //向微信注册
         [WXApi registerApp:message.body[@"appid"]];
         
