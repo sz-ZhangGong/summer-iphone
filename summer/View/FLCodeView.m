@@ -140,7 +140,7 @@
     CGFloat heih = (DeviceMaxHeight-250*widthRate)/2;
     
     //最上部view
-    CGFloat alpha = 0.6;
+    CGFloat alpha = 0.0;
     UIView* upView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DeviceMaxWidth, heih)];
     upView.alpha = alpha;
     upView.backgroundColor = [self colorFromHexRGB:contentTitleColorStr];
@@ -154,8 +154,9 @@
     labIntroudction.textAlignment = NSTextAlignmentCenter;
     labIntroudction.textColor=[UIColor whiteColor];
     labIntroudction.text=@"[请将健康卡对准扫描框]";
+    labIntroudction.font=[UIFont boldSystemFontOfSize:25.0f];
     labIntroudction.transform = CGAffineTransformMakeRotation(M_PI/2);//将Label顺时旋转90度
-    [upView addSubview:labIntroudction];
+    [reader addSubview:labIntroudction];
     
     //左侧的view
     UIView * cLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, heih, wid, 300*widthRate)];
@@ -192,7 +193,8 @@
     scanZomeBack.layer.borderWidth = 2.5;
     scanZomeBack.image = hbImage;
     //添加一个背景图片
-    CGRect mImagerect = CGRectMake(wid, (DeviceMaxHeight-250*widthRate)/2, DeviceMaxWidth-2*wid, 300*widthRate);
+//    CGRect mImagerect = CGRectMake(wid, (DeviceMaxHeight-250*widthRate)/2, DeviceMaxWidth-2*wid, 300*widthRate);
+    CGRect mImagerect = CGRectMake(0, 64, DeviceMaxWidth, DeviceMaxHeight-64);
     [scanZomeBack setFrame:mImagerect];
     //    CGRect scanCrop=[self getScanCrop:mImagerect readerViewBounds:self.frame];
     [self addSubview:scanZomeBack];
