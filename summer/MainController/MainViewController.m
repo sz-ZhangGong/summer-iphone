@@ -190,6 +190,8 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     }
     if (![isChangStr containsString:self.webView.URL.relativePath] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
         self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
+    }else{
+        self.webView.scrollView.mj_header.hidden = YES;
     }
 }
 
