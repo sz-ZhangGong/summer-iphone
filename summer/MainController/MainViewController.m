@@ -385,7 +385,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     }else{
         isMainStr = MainUrlStr;
     }
-    if ([isMainStr containsString:webView.URL.relativePath]) {
+    if ([isMainStr containsString:webView.URL.relativePath] && [webView.URL.absoluteString containsString:URL_APP_ROOT]) {
         self.navigationItem.leftBarButtonItem = nil;
     }else{
         self.navigationItem.leftBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_back"] andTarget:self andinfoStr:@"first"];
