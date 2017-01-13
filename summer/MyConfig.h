@@ -10,7 +10,7 @@
 #define MyConfig_h
 
 
-#define URL_APP_ROOT @"http://ehealth.zhongyinginfo.com"//域名地址
+#define URL_APP_ROOT @"http://ehealth.zhongyinginfo.com"//域名地址//正式版
 
 #define WELCOME_IMAGES_COUNT 4//欢迎页图片数量
 
