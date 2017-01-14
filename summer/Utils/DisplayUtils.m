@@ -8,6 +8,7 @@
 
 #import "DisplayUtils.h"
 #import <CommonCrypto/CommonCrypto.h>
+#import <AdSupport/AdSupport.h>
 
 @implementation DisplayUtils
 
@@ -28,12 +29,14 @@
 
 //获取手机的UDID
 +(NSString*)uuid {
-    CFUUIDRef puuid = CFUUIDCreate( nil );
-    CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
-    NSString * result = (NSString *)CFBridgingRelease(CFStringCreateCopy( NULL, uuidString));
-    CFRelease(puuid);
-    CFRelease(uuidString);
-    return result;
+//    CFUUIDRef puuid = CFUUIDCreate( nil );
+//    CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
+//    NSString * result = (NSString *)CFBridgingRelease(CFStringCreateCopy( NULL, uuidString));
+//    CFRelease(puuid);
+//    CFRelease(uuidString);
+//    return result;
+    NSString *adId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    return adId;
 }
 
 //画圆的方法（使用带颜色的背景作为图片）
