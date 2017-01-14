@@ -43,9 +43,9 @@
     cv::Mat resultImage;
     UIImageToMat(image, resultImage);
     //转为灰度图
-    cvtColor(resultImage, resultImage, cv::COLOR_BGR2GRAY);
+    cvtColor(resultImage, resultImage, cv::COLOR_RGB2GRAY);
     //利用阈值二值化 
-    cv::threshold(resultImage, resultImage, 100, 255, CV_THRESH_BINARY);
+    cv::threshold(resultImage, resultImage, 60, 255, CV_THRESH_TOZERO);
     //腐蚀，填充（腐蚀是让黑色点变大）
     cv::Mat erodeElement = getStructuringElement(cv::MORPH_RECT, cv::Size(21,20));
     cv::erode(resultImage, resultImage, erodeElement);
@@ -72,8 +72,8 @@
     cv::Mat matImage;
     UIImageToMat(image, matImage);
     resultImage = matImage(numberRect);
-    cvtColor(resultImage, resultImage, cv::COLOR_BGR2GRAY);
-    cv::threshold(resultImage, resultImage, 80, 255, CV_THRESH_BINARY);
+    cvtColor(resultImage, resultImage, cv::COLOR_RGB2GRAY);
+    cv::threshold(resultImage, resultImage, 80, 255, CV_THRESH_TOZERO);
     //将Mat转换成UIImage
     UIImage *numberImage = MatToUIImage(resultImage);
     return numberImage;
