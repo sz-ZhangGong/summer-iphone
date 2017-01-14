@@ -158,6 +158,7 @@
             NSString *strUrl = [text stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             if (strUrl != nil && [self isPureInt:strUrl]) {
                 NSLog(@"识别结果:%@",strUrl);
+                [readview stop];
                 [weakSelf accordingQcode:strUrl];
                 //播放扫描二维码的声音
                 SystemSoundID soundID;
@@ -195,6 +196,7 @@
             NSString *strUrl = [text stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             if (strUrl != nil && [self isPureInt:strUrl]) {
                 NSLog(@"识别结果:%@",strUrl);
+                [readview stop];
                 [weakSelf accordingQcode:strUrl];
                 //播放扫描二维码的声音
                 SystemSoundID soundID;
