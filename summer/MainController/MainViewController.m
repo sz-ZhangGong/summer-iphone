@@ -24,6 +24,7 @@
 #import "WXApi.h"
 #import "lhScanQCodeViewController.h"
 #import "ScanViewController.h"
+#import "PingImageViewController.h"
 
 
 static NSString * const APIBaseURLString = @"";
@@ -442,7 +443,10 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         scanVC.delegate = self;
         [self.navigationController pushViewController:scanVC animated:YES];
     }else if ([type isEqualToString:@"showimage"]){
-        
+        NSString *imageUrl = message.body[@"url"];
+        PingImageViewController *pinVC = [[PingImageViewController alloc] init];
+        pinVC.imageStr = imageUrl;
+        [self.navigationController pushViewController:pinVC animated:YES];
     }else{//微信支付
         //向微信注册
         [WXApi registerApp:message.body[@"appid"]];
