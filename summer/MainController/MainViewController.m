@@ -441,6 +441,8 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         ScanViewController *scanVC = [[ScanViewController alloc] init];
         scanVC.delegate = self;
         [self.navigationController pushViewController:scanVC animated:YES];
+    }else if ([type isEqualToString:@"showimage"]){
+        
     }else{//微信支付
         //向微信注册
         [WXApi registerApp:message.body[@"appid"]];
