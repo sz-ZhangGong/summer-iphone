@@ -80,6 +80,7 @@
 		64EA02361DD5B4C000392B3C /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EA02311DD5B4C000392B3C /* WebViewJavascriptBridgeBase.m */; };
 		64EA02371DD5B4C000392B3C /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EA02331DD5B4C000392B3C /* WKWebViewJavascriptBridge.m */; };
 		64EA023B1DD5BB3600392B3C /* DisplayUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EA023A1DD5BB3600392B3C /* DisplayUtils.m */; };
+		64EE1CA61E2A438000932353 /* PingImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EE1CA51E2A438000932353 /* PingImageViewController.m */; };
 		64EEAB701DD4A04E005729FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEAB6F1DD4A04E005729FE /* main.m */; };
 		64EEAB731DD4A04E005729FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEAB721DD4A04E005729FE /* AppDelegate.m */; };
 		64EEAB761DD4A04E005729FE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64EEAB751DD4A04E005729FE /* ViewController.m */; };
@@ -306,6 +307,8 @@
 		64EA02331DD5B4C000392B3C /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		64EA02391DD5BB3600392B3C /* DisplayUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DisplayUtils.h; sourceTree = "<group>"; };
 		64EA023A1DD5BB3600392B3C /* DisplayUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisplayUtils.m; sourceTree = "<group>"; };
+		64EE1CA41E2A438000932353 /* PingImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PingImageViewController.h; sourceTree = "<group>"; };
+		64EE1CA51E2A438000932353 /* PingImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PingImageViewController.m; sourceTree = "<group>"; };
 		64EEAB6B1DD4A04E005729FE /* summer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = summer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64EEAB6F1DD4A04E005729FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		64EEAB711DD4A04E005729FE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -903,6 +906,8 @@
 			children = (
 				644822CC1E165CCF00A9A532 /* lhScanQCodeViewController.h */,
 				644822CD1E165CCF00A9A532 /* lhScanQCodeViewController.m */,
+				64EE1CA41E2A438000932353 /* PingImageViewController.h */,
+				64EE1CA51E2A438000932353 /* PingImageViewController.m */,
 				64EEABAB1DD4A1ED005729FE /* MainViewController.h */,
 				64EEABAC1DD4A1ED005729FE /* MainViewController.m */,
 			);
@@ -1384,6 +1389,7 @@
 				64F06F131DFFE1B60099C7AE /* TYDownloadUtility.m in Sources */,
 				643F73541DEEDDFD002CED46 /* MJRefreshAutoGifFooter.m in Sources */,
 				64F563321DD7155200966862 /* UIRefreshControl+AFNetworking.m in Sources */,
+				64EE1CA61E2A438000932353 /* PingImageViewController.m in Sources */,
 				64F563261DD7155200966862 /* AFURLConnectionOperation.m in Sources */,
 				64F563271DD7155200966862 /* AFURLRequestSerialization.m in Sources */,
 				643F735A1DEEDDFD002CED46 /* MJRefreshGifHeader.m in Sources */,
