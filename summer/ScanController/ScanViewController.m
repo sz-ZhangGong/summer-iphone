@@ -27,7 +27,9 @@
     BOOL isPush;//跳转到下一级页面
 }
 
-@property (nonatomic, strong) NSOperationQueue *operationQueue;
+@property (nonatomic,strong)G8RecognitionOperation *operation;
+
+@property (nonatomic,strong)NSOperationQueue *queue;
 
 @property (strong, nonatomic) CIDetector *detector;
 
@@ -82,7 +84,8 @@
         [readview stop];
         readview.is_Anmotion = YES;
     }
-    [self.operationQueue cancelAllOperations];
+    [self.operation cancel];
+    [self.queue cancelAllOperations];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -269,13 +272,12 @@
 
 -(void)recognizeImageWithTesseract:(UIImage *)image
 {
-    self.operationQueue = [[NSOperationQueue alloc] init];
-    G8RecognitionOperation *operation = [[G8RecognitionOperation alloc] initWithLanguage:@"eng"];
-    operation.tesseract.engineMode = G8OCREngineModeTesseractOnly;
-    operation.tesseract.pageSegmentationMode = G8PageSegmentationModeAutoOnly;
-    operation.delegate = self;
-    operation.tesseract.image = image;
-    operation.recognitionCompleteBlock = ^(G8Tesseract *tesseract) {
+    self.operation = [[G8RecognitionOperation alloc] initWithLanguage:@"eng"];
+    self.operation.tesseract.engineMode = G8OCREngineModeTesseractOnly;
+    self.operation.tesseract.pageSegmentationMode = G8PageSegmentationModeAutoOnly;
+    self.operation.delegate = self;
+    self.operation.tesseract.image = image;
+    self.operation.recognitionCompleteBlock = ^(G8Tesseract *tesseract) {
         // Fetch the recognized text
         NSString *recognizedText = tesseract.recognizedText;
         
@@ -299,7 +301,8 @@
 //    self.imageView.image = operation.tesseract.thresholdedImage;
     
     // Finally, add the recognition operation to the queue
-    [self.operationQueue addOperation:operation];
+    self.queue = [[NSOperationQueue alloc] init];
+    [self.queue addOperation:self.operation];
 }
 
 - (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract {
