@@ -72,7 +72,7 @@ static NSString *const kAppVersion = @"appVersion";
     [self getImageData];
     
     //沉睡1秒
-    [NSThread sleepForTimeInterval:1.0f];
+    [NSThread sleepForTimeInterval:1.2f];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];

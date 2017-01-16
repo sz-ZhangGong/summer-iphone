@@ -141,8 +141,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     self.view.backgroundColor = [UIColor whiteColor];
     //出错页面
     [self.webView addSubview:self.errorImageView];
-    //webview
-    [self.view addSubview:self.webView];
+    
     //右边按钮下拉菜单
     [self settingMenu];
     
@@ -152,6 +151,8 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 {
     [super viewWillAppear:animated];
 //    [YMWebCacheProtocol start];
+    //webview
+    [self.view addSubview:self.webView];
     //网络监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLoadDataBase:) name:KLoadDataBase object:nil];
     //监听支付成功
@@ -167,9 +168,11 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 {
     NSDictionary *dict = text.userInfo;
     if ([dict[@"netType"] isEqualToString:@"NotReachable"] || [dict[@"netType"] isEqualToString:@"Unknown"]) {
-//        [self setNavTitle:@"出错了"];
-//        self.errorImageView.hidden = NO;
-//        [self.webView reload];
+        [DisplayUtils alertControllerDisplay:@"网络异常" withUIViewController:self withConfirmBlock:^{
+            NSLog(@"确认");
+        } withCancelBlock:^{
+            NSLog(@"取消");
+        }];
     }
     /*
      * #pragma 重新加载页面
@@ -332,32 +335,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     NSLog(@"navigationAction.request.URL.relativePath = %@",navigationAction.request.URL.relativePath);
-    NSString *isChangStr;
-    if ([UserDefaultsUtils valueWithKey:@"ChangeStr"] == nil) {
-        isChangStr = changeStr;
-    }else{
-        isChangStr = ChangeStr;
-    }
-    //高度自适应
-    if ([isChangStr containsString:navigationAction.request.URL.relativePath]) {
-        NSString *js_fit_code = [NSString stringWithFormat:@"var meta = document.createElement('meta');"
-                                 "meta.name = 'viewport';"
-                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=1.0, user-scalable=yes';"
-                                 "document.getElementsByTagName('head')[0].appendChild(meta);"
-                                 ];
-        [webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
-            
-        }];
-        self.navigationItem.rightBarButtonItem = nil;
-    }else{
-        //设置导航栏的按钮
-        self.navigationItem.rightBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_classify"] andTarget:self andinfoStr:@"third"];
-        
-        NSString *js_fit_code = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.zoom= '%.2f'",_scale];
-        [webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
-            
-        }];
-    }
+    
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 -(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
@@ -394,6 +372,33 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     }
     //设置标题
     [self setNavTitle:webView.title];
+    
+    //高度自适应
+    NSString *isChangStr;
+    if ([UserDefaultsUtils valueWithKey:@"ChangeStr"] == nil) {
+        isChangStr = changeStr;
+    }else{
+        isChangStr = ChangeStr;
+    }
+    if ([isChangStr containsString:webView.URL.relativePath]) {
+        NSString *js_fit_code = [NSString stringWithFormat:@"var meta = document.createElement('meta');"
+                                 "meta.name = 'viewport';"
+                                 "meta.content = 'width=device-width, initial-scale=1.0,minimum-scale=0.1, maximum-scale=1.0, user-scalable=yes';"
+                                 "document.getElementsByTagName('head')[0].appendChild(meta);"
+                                 ];
+        [webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+            
+        }];
+        self.navigationItem.rightBarButtonItem = nil;
+    }else{
+        //设置导航栏的按钮
+        self.navigationItem.rightBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_classify"] andTarget:self andinfoStr:@"third"];
+        
+        NSString *js_fit_code = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.zoom= '%.2f'",_scale];
+        [webView evaluateJavaScript:js_fit_code completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+            
+        }];
+    }
 }
 
 //加载出错
@@ -401,9 +406,9 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 {
     NSLog(@"error = %@",error);
     //加载出错时，title
-//    [self setNavTitle:@"出错了"];
-//    self.errorImageView.hidden = NO;
-//    [self.webView reload];
+    [self setNavTitle:@"出错了"];
+    self.errorImageView.hidden = NO;
+    [self.webView reload];
 }
 
 #pragma mark - WKScriptMessageHandler代理方法（js交互）
