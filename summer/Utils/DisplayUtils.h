@@ -8,7 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^confirmBlock)(void);
+
+typedef void(^cancelBlock)(void);
+
 @interface DisplayUtils : NSObject
+
+@property (nonatomic,strong)confirmBlock confirmBlock;
+@property (nonatomic,strong)cancelBlock cancelBlock;
 
 +(NSString *) md5:(NSString *)str;
 
@@ -19,5 +26,7 @@
 +(void)dialphoneNumber:(NSString *)number;
 
 +(CGSize)getImageSizeWithURL:(id)imageURL;
+
++(void)alertControllerDisplay:(NSString *)str withUIViewController:(UIViewController *)viewController withConfirmBlock:(confirmBlock)confirmBlock withCancelBlock:(cancelBlock)cancelBlock;
 
 @end
