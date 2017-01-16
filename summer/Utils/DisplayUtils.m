@@ -196,4 +196,18 @@
     }
 }
 
++(void)alertControllerDisplay:(NSString *)str withUIViewController:(UIViewController *)viewController withConfirmBlock:(confirmBlock)confirmBlock withCancelBlock:(cancelBlock)cancelBlock
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"温馨提示" message:str preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *alertAction1 = [UIAlertAction actionWithTitle:@"刷新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        confirmBlock();
+    }];
+    UIAlertAction *alertAction2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        cancelBlock();
+    }];
+    [alertController addAction:alertAction1];
+    [alertController addAction:alertAction2];
+    [viewController presentViewController:alertController animated:YES completion:nil];
+}
+
 @end
