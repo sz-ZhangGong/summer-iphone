@@ -28,8 +28,15 @@
     self.view.contentMode = UIViewContentModeCenter;
     //设置导航栏的按钮
     self.navigationItem.leftBarButtonItem = [CustemNavItem initWithImage:[UIImage imageNamed:@"ic_nav_back"] andTarget:self andinfoStr:@"first"];
-    size = [DisplayUtils getImageSizeWithURL:_imageStr];
-    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+//    size = [DisplayUtils getImageSizeWithURL:_imageStr];
+    NSData* data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_imageStr]] returningResponse:nil error:nil];
+    UIImage* image = [UIImage imageWithData:data];
+    if(image)
+    {
+        size = image.size;
+    }
+    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screen_width, screen_height)];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     self.imageView.center = self.view.center;
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:_imageStr] placeholderImage:nil];
     [self.view addSubview:self.imageView];
@@ -67,6 +74,7 @@
 
 -(void)BBIdidClickWithName:(NSString *)infoStr
 {
+    self.imageView.hidden = YES;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
