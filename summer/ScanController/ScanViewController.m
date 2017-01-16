@@ -27,6 +27,10 @@
     BOOL isPush;//跳转到下一级页面
 }
 
+@property (nonatomic,strong)G8RecognitionOperation *operation;
+
+@property (nonatomic,strong)NSOperationQueue *queue;
+
 @property (strong, nonatomic) CIDetector *detector;
 
 @property (nonatomic,strong)UIImageView *imageView;
@@ -44,6 +48,7 @@
     return _imageView;
 }
 
+#pragma mark - 视图生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -57,6 +62,42 @@
     isPush = NO;
     
     [self InitScan];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (isFirst || isPush) {
+        if (readview) {
+            [self reStartScan];
+        }
+    }
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    if (readview) {
+        [readview stop];
+        readview.is_Anmotion = YES;
+    }
+    [self.operation cancel];
+    [self.queue cancelAllOperations];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (isFirst) {
+        isFirst = NO;
+    }
+    if (isPush) {
+        isPush = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -100,6 +141,7 @@
         
     }];
 //    [self.view addSubview:self.imageView];
+    [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(recordAction) userInfo:nil repeats:YES];
 }
 
 #pragma mark - 相册
@@ -138,8 +180,6 @@
     [self presentViewController:mediaUI animated:YES completion:^{
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     }];
-    
-    
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
@@ -152,24 +192,7 @@
     if ([mediaType isEqualToString:@"public.image"]) {
         srcImage = info[UIImagePickerControllerEditedImage];
         
-        NSLog(@"正在识别中...");
-        __weak typeof(self) weakSelf = self;
-        [[RecogizeCardManager recognizeCardManager] recognizeCardWithImage:srcImage compleate:^(NSString *text) {
-            NSString *strUrl = [text stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-            if (strUrl != nil && [self isPureInt:strUrl]) {
-                NSLog(@"识别结果:%@",strUrl);
-                [readview stop];
-                [weakSelf accordingQcode:strUrl];
-                //播放扫描二维码的声音
-//                SystemSoundID soundID;
-//                NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-//                AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-//                AudioServicesPlaySystemSound(soundID);
-            }else{
-                NSLog(@"识别失败");
-                [readview start];
-            }
-        }];
+        [self recognizeImageWithTesseract:srcImage];
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
@@ -179,7 +202,6 @@
     [picker dismissViewControllerAnimated:YES completion:^{
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     }];
-    
 }
 
 #pragma mark -QRCodeReaderViewDelegate
@@ -188,27 +210,9 @@
     self.imageView.image = result;
     NSLog(@"=====%@",result);
     readview.is_Anmotion = YES;
-    
     @synchronized (self) {
         [NSThread sleepForTimeInterval:1.5f];
-        __weak typeof(self) weakSelf = self;
-        [[RecogizeCardManager recognizeCardManager] recognizeCardWithImage:result compleate:^(NSString *text) {
-            NSString *strUrl = [text stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-            if (strUrl != nil && [self isPureInt:strUrl]) {
-                NSLog(@"识别结果:%@",strUrl);
-                [readview stop];
-                [weakSelf accordingQcode:strUrl];
-                //播放扫描二维码的声音
-//                SystemSoundID soundID;
-//                NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-//                AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-//                AudioServicesPlaySystemSound(soundID);
-            }else{
-                NSLog(@"识别失败");
-//                [self performSelector:@selector(reStartScan) withObject:nil afterDelay:1.5f];
-                
-            }
-        }];
+        [self recognizeImageWithTesseract:result];
     }
 }
 
@@ -221,11 +225,13 @@
 #pragma mark - 扫描结果处理
 - (void)accordingQcode:(NSString *)str
 {
+#if 0
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"扫描结果" message:str preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *alertAction1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [readview start];
     }];
     UIAlertAction *alertAction2 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [readview stop];
         if (str != nil) {
             if (self.delegate && [self.delegate respondsToSelector:@selector(scanCardReturn:)]) {
                 [self.delegate scanCardReturn:str];
@@ -241,6 +247,12 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self presentViewController:alertController animated:YES completion:nil];
     });
+#endif
+    [readview stop];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(scanCardReturn:)]) {
+        [self.delegate scanCardReturn:str];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)reStartScan
@@ -250,54 +262,56 @@
     if (readview.is_AnmotionFinished) {
         [readview loopDrawLine];
     }
-    
     [readview start];
 }
 
-#pragma mark - view
-- (void)viewWillAppear:(BOOL)animated
+-(void)recordAction
 {
-    [super viewWillAppear:animated];
-    
-    if (isFirst || isPush) {
-        if (readview) {
-//            [self reStartScan];
+    [readview loopDrawLine];
+}
+
+-(void)recognizeImageWithTesseract:(UIImage *)image
+{
+    self.operation = [[G8RecognitionOperation alloc] initWithLanguage:@"eng"];
+    self.operation.tesseract.engineMode = G8OCREngineModeTesseractOnly;
+    self.operation.tesseract.pageSegmentationMode = G8PageSegmentationModeAutoOnly;
+    self.operation.delegate = self;
+    self.operation.tesseract.image = image;
+    self.operation.recognitionCompleteBlock = ^(G8Tesseract *tesseract) {
+        // Fetch the recognized text
+        NSString *recognizedText = tesseract.recognizedText;
+        
+        recognizedText = [recognizedText stringByReplacingOccurrencesOfString:@" " withString:@""];
+        recognizedText = [recognizedText stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        NSLog(@"%@", recognizedText);
+        
+        for (int i ; i<recognizedText.length; i++) {
+            if (i > recognizedText.length-17 || recognizedText.length < 17) {
+                break;
+            }
+            NSString *newStr = [recognizedText substringWithRange:NSMakeRange(i, 17)];
+            if ([self isPureInt:newStr]) {
+                NSLog(@"newstr = %@",newStr);
+                [self accordingQcode:newStr];
+            }
         }
-    }
+    };
     
+    // Display the image to be recognized in the view
+//    self.imageView.image = operation.tesseract.thresholdedImage;
+    
+    // Finally, add the recognition operation to the queue
+    self.queue = [[NSOperationQueue alloc] init];
+    [self.queue addOperation:self.operation];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    if (readview) {
-        [readview stop];
-        readview.is_Anmotion = YES;
-    }
-    
+- (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract {
+    NSLog(@"progress: %lu", (unsigned long)tesseract.progress);
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    if (isFirst) {
-        isFirst = NO;
-    }
-    if (isPush) {
-        isPush = NO;
-    }
+- (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract {
+    return NO;  // return YES, if you need to cancel recognition prematurely
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

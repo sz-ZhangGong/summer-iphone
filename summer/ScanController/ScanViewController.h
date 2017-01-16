@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+#import <TesseractOCR/TesseractOCR.h>
 
 @protocol ScanViewController <NSObject>
 
@@ -17,7 +18,7 @@
 
 @end
 
-@interface ScanViewController : BaseViewController
+@interface ScanViewController : BaseViewController<G8TesseractDelegate>
 
 @property (nonatomic,strong)id<ScanViewController> delegate;
 
