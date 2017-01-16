@@ -2326,7 +2326,7 @@
 					"-force_load",
 					"$(PROJECT_DIR)/summer/Library/WXpay/libWeChatSDK.a",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app.luclandtest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -2367,7 +2367,7 @@
 					"-force_load",
 					"$(PROJECT_DIR)/summer/Library/WXpay/libWeChatSDK.a",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app.luclandtest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};

@@ -25,6 +25,7 @@
 #import "lhScanQCodeViewController.h"
 #import "ScanViewController.h"
 #import "PingImageViewController.h"
+#import "JPUSHService.h"
 
 
 static NSString * const APIBaseURLString = @"";
@@ -146,7 +147,8 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     [self.view addSubview:self.webView];
     //右边按钮下拉菜单
     [self settingMenu];
-    
+    //设置别名
+    [JPUSHService setAlias:[DisplayUtils uuid] callbackSelector:nil object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
