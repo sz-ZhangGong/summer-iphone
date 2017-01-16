@@ -169,11 +169,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 {
     NSDictionary *dict = text.userInfo;
     if ([dict[@"netType"] isEqualToString:@"NotReachable"] || [dict[@"netType"] isEqualToString:@"Unknown"]) {
-        [DisplayUtils alertControllerDisplay:@"网络异常" withUIViewController:self withConfirmBlock:^{
-            NSLog(@"确认");
-        } withCancelBlock:^{
-            NSLog(@"取消");
-        }];
+
     }
     /*
      * #pragma 重新加载页面
@@ -401,7 +397,12 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     //加载出错时，title
     [self setNavTitle:@"出错了"];
     self.errorImageView.hidden = NO;
-    [self.webView reload];
+    [DisplayUtils alertControllerDisplay:@"网络异常,请检查网络连接!" withUIViewController:self withConfirmBlock:^{
+        NSLog(@"刷新");
+        [self.webView reload];
+    } withCancelBlock:^{
+        NSLog(@"取消");
+    }];
 }
 
 #pragma mark - WKScriptMessageHandler代理方法（js交互）
