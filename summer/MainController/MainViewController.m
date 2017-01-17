@@ -500,7 +500,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 
 -(void)backBar
 {
-
+    [self.webView reload];
 }
 
 

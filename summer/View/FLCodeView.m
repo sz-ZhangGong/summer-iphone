@@ -87,10 +87,10 @@
     // Specify the pixel format
     output.videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSNumber numberWithInt:kCVPixelFormatType_32BGRA], kCVPixelBufferPixelFormatTypeKey,
-                            [NSNumber numberWithInt: 320], (id)kCVPixelBufferWidthKey,
-                            [NSNumber numberWithInt: 240], (id)kCVPixelBufferHeightKey,
+
                             nil];
-    
+    //[NSNumber numberWithInt: 320], (id)kCVPixelBufferWidthKey,
+//    [NSNumber numberWithInt: 240], (id)kCVPixelBufferHeightKey,
     AVCaptureVideoPreviewLayer* preLayer = [AVCaptureVideoPreviewLayer layerWithSession: session];//相机拍摄预览图层
     //preLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
     preLayer.frame = self.layer.bounds;
@@ -265,6 +265,7 @@
 #pragma mark - 扫描结果
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
+    [NSThread sleepForTimeInterval:1.2f];
     UIImage *image = [self imageFromSampleBuffer:sampleBuffer];
     UIImage *img = [UIImage imageWithCGImage:image.CGImage scale:1.0 orientation:UIImageOrientationRight];
     if (_delegate && [_delegate respondsToSelector:@selector(readerScanResult:)]) {

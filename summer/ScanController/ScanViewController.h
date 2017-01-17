@@ -20,6 +20,6 @@
 
 @interface ScanViewController : BaseViewController<G8TesseractDelegate>
 
-@property (nonatomic,strong)id<ScanViewController> delegate;
+@property (nonatomic,weak)id<ScanViewController> delegate;
 
 @end

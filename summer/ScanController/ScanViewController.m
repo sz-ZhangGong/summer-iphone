@@ -27,6 +27,8 @@
     BOOL isPush;//跳转到下一级页面
 }
 
+@property (nonatomic,strong)NSTimer *timer;
+
 @property (nonatomic,strong)G8RecognitionOperation *operation;
 
 @property (nonatomic,strong)NSOperationQueue *queue;
@@ -76,6 +78,17 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.timer invalidate];
+    self.timer = nil;
+    [self.operation cancel];
+    [self.queue cancelAllOperations];
+    self.operation = nil;
+    self.queue = nil;
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
@@ -84,8 +97,6 @@
         [readview stop];
         readview.is_Anmotion = YES;
     }
-    [self.operation cancel];
-    [self.queue cancelAllOperations];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -141,7 +152,7 @@
         
     }];
 //    [self.view addSubview:self.imageView];
-    [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(recordAction) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(recordAction) userInfo:nil repeats:YES];
 }
 
 #pragma mark - 相册
@@ -204,22 +215,19 @@
     }];
 }
 
-#pragma mark -QRCodeReaderViewDelegate
+#pragma mark -QRCodeReaderViewDelegate 代理方法
 - (void)readerScanResult:(UIImage *)result
 {
     self.imageView.image = result;
-    NSLog(@"=====%@",result);
     readview.is_Anmotion = YES;
-    @synchronized (self) {
-        [NSThread sleepForTimeInterval:1.5f];
-        [self recognizeImageWithTesseract:result];
-    }
+    [self recognizeImageWithTesseract:result];
 }
 
+#pragma mark - 判断字符串是否为数字
 - (BOOL)isPureInt:(NSString*)string{
     NSScanner* scan = [NSScanner scannerWithString:string];
     int val;
-    return[scan scanInt:&val] && [scan isAtEnd];
+    return [scan scanInt:&val] && [scan isAtEnd];
 }
 
 #pragma mark - 扫描结果处理
@@ -248,7 +256,6 @@
         [self presentViewController:alertController animated:YES completion:nil];
     });
 #endif
-    [readview stop];
     if (self.delegate && [self.delegate respondsToSelector:@selector(scanCardReturn:)]) {
         [self.delegate scanCardReturn:str];
     }
@@ -272,37 +279,38 @@
 
 -(void)recognizeImageWithTesseract:(UIImage *)image
 {
+    self.queue = [[NSOperationQueue alloc] init];
     self.operation = [[G8RecognitionOperation alloc] initWithLanguage:@"eng"];
     self.operation.tesseract.engineMode = G8OCREngineModeTesseractOnly;
     self.operation.tesseract.pageSegmentationMode = G8PageSegmentationModeAutoOnly;
     self.operation.delegate = self;
     self.operation.tesseract.image = image;
-    self.operation.recognitionCompleteBlock = ^(G8Tesseract *tesseract) {
+    __weak typeof(self) weakSelf = self;
+    weakSelf.operation.recognitionCompleteBlock = ^(G8Tesseract *tesseract) {
         // Fetch the recognized text
         NSString *recognizedText = tesseract.recognizedText;
         
         recognizedText = [recognizedText stringByReplacingOccurrencesOfString:@" " withString:@""];
         recognizedText = [recognizedText stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        recognizedText = [recognizedText stringByReplacingOccurrencesOfString:@"-" withString:@""];
         NSLog(@"%@", recognizedText);
         
-        for (int i ; i<recognizedText.length; i++) {
+        for (int i = 0; i<recognizedText.length; i++) {
             if (i > recognizedText.length-17 || recognizedText.length < 17) {
                 break;
             }
             NSString *newStr = [recognizedText substringWithRange:NSMakeRange(i, 17)];
-            if ([self isPureInt:newStr]) {
+            if ([weakSelf isPureInt:newStr]) {
                 NSLog(@"newstr = %@",newStr);
-                [self accordingQcode:newStr];
+                [readview stop];
+                [weakSelf accordingQcode:newStr];
             }
         }
     };
     
-    // Display the image to be recognized in the view
 //    self.imageView.image = operation.tesseract.thresholdedImage;
-    
-    // Finally, add the recognition operation to the queue
-    self.queue = [[NSOperationQueue alloc] init];
     [self.queue addOperation:self.operation];
+    self.operation = nil;
 }
 
 - (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract {
@@ -313,5 +321,9 @@
     return NO;  // return YES, if you need to cancel recognition prematurely
 }
 
+-(void)dealloc
+{
+    
+}
 
 @end
