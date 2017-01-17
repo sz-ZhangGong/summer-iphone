@@ -25,6 +25,7 @@
 #import "lhScanQCodeViewController.h"
 #import "ScanViewController.h"
 #import "PingImageViewController.h"
+#import "JPUSHService.h"
 
 
 static NSString * const APIBaseURLString = @"";
@@ -142,18 +143,18 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     self.view.backgroundColor = [UIColor whiteColor];
     //出错页面
     [self.webView addSubview:self.errorImageView];
-    
+    //webview
+    [self.view addSubview:self.webView];
     //右边按钮下拉菜单
     [self settingMenu];
-    
+    //设置别名
+    [JPUSHService setAlias:[DisplayUtils uuid] callbackSelector:nil object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 //    [YMWebCacheProtocol start];
-    //webview
-    [self.view addSubview:self.webView];
     //网络监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLoadDataBase:) name:KLoadDataBase object:nil];
     //监听支付成功

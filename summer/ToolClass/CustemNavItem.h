@@ -37,6 +37,6 @@
  */
 +(instancetype)initWithString:(NSString *)Str andTarget:(UIViewController *)target andinfoStr:(NSString *)infoStr;
 
-@property (nonatomic,strong)id <CustemBBI>delegate;
+@property (nonatomic,weak)id <CustemBBI>delegate;
 
 @end

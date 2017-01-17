@@ -63,7 +63,7 @@
     // Configure the session to produce lower resolution video frames, if your
     // processing algorithm can cope. We'll specify medium quality for the
     // chosen device.
-    session.sessionPreset = AVCaptureSessionPresetPhoto;//设置分辨率
+    session.sessionPreset = AVCaptureSessionPresetHigh;//设置分辨率
     
     // Find a suitable AVCaptureDevice
     AVCaptureDevice *device = [AVCaptureDevice
@@ -87,14 +87,14 @@
     // Specify the pixel format
     output.videoSettings = [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSNumber numberWithInt:kCVPixelFormatType_32BGRA], kCVPixelBufferPixelFormatTypeKey,
-                            [NSNumber numberWithInt: 320], (id)kCVPixelBufferWidthKey,
-                            [NSNumber numberWithInt: 240], (id)kCVPixelBufferHeightKey,
+
                             nil];
-    
+    //[NSNumber numberWithInt: 320], (id)kCVPixelBufferWidthKey,
+//    [NSNumber numberWithInt: 240], (id)kCVPixelBufferHeightKey,
     AVCaptureVideoPreviewLayer* preLayer = [AVCaptureVideoPreviewLayer layerWithSession: session];//相机拍摄预览图层
     //preLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
     preLayer.frame = self.layer.bounds;
-//    preLayer.frame = scanZomeBack.frame;
+    //    preLayer.frame = scanZomeBack.frame;
     [self.layer insertSublayer:preLayer atIndex:0];
     preLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     [self.layer addSublayer:preLayer];
@@ -111,7 +111,7 @@
 -(void)loopDrawLine
 {
     _is_AnmotionFinished = NO;
-    CGRect rect = CGRectMake(60*widthRate, (DeviceMaxHeight-250*widthRate)/2, 200*widthRate, 2);
+    CGRect rect = CGRectMake(60*widthRate, (DeviceMaxHeight-200*widthRate)/2, 200*widthRate, 2);
     if (_readLineView) {
         _readLineView.alpha = 1;
         _readLineView.frame = rect;
@@ -124,7 +124,7 @@
     
     [UIView animateWithDuration:1.5 animations:^{
         //修改fream的代码写在这里
-        _readLineView.frame =CGRectMake(60*widthRate, (DeviceMaxHeight-250*widthRate)/2+300*widthRate, 200*widthRate, 2);
+        _readLineView.frame =CGRectMake(60*widthRate, (DeviceMaxHeight-200*widthRate)/2+200*widthRate-5, 200*widthRate, 2);
     } completion:^(BOOL finished) {
         if (!_is_Anmotion) {
             [self loopDrawLine];
@@ -137,10 +137,10 @@
 {
     
     CGFloat wid = 60*widthRate;
-    CGFloat heih = (DeviceMaxHeight-250*widthRate)/2;
+    CGFloat heih = (DeviceMaxHeight-200*widthRate)/2;
     
     //最上部view
-    CGFloat alpha = 0.0;
+    CGFloat alpha = 0.6;
     UIView* upView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, DeviceMaxWidth, heih)];
     upView.alpha = alpha;
     upView.backgroundColor = [self colorFromHexRGB:contentTitleColorStr];
@@ -149,29 +149,26 @@
     //用于说明的label
     UILabel * labIntroudction= [[UILabel alloc] init];
     labIntroudction.backgroundColor = [UIColor clearColor];
-//    labIntroudction.frame=CGRectMake(0, 64+(heih-64-50*widthRate)/2, DeviceMaxWidth, 50*widthRate);
-    labIntroudction.frame = CGRectMake(0,DeviceMaxHeight-heih-250*widthRate/2, DeviceMaxWidth, 50*widthRate);
+    labIntroudction.frame=CGRectMake(0, 64+(heih-64-50*widthRate)/2, DeviceMaxWidth, 50*widthRate);
     labIntroudction.textAlignment = NSTextAlignmentCenter;
     labIntroudction.textColor=[UIColor whiteColor];
-    labIntroudction.text=@"[请将健康卡对准扫描框]";
-    labIntroudction.font=[UIFont boldSystemFontOfSize:25.0f];
-    labIntroudction.transform = CGAffineTransformMakeRotation(M_PI/2);//将Label顺时旋转90度
-    [reader addSubview:labIntroudction];
+    labIntroudction.text=@"请扫描健康卡";
+    [upView addSubview:labIntroudction];
     
     //左侧的view
-    UIView * cLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, heih, wid, 300*widthRate)];
+    UIView * cLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, heih, wid, 200*widthRate)];
     cLeftView.alpha = alpha;
     cLeftView.backgroundColor = [self colorFromHexRGB:contentTitleColorStr];
     [reader addSubview:cLeftView];
     
     //右侧的view
-    UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(DeviceMaxWidth-wid, heih, wid, 300*widthRate)];
+    UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(DeviceMaxWidth-wid, heih, wid, 200*widthRate)];
     rightView.alpha = alpha;
     rightView.backgroundColor = [self colorFromHexRGB:contentTitleColorStr];
     [reader addSubview:rightView];
     
     //底部view
-    UIView * downView = [[UIView alloc] initWithFrame:CGRectMake(0, heih+300*widthRate, DeviceMaxWidth, DeviceMaxHeight - heih-300*widthRate)];
+    UIView * downView = [[UIView alloc] initWithFrame:CGRectMake(0, heih+200*widthRate, DeviceMaxWidth, DeviceMaxHeight - heih-200*widthRate)];
     downView.alpha = alpha;
     downView.backgroundColor = [self colorFromHexRGB:contentTitleColorStr];
     [reader addSubview:downView];
@@ -183,8 +180,9 @@
     [turnBtn setBackgroundImage:[UIImage imageNamed:@"lightNormal"] forState:UIControlStateSelected];
     turnBtn.frame=CGRectMake((DeviceMaxWidth-50*widthRate)/2, (CGRectGetHeight(downView.frame)-50*widthRate)/2, 50*widthRate, 50*widthRate);
     [turnBtn addTarget:self action:@selector(turnBtnEvent:) forControlEvents:UIControlEventTouchUpInside];
-//    [downView addSubview:turnBtn];
+    [downView addSubview:turnBtn];
     
+    //扫描区域
     //扫描区域
     UIImage *hbImage=[UIImage imageNamed:@"scanscanBg"];
     UIImageView * scanZomeBack=[[UIImageView alloc] init];
@@ -193,10 +191,9 @@
     scanZomeBack.layer.borderWidth = 2.5;
     scanZomeBack.image = hbImage;
     //添加一个背景图片
-//    CGRect mImagerect = CGRectMake(wid, (DeviceMaxHeight-250*widthRate)/2, DeviceMaxWidth-2*wid, 300*widthRate);
-    CGRect mImagerect = CGRectMake(0, 64, DeviceMaxWidth, DeviceMaxHeight-64);
+    CGRect mImagerect = CGRectMake(60*widthRate, (DeviceMaxHeight-200*widthRate)/2, 200*widthRate, 200*widthRate);
     [scanZomeBack setFrame:mImagerect];
-    //    CGRect scanCrop=[self getScanCrop:mImagerect readerViewBounds:self.frame];
+    CGRect scanCrop=[self getScanCrop:mImagerect readerViewBounds:self.frame];
     [self addSubview:scanZomeBack];
 }
 
@@ -268,10 +265,11 @@
 #pragma mark - 扫描结果
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
+    [NSThread sleepForTimeInterval:1.2f];
     UIImage *image = [self imageFromSampleBuffer:sampleBuffer];
-//    UIImage *img = [UIImage imageWithCGImage:image.CGImage scale:2.0 orientation:UIImageOrientationRight];
+    UIImage *img = [UIImage imageWithCGImage:image.CGImage scale:1.0 orientation:UIImageOrientationRight];
     if (_delegate && [_delegate respondsToSelector:@selector(readerScanResult:)]) {
-        [_delegate readerScanResult:image];
+        [_delegate readerScanResult:img];
     }
 }
 
