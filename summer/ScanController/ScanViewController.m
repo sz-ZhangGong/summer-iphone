@@ -27,8 +27,6 @@
     BOOL isPush;//跳转到下一级页面
 }
 
-@property (nonatomic,strong)NSTimer *timer;
-
 @property (nonatomic,strong)G8RecognitionOperation *operation;
 
 @property (nonatomic,strong)NSOperationQueue *queue;
@@ -81,8 +79,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.timer invalidate];
-    self.timer = nil;
     [self.operation cancel];
     [self.queue cancelAllOperations];
     self.operation = nil;
@@ -152,7 +148,6 @@
         
     }];
 //    [self.view addSubview:self.imageView];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(recordAction) userInfo:nil repeats:YES];
 }
 
 #pragma mark - 相册
@@ -219,7 +214,6 @@
 - (void)readerScanResult:(UIImage *)result
 {
     self.imageView.image = result;
-    readview.is_Anmotion = YES;
     [self recognizeImageWithTesseract:result];
 }
 
@@ -277,6 +271,7 @@
     [readview loopDrawLine];
 }
 
+#pragma mark - 识别健康卡卡号
 -(void)recognizeImageWithTesseract:(UIImage *)image
 {
     self.queue = [[NSOperationQueue alloc] init];
