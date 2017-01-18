@@ -111,7 +111,8 @@
 -(void)loopDrawLine
 {
     _is_AnmotionFinished = NO;
-    CGRect rect = CGRectMake(60*widthRate, (DeviceMaxHeight-200*widthRate)/2, 200*widthRate, 2);
+//    CGRect rect = CGRectMake(60*widthRate, (DeviceMaxHeight-200*widthRate)/2, 200*widthRate, 2);
+    CGRect rect = CGRectMake(0, (DeviceMaxHeight-200*widthRate)/2, DeviceMaxWidth, 2);
     if (_readLineView) {
         _readLineView.alpha = 1;
         _readLineView.frame = rect;
@@ -124,7 +125,8 @@
     
     [UIView animateWithDuration:1.5 animations:^{
         //修改fream的代码写在这里
-        _readLineView.frame =CGRectMake(60*widthRate, (DeviceMaxHeight-200*widthRate)/2+200*widthRate-5, 200*widthRate, 2);
+//        _readLineView.frame =CGRectMake(60*widthRate, (DeviceMaxHeight-200*widthRate)/2+200*widthRate-5, 200*widthRate, 2);
+        _readLineView.frame =CGRectMake(0, (DeviceMaxHeight-200*widthRate)/2+200*widthRate-5, DeviceMaxWidth, 2);
     } completion:^(BOOL finished) {
         if (!_is_Anmotion) {
             [self loopDrawLine];
@@ -159,13 +161,13 @@
     UIView * cLeftView = [[UIView alloc] initWithFrame:CGRectMake(0, heih, wid, 200*widthRate)];
     cLeftView.alpha = alpha;
     cLeftView.backgroundColor = [self colorFromHexRGB:contentTitleColorStr];
-    [reader addSubview:cLeftView];
+//    [reader addSubview:cLeftView];
     
     //右侧的view
     UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(DeviceMaxWidth-wid, heih, wid, 200*widthRate)];
     rightView.alpha = alpha;
     rightView.backgroundColor = [self colorFromHexRGB:contentTitleColorStr];
-    [reader addSubview:rightView];
+//    [reader addSubview:rightView];
     
     //底部view
     UIView * downView = [[UIView alloc] initWithFrame:CGRectMake(0, heih+200*widthRate, DeviceMaxWidth, DeviceMaxHeight - heih-200*widthRate)];
@@ -191,9 +193,10 @@
     scanZomeBack.layer.borderWidth = 2.5;
     scanZomeBack.image = hbImage;
     //添加一个背景图片
-    CGRect mImagerect = CGRectMake(60*widthRate, (DeviceMaxHeight-200*widthRate)/2, 200*widthRate, 200*widthRate);
+//    CGRect mImagerect = CGRectMake(60*widthRate, (DeviceMaxHeight-200*widthRate)/2, 200*widthRate, 200*widthRate);
+    CGRect mImagerect = CGRectMake(0, (DeviceMaxHeight-200*widthRate)/2, DeviceMaxWidth, 200*widthRate);
     [scanZomeBack setFrame:mImagerect];
-    CGRect scanCrop=[self getScanCrop:mImagerect readerViewBounds:self.frame];
+//    CGRect scanCrop=[self getScanCrop:mImagerect readerViewBounds:self.frame];
     [self addSubview:scanZomeBack];
 }
 
