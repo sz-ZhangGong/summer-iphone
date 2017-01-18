@@ -299,6 +299,7 @@
                 NSLog(@"newstr = %@",newStr);
                 [readview stop];
                 [weakSelf accordingQcode:newStr];
+                break;
             }
         }
     };

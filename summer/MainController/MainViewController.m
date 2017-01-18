@@ -161,7 +161,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySucceed:) name:PAY_SUCCEED object:nil];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.navigationController.navigationBar.barTintColor = RGBColor(0, 0, 0, 1.0);
+    self.navigationController.navigationBar.barTintColor = RGBColor(72, 178, 189, 1.0);
 
     [self addProgressView];
     

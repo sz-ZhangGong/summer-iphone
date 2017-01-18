@@ -154,7 +154,7 @@
     labIntroudction.frame=CGRectMake(0, 64+(heih-64-50*widthRate)/2, DeviceMaxWidth, 50*widthRate);
     labIntroudction.textAlignment = NSTextAlignmentCenter;
     labIntroudction.textColor=[UIColor whiteColor];
-    labIntroudction.text=@"请扫描健康卡";
+    labIntroudction.text=@"[请将健康卡卡号对准扫描框]";
     [upView addSubview:labIntroudction];
     
     //左侧的view
