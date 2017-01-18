@@ -63,7 +63,7 @@
     // Configure the session to produce lower resolution video frames, if your
     // processing algorithm can cope. We'll specify medium quality for the
     // chosen device.
-    session.sessionPreset = AVCaptureSessionPresetHigh;//设置分辨率
+    session.sessionPreset = AVCaptureSessionPresetPhoto;//设置分辨率
     
     // Find a suitable AVCaptureDevice
     AVCaptureDevice *device = [AVCaptureDevice
