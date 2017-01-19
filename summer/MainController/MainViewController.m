@@ -309,13 +309,15 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     }else if (tag == 5){
         [UserDefaultsUtils saveValue:nil forKey:@"userName"];
         [UserDefaultsUtils saveValue:nil forKey:@"pwd"];
-        if ([UserDefaultsUtils valueWithKey:@"OutLogin"] == nil) {
-            NSLog(@"outLoginurl = %@",[UserDefaultsUtils valueWithKey:@"OutLogin"]);
-            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:OutLogin]]];
-        }else{
-            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultsUtils valueWithKey:@"OutLogin"]]]];
-        }
-        
+//        if ([UserDefaultsUtils valueWithKey:@"OutLogin"] == nil) {
+//            NSLog(@"outLoginurl = %@",[UserDefaultsUtils valueWithKey:@"OutLogin"]);
+//            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:OutLogin]]];
+//        }else{
+//            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultsUtils valueWithKey:@"OutLogin"]]]];
+//        }
+        [self.webView evaluateJavaScript:@"exit()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
+            
+        }];
     }
     [MenuView hidden];  // 隐藏菜单
     self.flag = YES;
