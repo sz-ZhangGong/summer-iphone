@@ -318,7 +318,6 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         [self.webView evaluateJavaScript:@"exit()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
             
         }];
-        
     }
     [MenuView hidden];  // 隐藏菜单
     self.flag = YES;
