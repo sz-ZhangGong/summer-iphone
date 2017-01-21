@@ -32,7 +32,7 @@ static NSString *const changeStr = @"/forms/Defaultr,/,/forms/Login?device=iphon
 
 static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/VerificationLogin";
 
-#define ALL_URLPATH [NSString stringWithFormat:@"%@?device=iphone&deviceid=%@",URL_APP_ROOT,[DisplayUtils uuid]]
+#define ALL_URLPATH [NSString stringWithFormat:@"%@?device=phone&CLIENTID=%@",URL_APP_ROOT,[DisplayUtils uuid]]
 
 #define OutLogin [NSString stringWithFormat:@"%@/forms/Login.exit",URL_APP_ROOT]
 

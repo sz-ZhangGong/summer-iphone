@@ -1216,7 +1216,7 @@
 				TargetAttributes = {
 					64EEAB6A1DD4A04E005729FE = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = TX8X4G99PU;
+						DevelopmentTeam = 35SG99VZ4S;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1555,7 +1555,7 @@
 				CODE_SIGN_ENTITLEMENTS = summer/summer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = TX8X4G99PU;
+				DEVELOPMENT_TEAM = 35SG99VZ4S;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1578,7 +1578,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mimrc.vine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -1592,7 +1592,7 @@
 				CODE_SIGN_ENTITLEMENTS = summer/summer.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shenzhen HuaGu Network Technology Co.,Ltd (TX8X4G99PU)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = TX8X4G99PU;
+				DEVELOPMENT_TEAM = 35SG99VZ4S;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1615,7 +1615,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.FL.ehealthy.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mimrc.vine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
