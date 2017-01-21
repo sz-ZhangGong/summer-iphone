@@ -28,7 +28,7 @@
 
 static NSString * const APIBaseURLString = @"";
 
-static NSString *const changeStr = @"/forms/Defaultr,/,/forms/Login?device=iphone,/forms/FrmPhoneRegistered,/forms/VerificationLogin,/forms/Login,/forms/FrmLossPassword";
+static NSString *const changeStr = @"/forms/Default,/,/forms/Login?device=iphone,/forms/FrmPhoneRegistered,/forms/VerificationLogin,/forms/Login,/forms/FrmLossPassword";
 
 static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/VerificationLogin";
 
@@ -193,6 +193,8 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     }
     if (![isChangStr containsString:self.webView.URL.relativePath] && ![@"about:blank" isEqualToString:self.webView.URL.absoluteString]) {
         self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefresh)];
+    }else{
+        self.webView.scrollView.mj_header.hidden = YES;
     }
 }
 
@@ -221,14 +223,9 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 -(void)BBIdidClickWithName:(NSString *)infoStr
 {
     if ([infoStr isEqualToString:@"first"]) {
-        if ([self.webView.URL.absoluteString containsString:URL_APP_ROOT]) {
-            if ([self.webView canGoBack]) {
-                [self.webView goBack];
-            }
-        }else{
-            [self.webView evaluateJavaScript:@"ReturnBtnClick()" completionHandler:^(id _Nullable item, NSError * _Nullable error) {
-                
-            }];
+        if ([self.webView canGoBack]) {
+            [self.webView goBack];
+            [self.webView reload];
         }
     }else if ([infoStr isEqualToString:@"second"]){
         
@@ -294,12 +291,10 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 }
 
 - (void)doSomething:(NSString *)str tag:(NSInteger)tag{
-    NSString *msgUrl = [NSString stringWithFormat:@"%@/%@",[UserDefaultsUtils valueWithKey:@"rootSite"],[UserDefaultsUtils valueWithKey:@"msgManage"]];
     NSLog(@"点击了第%ld个菜单项",tag);
+    NSString *msgUrl = [NSString stringWithFormat:@"%@/%@",URL_APP_ROOT,[UserDefaultsUtils valueWithKey:@"msgManage"]];
     if (tag == 1) {
-        MessageViewController *messageVC = [[MessageViewController alloc] init];
-        messageVC.url = [NSString stringWithFormat:@"%@.unread",msgUrl];
-        [self.navigationController pushViewController:messageVC animated:YES];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@.unread",msgUrl]]]];
     }else if (tag == 4){
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:ALL_URLPATH]]];
     }else if (tag == 3){
@@ -307,9 +302,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         settingVC.delegate = self;
         [self.navigationController pushViewController:settingVC animated:YES];
     }else if (tag == 2){
-        MessageViewController *messageVC = [[MessageViewController alloc] init];
-        messageVC.url = msgUrl;
-        [self.navigationController pushViewController:messageVC animated:YES];
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",msgUrl]]]];
     }else if (tag == 5){
         [UserDefaultsUtils saveValue:nil forKey:@"userName"];
         [UserDefaultsUtils saveValue:nil forKey:@"pwd"];
@@ -449,7 +442,6 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         scanVC.delegate = self;
         [self.navigationController pushViewController:scanVC animated:YES];
     }else{//微信支付
-        NSLog(@"message.body = %@",message.body);
         //向微信注册
         [WXApi registerApp:message.body[@"appid"]];
         

@@ -161,10 +161,10 @@
                 [readview stop];
                 [weakSelf accordingQcode:strUrl];
                 //播放扫描二维码的声音
-                SystemSoundID soundID;
-                NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-                AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-                AudioServicesPlaySystemSound(soundID);
+//                SystemSoundID soundID;
+//                NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
+//                AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
+//                AudioServicesPlaySystemSound(soundID);
             }else{
                 NSLog(@"识别失败");
                 [readview start];
@@ -199,10 +199,10 @@
                 [readview stop];
                 [weakSelf accordingQcode:strUrl];
                 //播放扫描二维码的声音
-                SystemSoundID soundID;
-                NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
-                AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
-                AudioServicesPlaySystemSound(soundID);
+//                SystemSoundID soundID;
+//                NSString *strSoundFile = [[NSBundle mainBundle] pathForResource:@"noticeMusic" ofType:@"wav"];
+//                AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:strSoundFile],&soundID);
+//                AudioServicesPlaySystemSound(soundID);
             }else{
                 NSLog(@"识别失败");
 //                [self performSelector:@selector(reStartScan) withObject:nil afterDelay:1.5f];
