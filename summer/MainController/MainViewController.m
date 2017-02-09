@@ -407,6 +407,11 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
         NSLog(@"取消");
     }];
 }
+//出现白屏时刷新页面
+-(void)webViewWebContentProcessDidTerminate:(WKWebView *)webView
+{
+    [self.webView reload];
+}
 
 #pragma mark - WKScriptMessageHandler代理方法（js交互）
 -(void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message
