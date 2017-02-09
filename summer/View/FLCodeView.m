@@ -268,7 +268,7 @@
 #pragma mark - 扫描结果
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
-    [NSThread sleepForTimeInterval:1.5f];
+    [NSThread sleepForTimeInterval:0.5f];
     UIImage *image = [self imageFromSampleBuffer:sampleBuffer];
     UIImage *img = [UIImage imageWithCGImage:image.CGImage scale:1.0 orientation:UIImageOrientationRight];
     if (_delegate && [_delegate respondsToSelector:@selector(readerScanResult:)]) {
