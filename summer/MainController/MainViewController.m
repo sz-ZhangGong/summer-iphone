@@ -19,7 +19,6 @@
 #import "SettingViewController.h"
 #import "UserDefaultsUtils.h"
 #import "MJRefresh.h"
-#import "YMWebCacheProtocol.h"
 #import "MessageViewController.h"
 #import "WXApi.h"
 #import "lhScanQCodeViewController.h"
@@ -154,7 +153,6 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [YMWebCacheProtocol start];
     //网络监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLoadDataBase:) name:KLoadDataBase object:nil];
     //监听支付成功

@@ -147,11 +147,6 @@
 		64F563311DD7155200966862 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F5631C1DD7155200966862 /* UIProgressView+AFNetworking.m */; };
 		64F563321DD7155200966862 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F5631E1DD7155200966862 /* UIRefreshControl+AFNetworking.m */; };
 		64F563331DD7155200966862 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F563201DD7155200966862 /* UIWebView+AFNetworking.m */; };
-		64F59EA61DF119B9004EA082 /* YMWebCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F59E9D1DF119B9004EA082 /* YMWebCacheProtocol.m */; };
-		64F59EA71DF119B9004EA082 /* YYCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F59E9F1DF119B9004EA082 /* YYCache.m */; };
-		64F59EA81DF119B9004EA082 /* YYDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F59EA11DF119B9004EA082 /* YYDiskCache.m */; };
-		64F59EA91DF119B9004EA082 /* YYKVStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F59EA31DF119B9004EA082 /* YYKVStorage.m */; };
-		64F59EAA1DF119B9004EA082 /* YYMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F59EA51DF119B9004EA082 /* YYMemoryCache.m */; };
 		64F59EAC1DF119F9004EA082 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F59EAB1DF119F9004EA082 /* QuartzCore.framework */; };
 		64F59EAE1DF11A04004EA082 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 64F59EAD1DF11A04004EA082 /* libsqlite3.tbd */; };
 		64F5FB301DF6552600ACF42C /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F5FB2F1DF6552600ACF42C /* MessageViewController.m */; };
@@ -776,16 +771,6 @@
 		64F5631E1DD7155200966862 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		64F5631F1DD7155200966862 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		64F563201DD7155200966862 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
-		64F59E9C1DF119B9004EA082 /* YMWebCacheProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YMWebCacheProtocol.h; sourceTree = "<group>"; };
-		64F59E9D1DF119B9004EA082 /* YMWebCacheProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YMWebCacheProtocol.m; sourceTree = "<group>"; };
-		64F59E9E1DF119B9004EA082 /* YYCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYCache.h; sourceTree = "<group>"; };
-		64F59E9F1DF119B9004EA082 /* YYCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYCache.m; sourceTree = "<group>"; };
-		64F59EA01DF119B9004EA082 /* YYDiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYDiskCache.h; sourceTree = "<group>"; };
-		64F59EA11DF119B9004EA082 /* YYDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYDiskCache.m; sourceTree = "<group>"; };
-		64F59EA21DF119B9004EA082 /* YYKVStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYKVStorage.h; sourceTree = "<group>"; };
-		64F59EA31DF119B9004EA082 /* YYKVStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYKVStorage.m; sourceTree = "<group>"; };
-		64F59EA41DF119B9004EA082 /* YYMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYMemoryCache.h; sourceTree = "<group>"; };
-		64F59EA51DF119B9004EA082 /* YYMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMemoryCache.m; sourceTree = "<group>"; };
 		64F59EAB1DF119F9004EA082 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		64F59EAD1DF11A04004EA082 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		64F5FB2E1DF6552600ACF42C /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
@@ -1485,7 +1470,6 @@
 				64F06F061DFFE1B60099C7AE /* TYDownloadManager */,
 				64F325C31DF293B40068999E /* AFNetworkManager.h */,
 				64F325C41DF293B40068999E /* AFNetworkManager.m */,
-				64F59E9B1DF119B9004EA082 /* WebCache */,
 				64F2D00D1DED1AD10068CE69 /* LaunchIntroduction */,
 				64EA022B1DD5B4C000392B3C /* WebViewJavascriptBridge */,
 				64EA02231DD58E1300392B3C /* NJKWebViewProgress */,
@@ -1850,23 +1834,6 @@
 			path = "UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
-		64F59E9B1DF119B9004EA082 /* WebCache */ = {
-			isa = PBXGroup;
-			children = (
-				64F59E9C1DF119B9004EA082 /* YMWebCacheProtocol.h */,
-				64F59E9D1DF119B9004EA082 /* YMWebCacheProtocol.m */,
-				64F59E9E1DF119B9004EA082 /* YYCache.h */,
-				64F59E9F1DF119B9004EA082 /* YYCache.m */,
-				64F59EA01DF119B9004EA082 /* YYDiskCache.h */,
-				64F59EA11DF119B9004EA082 /* YYDiskCache.m */,
-				64F59EA21DF119B9004EA082 /* YYKVStorage.h */,
-				64F59EA31DF119B9004EA082 /* YYKVStorage.m */,
-				64F59EA41DF119B9004EA082 /* YYMemoryCache.h */,
-				64F59EA51DF119B9004EA082 /* YYMemoryCache.m */,
-			);
-			path = WebCache;
-			sourceTree = "<group>";
-		};
 		64F5FB2D1DF654F000ACF42C /* MessageController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2053,9 +2020,7 @@
 				643F735B1DEEDDFD002CED46 /* MJRefreshNormalHeader.m in Sources */,
 				64CE52331E2CE3DE00937F5B /* G8RecognitionOperation.m in Sources */,
 				64F1AEF51E1B971C000D5248 /* ScanViewController.m in Sources */,
-				64F59EAA1DF119B9004EA082 /* YYMemoryCache.m in Sources */,
 				64F1B02B1E1BE788000D5248 /* FLCodeView.m in Sources */,
-				64F59EA61DF119B9004EA082 /* YMWebCacheProtocol.m in Sources */,
 				64F5FB301DF6552600ACF42C /* MessageViewController.m in Sources */,
 				64EA023B1DD5BB3600392B3C /* DisplayUtils.m in Sources */,
 				64EA02361DD5B4C000392B3C /* WebViewJavascriptBridgeBase.m in Sources */,
@@ -2063,7 +2028,6 @@
 				644822C81E165CBB00A9A532 /* QRCodeReaderView.m in Sources */,
 				643F73571DEEDDFD002CED46 /* MJRefreshBackGifFooter.m in Sources */,
 				64F325BF1DF292F80068999E /* UIImage+MultiFormat.m in Sources */,
-				64F59EA71DF119B9004EA082 /* YYCache.m in Sources */,
 				64F325C21DF292F80068999E /* UIView+WebCacheOperation.m in Sources */,
 				64F325C01DF292F80068999E /* UIImageView+HighlightedWebCache.m in Sources */,
 				64F325BC1DF292F80068999E /* SDWebImagePrefetcher.m in Sources */,
@@ -2078,7 +2042,6 @@
 				64EA02121DD5551D00392B3C /* CustemNavItem.m in Sources */,
 				64F5632F1DD7155200966862 /* UIButton+AFNetworking.m in Sources */,
 				64F06F121DFFE1B60099C7AE /* TYDownloadSessionManager.m in Sources */,
-				64F59EA91DF119B9004EA082 /* YYKVStorage.m in Sources */,
 				64F5632D1DD7155200966862 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				64F325B71DF292F80068999E /* SDWebImageCompat.m in Sources */,
 				64F563311DD7155200966862 /* UIProgressView+AFNetworking.m in Sources */,
@@ -2139,7 +2102,6 @@
 				64F325BD1DF292F80068999E /* UIButton+WebCache.m in Sources */,
 				644822B91E16386500A9A532 /* UMSocialShareScrollView.m in Sources */,
 				644822B81E16386500A9A532 /* UMShareMenuSelectionView.m in Sources */,
-				64F59EA81DF119B9004EA082 /* YYDiskCache.m in Sources */,
 				64F563241DD7155200966862 /* AFNetworkReachabilityManager.m in Sources */,
 				64F325B61DF292F80068999E /* SDImageCache.m in Sources */,
 				643F73611DEEDDFD002CED46 /* UIScrollView+MJRefresh.m in Sources */,
