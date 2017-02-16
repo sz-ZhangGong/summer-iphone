@@ -27,7 +27,7 @@
 #import "TYDownLoadUtility.h"
 #import <UMSocialCore/UMSocialCore.h>
 
-#define URLPATH_IMAGE [NSString stringWithFormat:@"%@/MobileConfig?device=iphone&deviceId=%@",URL_APP_ROOT,[DisplayUtils uuid]]
+#define URLPATH_IMAGE [NSString stringWithFormat:@"%@/MobileConfig?device=iphone&CLIENTID=%@",URL_APP_ROOT,[DisplayUtils uuid]]
 
 static NSString *const kAppVersion = @"appVersion";
 
