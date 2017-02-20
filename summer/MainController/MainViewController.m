@@ -351,7 +351,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
     //隐藏错误视图
     self.errorImageView.hidden = YES;
     //获取每个页面的url
-    NSLog(@"URL -- %@ ----%@ ----%@",webView.URL.absoluteString,webView.URL.relativeString,webView.URL.relativePath);
+    NSLog(@"URL -- %@ ----%@ ----%@",ALL_URLPATH,webView.URL.relativeString,webView.URL.relativePath);
     _urlPath = webView.URL.absoluteString;
     
     //每次加载判断是否是首页

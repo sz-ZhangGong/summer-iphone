@@ -36,6 +36,7 @@
 //    CFRelease(uuidString);
 //    return result;
     NSString *adId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    adId = [adId stringByReplacingOccurrencesOfString:@"-" withString:@""];
     return adId;
 }
 
