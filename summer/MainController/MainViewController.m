@@ -217,7 +217,7 @@ static NSString *const mainUrlStr = @"/forms/FrmIndex,/forms/Login,/forms/Verifi
 -(void)BBIdidClickWithName:(NSString *)infoStr
 {
     if ([infoStr isEqualToString:@"first"]) {
-        if ([self.webView.URL.absoluteString containsString:URL_APP_ROOT]) {
+        if ([self.webView.URL.absoluteString containsString:URL_APP_ROOT] || ![self.webView.URL.absoluteString containsString:URL_APP_ROOT]) {
             if ([self.webView canGoBack]) {
                 [self.webView goBack];
             }
